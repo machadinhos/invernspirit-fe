@@ -72,43 +72,52 @@
   </div>
 {/snippet}
 
-<div class="flex h-full w-full justify-center">
-  <div
-    class="mt-10 flex h-fit w-[95%] flex-col items-center bg-background shadow-2xl sm:w-[80%] md:w-[65%] lg:w-[50%] xl:w-[30%]"
-  >
+<div class="mx-2 mt-10 flex flex-col justify-center gap-8 sm:mx-5 lg:mx-10 lg:flex-row">
+  <div class="flex h-fit w-full flex-col items-center bg-background shadow-2xl">
     <div class="mt-4 flex w-full flex-col items-center">
       <h1 style="font-size: 2.5rem" class="text-center">
         {cart.title}
       </h1>
-      <div class="pointer-events-none h-0.5 w-[35%] select-none bg-white"></div>
+      <div class="pointer-events-none h-0.5 w-40 select-none bg-white"></div>
     </div>
-    <div class="mb-10 mt-5 flex h-[60vh] w-[85%] flex-col place-content-between overflow-hidden">
-      <div class="flex h-full flex-col gap-3 overflow-y-auto">
-        {#if cartProducts !== undefined}
-          {#if cartProducts.length > 0}
+    <div class="mb-10 mt-5 flex h-[60vh] w-full flex-col place-content-between overflow-hidden">
+      {#if cartProducts !== undefined}
+        {#if cartProducts.length > 0}
+          <div
+            class="grid grid-cols-[repeat(auto-fit,minmax(384px,1fr))] justify-center justify-items-center gap-6 overflow-y-auto overflow-x-hidden sm:gap-12 lg:mx-4"
+          >
             {#each cartProducts as product (product.id)}
               <div animate:flip={{ duration: 150 }}>
                 <CartItem {product} bind:cartProducts />
               </div>
             {/each}
-          {:else}
-            <p class="text-center">
-              {cart.emptyCartMessage}
-              <a class="text-primary underline" href="/{page.params.country}/shop/products">{cart.fillUpCTA}</a>
-            </p>
-          {/if}
-        {:else}
-          <div class="flex h-full w-full items-center justify-center">
-            <PulsatingLogo />
           </div>
+        {:else}
+          <p class="text-center">
+            {cart.emptyCartMessage}
+            <a class="text-primary underline" href="/{page.params.country}/shop/products">{cart.fillUpCTA}</a>
+          </p>
         {/if}
-      </div>
-      <div class="mb-0.5 mt-2 h-0.5 bg-white"></div>
+      {:else}
+        <div class="flex h-full w-full items-center justify-center">
+          <PulsatingLogo />
+        </div>
+      {/if}
+    </div>
+  </div>
+  <div class="flex h-fit w-full flex-shrink-0 flex-col items-center bg-background shadow-2xl lg:w-[400px]">
+    <div class="mt-4 flex w-full flex-col items-center">
+      <h1 style="font-size: 2.5rem" class="text-center">
+        {cart.summary}
+      </h1>
+      <div class="pointer-events-none h-0.5 w-28 select-none bg-white"></div>
+    </div>
+    <div class="mb-10 mt-5 flex h-[60vh] w-[85%] flex-col justify-end overflow-hidden">
       {@render priceLine(cart.subtotal, subTotalPrice, 'text-2xl')}
       {#each taxesPrices as taxPrice}
         {@render priceLine(taxPrice.name, taxPrice.price, 'text-2xl')}
       {/each}
-      <div class="w-full">
+      <div class="mt-2 w-full">
         <div class="mb-3 flex flex-col gap-0.5">
           <div class="h-0.5 bg-white"></div>
           {@render priceLine(cart.total, totalPrice, 'text-4xl')}

@@ -9,6 +9,7 @@ export default {
         primary: '#c36a2d',
         secondary: '#201f1d',
         background: '#4c4b48',
+        'background-dark': '#3a3a38',
         'secondary-background': '#7e7e78',
         error: '#ff6f61',
         warning: '#c36a2d',
