@@ -25,7 +25,7 @@
   }
 </script>
 
-<div class="flex w-full items-center justify-between rounded-md bg-background-dark p-3 sm:w-96">
+<div class="flex w-full items-center justify-between rounded-md p-3 sm:w-96 lg:bg-background-dark">
   <div class="flex gap-4">
     <div class="h-[100px] w-[100px]">
       <a href="shop/products/{product.id}">
