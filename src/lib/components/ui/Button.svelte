@@ -17,7 +17,7 @@
   <button
     class="flex items-center justify-center px-2 py-2 enabled:bg-secondary enabled:hover:bg-primary disabled:bg-[#3c3b38] {className}"
     {disabled}
-    {onclick}
+    onclick={disabled ? () => {} : onclick}
     {type}
   >
     {@render children()}
