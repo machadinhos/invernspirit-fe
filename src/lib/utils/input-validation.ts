@@ -1,23 +1,27 @@
 import DOMPurify from 'dompurify';
 
-export function containsXSSPatterns(input: string): boolean {
+export const containsXSSPatterns = (input: string): boolean => {
   return input !== DOMPurify.sanitize(input);
-}
+};
 
-export function validateRequiredInput(value: string) {
+export const validateRequiredInput = (value: string): boolean => {
   return value !== '' && !containsXSSPatterns(value);
-}
+};
 
-export function validateEmail(email: string) {
+export const validateNotRequiredInput = (value: string): boolean => {
+  return !containsXSSPatterns(value);
+};
+
+export const validateEmail = (email: string): boolean => {
   if (!validateRequiredInput(email)) return false;
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return email !== '' ? regex.test(email) : false;
-}
+};
 
 export class PasswordErrors {
-  missingRequiredLengthError: boolean = false;
-  missingUppercaseLetterError: boolean = false;
-  missingSpecialCharactersError: boolean = false;
+  missingRequiredLengthError = false;
+  missingUppercaseLetterError = false;
+  missingSpecialCharactersError = false;
 
   constructor(allInvalid?: boolean) {
     if (allInvalid) {
@@ -28,7 +32,7 @@ export class PasswordErrors {
   }
 }
 
-export function validatePassword(password: string): { isValid: boolean; errors: PasswordErrors } {
+export const validatePassword = (password: string): { isValid: boolean; errors: PasswordErrors } => {
   if (!password) return { isValid: false, errors: new PasswordErrors(true) };
   const errors = new PasswordErrors();
   let hasErrors = containsXSSPatterns(password);
@@ -50,4 +54,4 @@ export function validatePassword(password: string): { isValid: boolean; errors: 
     isValid: !hasErrors,
     errors,
   };
-}
+};

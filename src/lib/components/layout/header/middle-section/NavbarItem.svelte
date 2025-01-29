@@ -1,7 +1,7 @@
 <script lang="ts">
-  interface Props {
+  type Props = {
     children: import('svelte').Snippet;
-  }
+  };
 
   let { children }: Props = $props();
 </script>
@@ -20,7 +20,9 @@
     transition: width 300ms ease-in-out;
   }
 
-  .list-item-class:hover ~ div > .underline-class {
-    width: 100%;
+  @media (hover: hover) {
+    .list-item-class:hover ~ div > .underline-class {
+      width: 100%;
+    }
   }
 </style>

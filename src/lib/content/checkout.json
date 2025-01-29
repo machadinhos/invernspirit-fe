@@ -1,0 +1,65 @@
+{
+  "headTitle": "Invern Spirit • checkout",
+  "shippingCost": "Shipping",
+  "addressPage": {
+    "title": "Delivery Address",
+    "submitButton": "Confirm",
+    "formFields": {
+      "street": {
+        "label": "Street",
+        "invalidText": "Please enter your street."
+      },
+      "houseNumber": {
+        "label": "House Number",
+        "invalidText": "Please enter your house number."
+      },
+      "apartment": {
+        "label": "Apartment",
+        "invalidText": "Please enter your apartment."
+      },
+      "city": {
+        "label": "City",
+        "invalidText": "Please enter your city."
+      },
+      "postalCode": {
+        "label": "Postal code",
+        "invalidText": "Please enter your postal code."
+      },
+      "province": {
+        "label": "Province",
+        "invalidText": "Please enter your province."
+      }
+    }
+  },
+  "personalDetailsPage": {
+    "title": "Personal details",
+    "submitButton": "Confirm",
+    "fullName": "Full name",
+    "formFields": {
+      "firstName": {
+        "label": "First name",
+        "invalidText": "Please enter your first name."
+      },
+      "lastName": {
+        "label": "Last name",
+        "invalidText": "Please enter your last name."
+      },
+      "email": {
+        "label": "Email",
+        "invalidText": "Please enter a valid email address."
+      }
+    }
+  },
+  "shippingMethodPage": {
+    "title": "Shipping method",
+    "submitButton": "Confirm",
+    "shippingCompany": "Shipping company",
+    "deliveryTime": "Delivery time",
+    "price": "Price"
+  },
+  "reviewPage": {
+    "title": "Review",
+    "submitButton": "Proceed to payment",
+    "products": "Products"
+  }
+}

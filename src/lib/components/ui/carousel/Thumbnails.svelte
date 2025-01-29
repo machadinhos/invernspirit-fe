@@ -3,31 +3,31 @@
   import emblaCarouselSvelte from 'embla-carousel-svelte';
   import type { Image } from '$types';
 
-  interface Props {
+  type Props = {
     images: Image[];
     emblaApi: EmblaCarouselType | undefined;
     thumbsApi: EmblaCarouselType | undefined;
     selectedSlide: number;
     axis: EmblaOptionsType['axis'];
-  }
+  };
 
   let { images, emblaApi, thumbsApi = $bindable(), selectedSlide, axis }: Props = $props();
 
   const options: EmblaOptionsType = { containScroll: 'keepSnaps', dragFree: true, axis };
 
-  function onInit(event: CustomEvent) {
+  const onInit = (event: CustomEvent): void => {
     thumbsApi = event.detail;
-  }
+  };
 
-  function generateOnclickCallback(index: number) {
-    return () => emblaApi?.scrollTo(index);
-  }
+  const generateOnclickCallback = (index: number) => {
+    return (): void => emblaApi?.scrollTo(index);
+  };
 </script>
 
 <div class="embla select-none">
   <div class="embla__viewport" onemblaInit={onInit} use:emblaCarouselSvelte={{ plugins: [], options }}>
     <div class="embla__container" class:axisX={axis === 'x'} class:axisY={axis === 'y'}>
-      {#each images as { url, alt }, index}
+      {#each images as { url, alt }, index (index)}
         <button
           class="embla__slide transition-all"
           class:brightness-50={index !== selectedSlide}

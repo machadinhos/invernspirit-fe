@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Button, DropdownMenu, DropdownMenuItem, TextInput } from '$components';
+  import { FormField, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { common } from '$content';
   import { FaNewspaper } from 'svelte-icons-pack/fa';
   import HeaderIcon from '../HeaderIcon.svelte';
@@ -8,70 +9,64 @@
   import { validateEmail } from '$lib/utils/input-validation';
 
   let isOpen = $state(false);
-  let dropdownTriggerElement: HTMLButtonElement | undefined = $state();
 
-  let emailInput: string = $state('');
-  let isValidEmailInput = $state(true);
+  const formFields = {
+    email: new FormField({
+      id: 'newsletter-email',
+      type: 'email',
+      name: 'newsletter email',
+      autocomplete: 'email',
+      label: common.header.leftSection.emailForm.label,
+      invalidText: common.header.leftSection.emailForm.invalidText,
+      validate: validateEmail,
+      required: true,
+    }),
+  };
 
-  function handleIconClick() {
-    if (dropdownTriggerElement) {
-      isOpen = !isOpen;
-    }
-  }
+  const handleIconClick = (): void => {
+    isOpen = !isOpen;
+  };
 
-  function subscribeToNewsletter() {
-    if (!validateEmail(emailInput)) {
-      isValidEmailInput = false;
-      return;
-    }
+  const subscribeToNewsletter = (): void => {
+    if (!validateFormFields(formFields)) return;
     alert('todo');
     isOpen = false;
-  }
+  };
 
-  function clearState() {
+  const clearState = (): void => {
     isOpen = false;
-    isValidEmailInput = true;
-    emailInput = '';
-  }
+    formFields.email.value = '';
+    formFields.email.isValid = true;
+  };
 </script>
 
 <div>
-  <HeaderIcon
-    aria-label={common.header.leftSection.areaLabels.newsletter}
-    onclick={handleIconClick}
-    src={FaNewspaper}
-    bind:ref={dropdownTriggerElement}
-  />
-  <DropdownMenu className="w-80" onClose={clearState} triggerElement={dropdownTriggerElement} bind:isOpen>
+  <DropdownMenu class="w-80" onClose={clearState} position="left" bind:isOpen>
+    {#snippet triggerElement()}
+      <HeaderIcon
+        aria-label={common.header.leftSection.areaLabels.newsletter}
+        onclick={handleIconClick}
+        src={FaNewspaper}
+      />
+    {/snippet}
     <form class="m-5" onsubmit={subscribeToNewsletter}>
       <DropdownMenuItem>
-        <h2>{common.header.leftSection.newsletterTitle}</h2>
+        <h2 class="text-lg">{common.header.leftSection.newsletterTitle}</h2>
       </DropdownMenuItem>
-      <DropdownMenuItem classNames="w-full">
+      <DropdownMenuItem class="w-full">
         <div class="mt-2 w-full">
-          <TextInput
-            id="newsletter-email"
-            name="email"
-            autocomplete="email"
-            invalid={!isValidEmailInput}
-            invalidText="Please enter a valid email address."
-            onblur={() => {
-              isValidEmailInput = validateEmail(emailInput);
-            }}
-            type="email"
-            bind:value={emailInput}
-          >
+          <TextInput field={formFields.email}>
             {#snippet label()}
               <div class="flex items-center gap-0.5">
                 <Icon size="20" src={TiMail} />
-                {common.header.leftSection.email}
+                {common.header.leftSection.emailForm.label}
               </div>
             {/snippet}
           </TextInput>
         </div>
       </DropdownMenuItem>
-      <DropdownMenuItem classNames="w-full">
-        <Button className="mt-2 w-full" type="submit">{common.header.leftSection.subscribe}</Button>
+      <DropdownMenuItem class="w-full">
+        <Button class="mt-2 w-full" type="submit">{common.header.leftSection.subscribe}</Button>
       </DropdownMenuItem>
     </form>
   </DropdownMenu>

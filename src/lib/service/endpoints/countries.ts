@@ -1,17 +1,19 @@
-import { Client, type RequestHostContext } from '$lib/service/client';
+import { Client, type RequestHostContext } from '../client';
 import type { Country } from '$types';
 
-const ENDPOINT = '';
+const PATH = '';
 
 let cachedCountries: Country[];
 
-export function prepareGetCountries(context: RequestHostContext) {
-  const method = 'GET';
-  return async function (): Promise<Country[]> {
+export const prepareGetCountries = (context: RequestHostContext) => {
+  return async (): Promise<Country[]> => {
     if (!cachedCountries) {
-      const client = new Client<Country[]>({ ...context, endpoint: `/${ENDPOINT}`, method });
-      cachedCountries = await client.call();
+      cachedCountries = await Client.create<Country[]>()
+        .withHostContext(context)
+        .withEndpoint(`/${PATH}`)
+        .withMethod('GET')
+        .call();
     }
     return cachedCountries;
   };
-}
+};

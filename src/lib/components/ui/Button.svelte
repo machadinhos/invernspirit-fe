@@ -2,24 +2,52 @@
   import type { HTMLButtonAttributes } from 'svelte/elements';
   import { ShrinkOnClickWrapper } from '$components';
 
-  interface Props {
+  type Props = {
     type?: HTMLButtonAttributes['type'];
-    className?: HTMLButtonAttributes['class'];
-    onclick?: () => void;
+    class?: HTMLButtonAttributes['class'];
+    onclick?: (event: Event) => void;
     children: import('svelte').Snippet;
     disabled?: boolean;
-  }
+    shrinkOnClick?: boolean;
+    reverseColors?: boolean;
+    ref?: HTMLButtonElement;
+  };
 
-  let { type = 'button', className = '', onclick = () => {}, children, disabled = false }: Props = $props();
+  let {
+    type = 'button',
+    class: className,
+    onclick = (): void => undefined,
+    children,
+    disabled = false,
+    shrinkOnClick = true,
+    reverseColors = false,
+    ref = $bindable(),
+  }: Props = $props();
+
+  const finalOnclick = (event: Event): void => {
+    if (disabled) return;
+    onclick(event);
+  };
 </script>
 
-<ShrinkOnClickWrapper {disabled}>
+{#snippet button()}
   <button
-    class="flex items-center justify-center px-2 py-2 enabled:bg-secondary enabled:hover:bg-primary disabled:bg-[#3c3b38] {className}"
+    bind:this={ref}
+    class="{reverseColors
+      ? 'bg-primary enabled:hover:bg-secondary-dark text-secondary-dark enabled:hover:text-white disabled:brightness-50'
+      : 'bg-secondary-dark enabled:hover:bg-primary enabled:hover:text-secondary-dark disabled:brightness-150'} flex items-center justify-center px-2 py-2 {className}"
     {disabled}
-    onclick={disabled ? () => {} : onclick}
+    onclick={finalOnclick}
     {type}
   >
     {@render children()}
   </button>
-</ShrinkOnClickWrapper>
+{/snippet}
+
+{#if !shrinkOnClick}
+  {@render button()}
+{:else}
+  <ShrinkOnClickWrapper {disabled}>
+    {@render button()}
+  </ShrinkOnClickWrapper>
+{/if}

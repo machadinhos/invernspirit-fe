@@ -1,1 +1,1 @@
-export { onClickOutside } from './on-click-outside.svelte';
+export * from './on-click-outside.svelte';

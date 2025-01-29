@@ -1,14 +1,21 @@
 <script lang="ts">
   import { auth } from '$content';
+  import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
   import { page } from '$app/state';
+  import { user } from '$state';
 
-  interface Props {
+  type Props = {
     children: import('svelte').Snippet;
-  }
+  };
 
   let { children }: Props = $props();
 
   let selected = $derived(page.url.pathname.split('/')[2]);
+
+  onMount(() => {
+    if (user.value) goto(`/${page.params.country}`);
+  });
 </script>
 
 {#snippet pageListItem(href: 'sign-in' | 'sign-up')}
@@ -28,19 +35,19 @@
 
 <div class="flex h-full w-full justify-center">
   <div
-    class="mt-10 flex h-fit w-[95%] flex-col items-center bg-background shadow-2xl sm:w-[80%] md:w-[65%] lg:w-[50%] xl:w-[30%]"
+    class="md:bg-background-dark mt-10 flex h-fit w-[95%] flex-col items-center sm:w-[80%] md:w-[65%] md:shadow-2xl lg:w-[50%] xl:w-[40%]"
   >
-    <div class="relative w-full">
+    <div class="relative w-full pt-10">
       <ul class="flex w-full">
         {@render pageListItem('sign-in')}
         {@render pageListItem('sign-up')}
       </ul>
       <div
-        style="left: {selected === 'sign-in' ? '7.5%' : '57.5%'}"
-        class="pointer-events-none absolute bottom-0.5 h-0.5 w-[35%] select-none bg-white transition-all duration-500"
+        style="left: {selected === 'sign-in' ? '12.5%' : '62.5%'}"
+        class="pointer-events-none absolute bottom-0.5 h-0.5 w-[25%] bg-white transition-all duration-500 select-none"
       ></div>
     </div>
-    <div class="mb-10 mt-5 w-[75%]">
+    <div class="mt-5 mb-10 w-[75%]">
       {@render children()}
     </div>
   </div>

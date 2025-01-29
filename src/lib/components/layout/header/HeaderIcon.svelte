@@ -3,19 +3,19 @@
   import type { HTMLButtonAttributes } from 'svelte/elements';
   import { ShrinkOnClickWrapper } from '$components';
 
-  interface Props {
+  type Props = {
     src: IconType;
     type?: 'button' | 'div';
     onclick?: () => void;
     ref?: HTMLButtonElement;
     badge?: string;
-    'aria-label'?: HTMLButtonAttributes['aria-label'];
+    'aria-label': HTMLButtonAttributes['aria-label'] | null;
     size?: number;
-  }
+  };
 
   let {
     src,
-    onclick = () => {},
+    onclick = (): void => undefined,
     type = 'button',
     ref = $bindable(),
     badge,
@@ -30,7 +30,7 @@
       <Icon color="white" {size} {src} />
     </span>
     {#if badge}
-      <span class="absolute -right-2 -top-4 text-lg font-bold">
+      <span class="absolute -top-4 -right-2 text-lg font-bold">
         {badge}
       </span>
     {/if}
@@ -59,9 +59,10 @@
   .outer-element > div {
     transition: all 300ms ease-in-out;
   }
-
-  .outer-element:hover > div {
-    transform: scale(1.75);
-    transform-origin: center;
+  @media (hover: hover) {
+    .outer-element:hover > div {
+      transform: scale(1.75);
+      transform-origin: center;
+    }
   }
 </style>

@@ -1,15 +1,14 @@
 <script lang="ts">
-  import { onMount, untrack } from 'svelte';
   import type { Country } from '$types';
   import { CustomSelect } from '$components';
   import { FaSolidChevronDown } from 'svelte-icons-pack/fa';
-  import { goto } from '$app/navigation';
   import { Icon } from 'svelte-icons-pack';
   import { page } from '$app/state';
+  import { untrack } from 'svelte';
 
-  interface Props {
+  type Props = {
     countries: Country[];
-  }
+  };
 
   let { countries }: Props = $props();
 
@@ -25,11 +24,9 @@
       const pathSegments = newURL.pathname.split('/').filter((segment) => segment !== '');
       pathSegments[0] = newCountry;
       newURL.pathname = `/${pathSegments.join('/')}`;
-      goto(newURL);
+      window.location.assign(newURL);
     }
   });
-
-  onMount(() => {});
 </script>
 
 <CustomSelect options={countriesCodes} bind:selected={selectedCountry} bind:isOpen>
@@ -39,7 +36,7 @@
         {countriesCodes[selectedCountry]}
         <img
           alt="{countriesCodes[selectedCountry]} flag"
-          height="3"
+          height="13"
           src="/flags/{countriesCodes[selectedCountry].toLowerCase()}.svg"
           width="13"
         />
@@ -51,7 +48,7 @@
   {/snippet}
   {#snippet optionSnippet(text: string, index: number)}
     <div
-      class="flex w-14 items-center justify-center gap-1 bg-background hover:bg-primary"
+      class="bg-background hover:bg-primary flex w-14 items-center justify-center gap-1"
       class:bg-primary={index === selectedCountry}
     >
       <span>{text}</span>

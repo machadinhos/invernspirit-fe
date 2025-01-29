@@ -1,11 +1,14 @@
 {
-  "title": "Shopping cart",
-  "summary": "Summary",
-  "priceLabel": "Price",
-  "quantityLabel": "Quantity",
-  "emptyCartMessage": "Your cart is currently empty.",
+  "headTitle": "Invern Spirit • cart",
+  "title": "Cart",
+  "emptyCartMessage": "Your cart is empty.",
   "fillUpCTA": "Let's fill it up!",
-  "checkoutButtonLabel": "checkout",
+  "checkoutButtonLabel": "Proceed to checkout",
   "total": "Total",
-  "subtotal": "Subtotal"
+  "subtotal": "Subtotal",
+  "itemAddedToCart": "Item added to cart!",
+  "viewCart": "View cart",
+  "remove": "Remove",
+  "or": "or",
+  "continueShopping": "Continue shopping"
 }

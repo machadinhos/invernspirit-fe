@@ -1,15 +1,19 @@
 import { Env } from '@types';
 
-export async function beClientProxy(
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
+export const beClientProxy = async (
   request: Request,
-  allowedMethods: RequestInit['method'][],
+  allowedMethods: HttpMethod[],
   env: Env,
   filterFunction?: (request: Request) => Response | undefined,
-): Promise<Response> {
+): Promise<Response> => {
   const errorResponse = filterFunction?.(request);
   if (errorResponse) return errorResponse;
   if (!request.cf) throw new Error('platform is not defined');
-  if (!allowedMethods.includes(request.method)) return new Response('Method not allowed', { status: 405 });
+  if (!allowedMethods.includes(request.method as HttpMethod)) {
+    return new Response('Method not allowed', { status: 405 });
+  }
 
   const url = new URL(request.url);
   const bePathname = url.pathname.replace(/^\/api/, '');
@@ -42,4 +46,4 @@ export async function beClientProxy(
     status: beResponse.status,
     headers: responseHeaders,
   });
-}
+};

@@ -1,29 +1,30 @@
 <script lang="ts">
   import { Button } from '$components';
 
-  interface Props {
+  type Props = {
     stock: number;
     selectedQuantity: number;
     disabled?: boolean;
-  }
+    allowZero?: boolean;
+  };
 
-  let { stock, selectedQuantity = $bindable(), disabled }: Props = $props();
+  let { stock, selectedQuantity = $bindable(), disabled, allowZero }: Props = $props();
 
   let canIncrementSelectedQuantity = $derived(!disabled && selectedQuantity < stock);
-  let canDecrementSelectedQuantity = $derived(!disabled && selectedQuantity > 1);
+  let canDecrementSelectedQuantity = $derived(!disabled && selectedQuantity > (allowZero ? 0 : 1));
 
-  function incrementSelectedQuantity() {
+  const incrementSelectedQuantity = (): void => {
     selectedQuantity++;
-  }
+  };
 
-  function decrementSelectedQuantity() {
+  const decrementSelectedQuantity = (): void => {
     selectedQuantity--;
-  }
+  };
 </script>
 
 {#snippet quantityButton(type: 'increment' | 'decrement')}
   <Button
-    className="h-7 w-7 px-0 py-0"
+    class="h-7 w-7 px-0 py-0"
     disabled={type === 'increment' ? !canIncrementSelectedQuantity : !canDecrementSelectedQuantity}
     onclick={type === 'increment' ? incrementSelectedQuantity : decrementSelectedQuantity}
     >{type === 'increment' ? '+' : '-'}</Button

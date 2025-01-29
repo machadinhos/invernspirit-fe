@@ -2,19 +2,15 @@
 
 <style>
   .pulsating-image {
+    filter: drop-shadow(0 0 5px white);
     animation: pulsate 1.5s infinite;
   }
 
   @keyframes pulsate {
     0% {
       opacity: 0;
-      transform: scale(1.2);
     }
-    0.1% {
-      opacity: 0;
-      transform: scale(1);
-    }
-    50% {
+    80% {
       opacity: 1;
       transform: scale(1.2);
     }

@@ -1,24 +1,41 @@
 import type { Action } from 'svelte/action';
 import { on } from 'svelte/events';
 
-interface Params {
+type Params = {
   callback: () => void;
   enabled?: boolean | ((target: HTMLElement) => boolean);
   otherIncludedElements?: (HTMLElement | undefined)[];
-}
+  otherIncludedElementsIds?: string[];
+  ignoreFirstClick?: boolean;
+};
 
 export const onClickOutside: Action<HTMLElement, Params> = (
   node: HTMLElement,
-  { callback, enabled = true, otherIncludedElements = [] }: Params,
+  {
+    callback,
+    enabled = true,
+    otherIncludedElements = [],
+    otherIncludedElementsIds = [],
+    ignoreFirstClick = false,
+  }: Params,
 ) => {
   $effect(() => {
-    const handleClick = (event: MouseEvent) => {
+    let firstClick = !ignoreFirstClick;
+
+    const handleClick = (event: MouseEvent): void => {
       if (!enabled) return;
       if (typeof enabled === 'function' && !enabled(event.target as HTMLElement)) return;
-
-      if (![...otherIncludedElements, node].some((el) => el?.contains(event.target as Node))) {
-        callback();
+      if (!firstClick) {
+        firstClick = true;
+        return;
       }
+
+      const otherIncludedElementsById = otherIncludedElementsIds.map((id) => document.getElementById(id));
+      const containsTarget = [...otherIncludedElementsById, ...otherIncludedElements, node].some((el) =>
+        el?.contains(event.target as HTMLElement),
+      );
+
+      if (!containsTarget) callback();
     };
 
     return on(document, 'click', handleClick);

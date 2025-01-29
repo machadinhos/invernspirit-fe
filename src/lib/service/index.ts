@@ -1,1 +1,2 @@
-export { bffClient } from './bff-client';
+export * from './bff-client';
+export * from './stock-bucket-client';

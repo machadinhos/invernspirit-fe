@@ -6,19 +6,19 @@
   import { page } from '$app/state';
   import type { PageData } from './$types';
 
-  interface Props {
+  type Props = {
     children: import('svelte').Snippet;
     data: PageData;
-  }
+  };
 
   let { children, data }: Props = $props();
 
   onMount(() => {
-    config.init(page.params.country);
+    config.init(page.url.searchParams);
   });
 </script>
 
-<div class="fixed inset-0 z-10 flex flex-col">
+<div class="fixed inset-0 z-10 flex h-screen flex-col">
   <Header countries={data.countries} />
 
   <main class="flex-1 overflow-auto">

@@ -3,54 +3,72 @@
   import type { HTMLAttributes } from 'svelte/elements';
   import { onClickOutside } from '$components-actions';
   import { slide } from 'svelte/transition';
+  import type { Snippet } from 'svelte';
 
-  interface Props {
-    className?: HTMLAttributes<HTMLElement>['class'];
+  type PositionOrFullWidthType = { position: 'left' | 'right' } | { isFullWidth: boolean };
+
+  type Props = PositionOrFullWidthType & {
+    class?: HTMLAttributes<HTMLElement>['class'];
     isOpen: boolean;
     onClose?: () => void;
-    triggerElement: HTMLElement | undefined;
-    isFullWidth?: boolean;
+    triggerElement: Snippet;
     closeOnOutsideClick?: boolean;
-    children: import('svelte').Snippet;
-  }
+    children: Snippet;
+  };
 
   let {
-    className = '',
+    class: className,
     isOpen = $bindable(),
-    onClose = () => {},
+    onClose = (): void => undefined,
     triggerElement,
-    isFullWidth = false,
     closeOnOutsideClick = true,
     children,
+    ...restProps
   }: Props = $props();
+
+  let triggerElementRef: HTMLElement | undefined = $state();
+
+  const isFullWidth = 'isFullWidth' in restProps ? restProps.isFullWidth : undefined;
+  const position = 'position' in restProps ? restProps.position : undefined;
+
+  const getMenuPositionStyle = (): string => {
+    if (isFullWidth) {
+      if (!triggerElementRef) return '';
+      const top = triggerElementRef.offsetTop + triggerElementRef.offsetHeight + 10;
+      return `position: fixed; top: ${top}px; left: 0; width: 100%;`;
+    }
+    return position === 'left'
+      ? 'position: absolute; top: calc(100% + 10px); left: 0;'
+      : 'position: absolute; top: calc(100% + 10px); right: 0;';
+  };
+
+  let menuPositionStyle = $derived(getMenuPositionStyle());
 
   $effect(() => {
     if (!isOpen) onClose();
   });
 
-  let position = $derived(
-    triggerElement
-      ? {
-          left: isFullWidth ? 0 : triggerElement.offsetLeft,
-          top: triggerElement.offsetTop + triggerElement.offsetHeight + 10,
-        }
-      : { top: 0, left: 0 },
-  );
+  const onClickOutsideCallback = (): void => {
+    isOpen = false;
+  };
 </script>
 
-{#if isOpen && triggerElement}
-  <div
-    style={isFullWidth ? `top: ${position.top}px; left: ${position.left}px` : ''}
-    class="fixed z-20 {isFullWidth ? 'left-0 w-full' : ''} bg-background shadow-2xl"
-    use:onClickOutside={{
-      callback: () => (isOpen = false),
-      enabled: closeOnOutsideClick && isOpen,
-      otherIncludedElements: [triggerElement],
-    }}
-    transition:slide={{ duration: 800, easing: isOpen ? backOut : backIn }}
-  >
-    <div class={className}>
-      {@render children()}
+<div bind:this={triggerElementRef} class="relative">
+  {@render triggerElement()}
+  {#if isOpen}
+    <div
+      style={menuPositionStyle}
+      class="bg-background z-20 shadow-2xl"
+      use:onClickOutside={{
+        callback: onClickOutsideCallback,
+        enabled: closeOnOutsideClick && isOpen,
+        otherIncludedElements: [triggerElementRef],
+      }}
+      transition:slide={{ duration: 800, easing: isOpen ? backOut : backIn }}
+    >
+      <div class={className}>
+        {@render children()}
+      </div>
     </div>
-  </div>
-{/if}
+  {/if}
+</div>

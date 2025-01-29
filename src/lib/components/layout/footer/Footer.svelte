@@ -7,21 +7,21 @@
 
   let searchString = $state('');
 
-  function doSearch() {
+  const doSearch = (): void => {
     if (containsXSSPatterns(searchString) || searchString === '') return;
     alert('todo');
-  }
+  };
 </script>
 
 <footer class="w-full">
   <form class="flex w-full" onsubmit={doSearch}>
-    <div class="flex w-full items-center bg-background">
+    <div class="bg-background flex w-full items-center">
       <div class="px-2">
         <Icon color="white" size="20" src={SlMagnifier} />
       </div>
       <input
         name="searchString"
-        class="w-full bg-background focus:border-none focus:outline-none"
+        class="bg-background w-full focus:border-none focus:outline-hidden"
         aria-label={common.footer.searchBarPlaceholder}
         autocomplete="off"
         placeholder={common.footer.searchBarPlaceholder}
@@ -29,6 +29,6 @@
         bind:value={searchString}
       />
     </div>
-    <Button className="w-20" type="submit">{common.footer.searchButton}</Button>
+    <Button class="w-20" type="submit">{common.footer.searchButton}</Button>
   </form>
 </footer>

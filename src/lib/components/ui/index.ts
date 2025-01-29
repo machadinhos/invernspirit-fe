@@ -1,3 +1,5 @@
+export { default as Anchor } from './Anchor.svelte';
+export { default as BreadCrumbs } from './BreadCrumbs.svelte';
 export { default as Button } from './Button.svelte';
 export { default as CheckBox } from './CheckBox.svelte';
 export { default as CustomSelect } from './CustomSelect.svelte';
@@ -9,6 +11,5 @@ export { default as DropdownMenuItem } from './dropdown-menu/DropdownMenuItem.sv
 export { default as TextInput } from './text-input/TextInput.svelte';
 export { default as ThumbnailCarousel } from './carousel/ThumbnailCarousel.svelte';
 export { default as ShrinkOnClickWrapper } from './ShrinkOnClickWrapper.svelte';
-export { default as LoadingBox } from './loading/LoadingBox.svelte';
 export { default as LoadingScreen } from './loading/LoadingScreen.svelte';
 export { default as PulsatingLogo } from './loading/PulsatingLogo.svelte';

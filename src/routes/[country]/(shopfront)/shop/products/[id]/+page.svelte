@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { Button, ThumbnailCarousel } from '$components';
-  import { formatPrice, getStockFromBucket } from '$lib/utils/general';
+  import { Anchor, Button, ThumbnailCarousel } from '$components';
   import { cart } from '$state';
+  import { formatPrice } from '$lib/utils/currency-formating';
+  import { getStockFromBucket } from '$service';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import type { PageData } from './$types';
@@ -9,9 +10,9 @@
   import ProductStatusBanner from '../../ProductStatusBanner.svelte';
   import { shop } from '$content';
 
-  interface Props {
+  type Props = {
     data: PageData;
-  }
+  };
 
   let { data }: Props = $props();
 
@@ -24,12 +25,14 @@
     bucketStock = (await getStockFromBucket(data.product.id)).data;
   });
 
-  function onAddToCartClick() {
+  const onAddToCartClick = (): void => {
     cart.insertProduct(data.product, selectedQuantity);
     inCartQuantity += selectedQuantity;
     selectedQuantity = 1;
-  }
+  };
 </script>
+
+<svelte:head><title>{shop.products.headTitle}</title></svelte:head>
 
 <div class="margins flex flex-col gap-5 lg:flex-row">
   <div class="flex justify-center lg:w-1/2">
@@ -37,14 +40,16 @@
   </div>
   <div class="lg:w-1/2">
     <h1 class="text-6xl lg:text-8xl">{data.product.name}</h1>
-    <p class="text-4xl lg:text-6xl">{formatPrice(data.product.grossPrice)}{data.country.currency.symbol}</p>
+    <p class="price text-4xl lg:text-6xl">
+      {formatPrice(data.country.locale, data.country.currency.code, data.product.grossPrice)}
+    </p>
     <div class="my-5 h-px w-full bg-white"></div>
     <p class="min-h-24">{data.product.description}</p>
     <div class="my-5 h-px w-full bg-white"></div>
     <p>
       {shop.products.id.belongsToCollectionStart}
-      <a class="text-primary underline" href="/{page.params.country}/shop/collections/{data.product.collection.id}"
-        >{data.product.collection.name}</a
+      <Anchor href="/{page.params.country}/shop/collections/{data.product.collection.id}"
+        >{data.product.collection.name}</Anchor
       >
       {shop.products.id.belongsToCollectionEnd}
     </p>
@@ -53,7 +58,7 @@
       <p>{shop.products.id.available}: {data.product.stock}</p>
       <ProductStatusBanner {bucketStock} {inCartQuantity} />
     </div>
-    <Button className="w-full" disabled={bucketStock === undefined || availableStock <= 0} onclick={onAddToCartClick}
+    <Button class="w-full" disabled={bucketStock === undefined || availableStock <= 0} onclick={onAddToCartClick}
       >{shop.addToCartButtonLabel}</Button
     >
   </div>

@@ -4,9 +4,9 @@
   import HeaderMiddleSection from './middle-section/HeaderMiddleSection.svelte';
   import HeaderRightSection from './right-section/HeaderRightSection.svelte';
 
-  interface Props {
+  type Props = {
     countries: Country[];
-  }
+  };
 
   let { countries }: Props = $props();
 </script>

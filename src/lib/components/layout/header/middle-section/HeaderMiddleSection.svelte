@@ -7,13 +7,14 @@
   import { page } from '$app/state';
 
   let isOpen = $state(false);
-  let dropdownTriggerElement: HTMLElement | undefined = $state();
 
-  function toggleDropdown() {
-    if (dropdownTriggerElement) {
-      isOpen = !isOpen;
-    }
-  }
+  const toggleDropdown = (): void => {
+    isOpen = !isOpen;
+  };
+
+  const closeDropdown = (): void => {
+    isOpen = false;
+  };
 </script>
 
 {#snippet headerLogo()}
@@ -29,29 +30,24 @@
 <nav class="mt-5 flex justify-center">
   <ul class="hidden h-full items-center gap-28 text-xl xl:flex">
     <NavbarItem>
-      <button
-        bind:this={dropdownTriggerElement}
-        class="flex items-center gap-1.5"
-        onclick={toggleDropdown}
-        type="button"
-      >
-        {common.header.pages.shop.title}
-        <div class="transition-transform duration-300" class:rotate-180={isOpen}>
-          <Icon size={10} src={FaSolidChevronDown} />
-        </div>
-      </button>
-      <DropdownMenu isFullWidth triggerElement={dropdownTriggerElement} bind:isOpen>
+      <DropdownMenu isFullWidth bind:isOpen>
+        {#snippet triggerElement()}
+          <button class="flex items-center gap-1.5" onclick={toggleDropdown} type="button">
+            {common.header.pages.shop.title}
+            <div class="transition-transform duration-300" class:rotate-180={isOpen}>
+              <Icon size={10} src={FaSolidChevronDown} />
+            </div>
+          </button>
+        {/snippet}
         <div class="flex flex-col items-center justify-center gap-4 py-4 text-2xl">
           <DropdownMenuItem>
-            <a
-              class="hover:text-primary"
-              href="/{page.params.country}/shop/collections"
-              onclick={() => (isOpen = false)}>{common.header.pages.shop.byCollection}</a
+            <a class="hover:text-primary" href="/{page.params.country}/shop/collections" onclick={closeDropdown}
+              >{common.header.pages.shop.byCollection}</a
             >
           </DropdownMenuItem>
           <div class="h-0.5 w-10 bg-white"></div>
           <DropdownMenuItem>
-            <a class="hover:text-primary" href="/{page.params.country}/shop/products" onclick={() => (isOpen = false)}
+            <a class="hover:text-primary" href="/{page.params.country}/shop/products" onclick={closeDropdown}
               >{common.header.pages.shop.byProduct}</a
             >
           </DropdownMenuItem>
@@ -82,7 +78,9 @@
     transition: scale 300ms ease-in-out;
   }
 
-  .imageLink:hover > .logoImage {
-    scale: 130%;
+  @media (hover: hover) {
+    .imageLink:hover > .logoImage {
+      scale: 130%;
+    }
   }
 </style>

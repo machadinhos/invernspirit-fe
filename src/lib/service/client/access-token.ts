@@ -1,9 +1,9 @@
 let globalAccessToken = '';
 
-export function setAccessToken(accessToken: string): void {
+export const setAccessToken = (accessToken: string): void => {
   globalAccessToken = accessToken;
-}
+};
 
-export function getAccessToken(): string {
+export const getAccessToken = (): string => {
   return globalAccessToken;
-}
+};

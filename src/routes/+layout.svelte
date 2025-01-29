@@ -1,12 +1,13 @@
 <script lang="ts">
   import '../app.css';
+  import { GlobalModal, ToastGroup } from '$components-global';
   import { GrainyFilter, LoadingScreen } from '$components';
   import { loading } from '$state';
   import { page } from '$app/state';
 
-  interface Props {
+  type Props = {
     children: import('svelte').Snippet;
-  }
+  };
 
   let { children }: Props = $props();
 </script>
@@ -24,13 +25,12 @@
   <LoadingScreen />
 {/if}
 
+<GlobalModal />
+<ToastGroup />
+
 <div class="pointer-events-none fixed inset-0 -z-10 select-none">
   <GrainyFilter>
-    <div
-      style="background-image: url('/images/logo.webp')"
-      class="h-screen w-screen bg-background bg-contain bg-center bg-no-repeat brightness-[25%]"
-    ></div>
-    <div class="absolute inset-0 bg-background opacity-75 brightness-50"></div>
+    <div class="bg-background"></div>
   </GrainyFilter>
 </div>
 

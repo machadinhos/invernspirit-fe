@@ -24,5 +24,8 @@ vite.config.ts.timestamp-*
 # IDE
 .idea
 
-# wrangler
+# Wrangler
 .wrangler
+
+# Temporary files
+*~

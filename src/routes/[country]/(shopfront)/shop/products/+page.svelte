@@ -3,13 +3,15 @@
   import ProductGrid from '../ProductGrid.svelte';
   import { shop } from '$content';
 
-  interface Props {
+  type Props = {
     data: PageData;
-  }
+  };
 
   let { data }: Props = $props();
 </script>
 
+<svelte:head><title>{shop.products.headTitle}</title></svelte:head>
+
 <h1 class="mb-9 text-center text-5xl">{shop.products.title}</h1>
 
-<ProductGrid currencySymbol={data.country.currency.symbol} products={data.products} />
+<ProductGrid country={data.country} products={data.products} />

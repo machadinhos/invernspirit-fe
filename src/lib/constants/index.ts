@@ -1,1 +1,1 @@
-export { imageLinks, socialMediaLinks } from './links';
+export * from './links';

@@ -1,20 +1,25 @@
-import { Client, type RequestHostContext } from '$lib/service/client';
 import type { Collection, CollectionDetails } from '$types';
+import { Client } from '../client';
+import type { Endpoint } from './endpoint';
 
-const ENDPOINT = 'collections';
+const PATH = 'collections';
 
-export function prepareGetAllCollections(context: RequestHostContext) {
-  const method = 'GET';
-  return async function (countryCode: string): Promise<Collection[]> {
-    const client = new Client<Collection[]>({ ...context, endpoint: `/${countryCode}/${ENDPOINT}`, method });
-    return await client.call();
+export const prepareGetAllCollections: Endpoint<Collection[]> = (context) => {
+  return (countryCode) => {
+    return Client.create<Collection[]>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}`)
+      .withMethod('GET')
+      .call();
   };
-}
+};
 
-export function prepareGetCollectionById(context: RequestHostContext) {
-  const method = 'GET';
-  return async function (id: string, countryCode: string): Promise<CollectionDetails> {
-    const client = new Client<CollectionDetails>({ ...context, endpoint: `/${countryCode}/${ENDPOINT}`, method });
-    return await client.withPathParams([id]).call();
+export const prepareGetCollectionById: Endpoint<CollectionDetails, [string]> = (context) => {
+  return (countryCode, id) => {
+    return Client.create<CollectionDetails>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/${id}`)
+      .withMethod('GET')
+      .call();
   };
-}
+};

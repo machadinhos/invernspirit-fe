@@ -1,10 +1,14 @@
-import type { LineItem } from '$lib/types/line-item';
+import type { Product } from '$lib/types/product';
 
-export interface Cart {
+export type Cart = {
   products: LineItem[];
-}
+  isCheckoutPossible?: boolean;
+};
 
-export interface ProductIdAndQuantity {
-  id: string;
+export type LineItem = {
   quantity: number;
-}
+  errors?: {
+    type: string;
+    message: 'NOT_ENOUGH_STOCK';
+  }[];
+} & Product;

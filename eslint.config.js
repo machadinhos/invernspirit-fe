@@ -7,15 +7,39 @@ import ts from 'typescript-eslint';
 
 export default ts.config(
   js.configs.recommended,
-  ...ts.configs.recommended,
+  ...ts.configs.strict,
+  ...ts.configs.stylistic,
   ...svelte.configs['flat/recommended'],
   prettier,
   ...svelte.configs['flat/prettier'],
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        parser: ts.parser,
+        extraFileExtensions: ['.svelte'],
+      },
+    },
+  },
+  {
+    ignores: ['build/', '.svelte-kit/', 'dist/', '.wrangler/'],
+  },
   {
     plugins: {
       import: imports,
     },
     rules: {
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/explicit-function-return-type': 'error',
       'sort-imports': [
         'error',
         {
@@ -39,24 +63,5 @@ export default ts.config(
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
     },
-  },
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
-  },
-  {
-    files: ['**/*.svelte'],
-    languageOptions: {
-      parserOptions: {
-        parser: ts.parser,
-      },
-    },
-  },
-  {
-    ignores: ['build/', '.svelte-kit/', 'dist/'],
   },
 );

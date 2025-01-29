@@ -1,19 +1,19 @@
 <script lang="ts">
   import { shop } from '$content';
 
-  interface Props {
+  type Props = {
     bucketStock: number | undefined;
-    inCartQuantity: number;
-  }
+    inCartQuantity: number | undefined;
+  };
 
   let { bucketStock, inCartQuantity }: Props = $props();
 
-  interface Banner {
+  type Banner = {
     text: string;
     bgColor: string;
-  }
+  };
 
-  const banners: { [key: string]: Banner } = {
+  const banners: Record<string, Banner> = {
     allItemsInCart: {
       text: shop.products.cardBanner.allItemsInCart,
       bgColor: 'bg-warning',
@@ -28,15 +28,15 @@
     },
   };
 
-  let banner: Banner | undefined = $derived(getCurrentBanner());
-
-  function getCurrentBanner(): Banner | undefined {
-    if (bucketStock === undefined) return;
+  const getCurrentBanner = (): Banner | undefined => {
+    if (bucketStock === undefined || inCartQuantity === undefined) return;
     if (bucketStock === 0) return banners.outOfStock;
     if (inCartQuantity === 0) return;
     if (bucketStock <= inCartQuantity) return banners.allItemsInCart;
     return banners.someItemsInCart;
-  }
+  };
+
+  let banner: Banner | undefined = $derived(getCurrentBanner());
 </script>
 
 {#if banner}

@@ -1,0 +1,65 @@
+{
+  "status": {
+    "completed": "Completed",
+    "canceled": "Canceled",
+    "processingPayment": "Processing payment",
+    "packaging": "Packaging",
+    "shipping": "Shipping",
+    "error": "Error"
+  },
+  "paymentMethod": "Payment method",
+  "card": "Card",
+  "cardEndingIn": "card ending in",
+  "headTitle": "Invern Spirit • order",
+  "title": "Order Details",
+  "orderId": "Order ID",
+  "dateOfPurchase": "Date of purchase",
+  "statusLabel": "Status",
+  "subtotal": "Subtotal",
+  "shipping": "Shipping",
+  "total": "Total",
+  "address": {
+    "title": "Delivery Address",
+    "parts": {
+      "street": {
+        "title": "Street"
+      },
+      "houseNumber": {
+        "title": "House Number"
+      },
+      "apartment": {
+        "title": "Apartment"
+      },
+      "city": {
+        "title": "City"
+      },
+      "postalCode": {
+        "title": "Postal code"
+      },
+      "province": {
+        "title": "Province"
+      }
+    }
+  },
+  "personalDetails": {
+    "title": "Personal details",
+    "fullName": "Full name",
+    "parts": {
+      "firstName": {
+        "title": "First name"
+      },
+      "lastName": {
+        "title": "Last name"
+      },
+      "email": {
+        "title": "Email"
+      }
+    }
+  },
+  "shippingMethod": {
+    "title": "Shipping method",
+    "shippingCompany": "Shipping company",
+    "deliveryTime": "Delivery time",
+    "price": "Price"
+  }
+}
