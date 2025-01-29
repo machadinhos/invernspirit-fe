@@ -1,1 +1,1 @@
-export { beClient } from './be-client';
+export * from './be-client';

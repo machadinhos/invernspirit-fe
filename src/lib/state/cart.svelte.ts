@@ -1,59 +1,41 @@
-import type { LineItem, Product, ProductIdAndQuantity } from '$types';
-import { browser } from '$app/environment';
-import { SvelteMap } from 'svelte/reactivity';
+import type { Cart as CartType, LineItem, Product } from '$types';
+import { AsyncTaskQueue } from '$lib/utils/async-task-queue';
+import { bffClient } from '$service';
+import { itemAddedToCartToastSnippet } from '$lib/components/snippets';
+import { page } from '$app/state';
+import { toasts } from '$state';
 
 class Cart {
-  private value = $state() as SvelteMap<string, number>;
-  size = $state() as number;
+  value: LineItem[] = $state([]);
+  size = $derived(this.value.reduce((sum, { quantity }) => sum + quantity, 0));
+  isCheckoutPossible = $state(false);
+  private beCallQueue = new AsyncTaskQueue();
 
-  constructor() {
-    if (browser) {
-      this.value = this.getFromLocalStorage();
-    } else {
-      this.value = new SvelteMap();
-    }
+  setCart = (cart: CartType): void => {
+    const { products, isCheckoutPossible } = cart;
+    this.value = products;
+    this.isCheckoutPossible = isCheckoutPossible ?? true;
+  };
 
-    $effect.root(() => {
-      $effect(() => {
-        this.size = this.calculateSize();
-        this.saveToLocalStorage();
-      });
+  insertProduct = async (product: Product, quantity: number): Promise<void> => {
+    await this.beCallQueue.enqueue(async () => {
+      const currentProductQuantity = this.getProductQuantity(product.id);
+      const quantityDifference = quantity - currentProductQuantity;
+      const cart = await bffClient.cart.updateItem(page.params.country, product.id, quantityDifference);
+      this.setCart(cart);
+      if (page.url.pathname.endsWith('/cart')) return;
+      toasts.push(itemAddedToCartToastSnippet, { group: 'cart-update' });
     });
-  }
-
-  private saveToLocalStorage = (): void => {
-    const cartArray = Array.from(this.value.entries());
-    localStorage.setItem('cart', JSON.stringify(cartArray));
   };
 
-  private getFromLocalStorage = (): SvelteMap<string, number> => {
-    const cartString = localStorage.getItem('cart');
-    if (cartString) {
-      const cartArray: [string, number][] = JSON.parse(cartString);
-      return new SvelteMap(cartArray);
-    }
-    return new SvelteMap();
-  };
-
-  private calculateSize = (): number => {
-    return Array.from(this.value.values()).reduce((sum, quantity) => sum + quantity, 0);
-  };
-
-  insertProduct = (product: Product, quantity: number = 1): void => {
-    const currentProductQuantity = this.value.get(product.id) || 0;
-    this.value.set(product.id, quantity + currentProductQuantity);
+  removeProduct = async (product: Product): Promise<void> => {
+    await this.beCallQueue.enqueue(async () => {
+      this.value = (await bffClient.cart.removeItem(page.params.country, product.id)).products;
+    });
   };
 
   getProductQuantity = (productId: string): number => {
-    return this.value.get(productId) || 0;
-  };
-
-  setCartFromLineItemArray = (cart: LineItem[]): void => {
-    this.value = new SvelteMap(cart.map((item) => [item.id, item.quantity]));
-  };
-
-  getCartArray = (): ProductIdAndQuantity[] => {
-    return Array.from(this.value, ([id, quantity]) => ({ id, quantity }));
+    return this.value.find(({ id }) => id === productId)?.quantity ?? 0;
   };
 }
 

@@ -1,82 +1,63 @@
 <script lang="ts">
-  import type { HTMLAttributes, HTMLInputAttributes } from 'svelte/elements';
+  import { type GenericFormField } from '$lib/utils/form-fields.svelte';
+  import type { HTMLInputAttributes } from 'svelte/elements';
   import type { Snippet } from 'svelte';
 
-  interface Props {
-    id: HTMLInputAttributes['id'];
-    value: string;
-    type: import('svelte/elements').HTMLInputTypeAttribute | 'textarea';
-    autocomplete?: HTMLInputAttributes['autocomplete'];
+  type Props = {
+    field: GenericFormField;
+    type?: HTMLInputAttributes['type'];
     label?: Snippet;
-    name: HTMLInputAttributes['name'];
     trailingIcon?: Snippet;
-    className?: HTMLAttributes<HTMLElement>['class'];
-    invalid?: boolean;
-    invalidText?: string;
-    required?: boolean;
-    onblur?: () => void;
-  }
+    class?: HTMLInputAttributes['class'];
+  };
 
-  let {
-    id,
-    value = $bindable(),
-    type,
-    autocomplete,
-    label,
-    name,
-    trailingIcon,
-    className = '',
-    invalid = false,
-    invalidText,
-    required = false,
-    onblur = () => {},
-  }: Props = $props();
+  let { field, type, label, trailingIcon, class: className }: Props = $props();
 </script>
 
 <div class="pt-2.5">
   <div class="relative">
-    {#if type !== 'textarea'}
+    {#if field.type !== 'textarea'}
       <input
-        {id}
-        {name}
-        class="peer h-10 w-full border-b-2 border-white bg-transparent focus:border-primary focus:outline-none {className}"
+        id={field.id}
+        name={field.name}
+        class="peer focus:border-primary h-10 w-full border-b-2 border-white bg-transparent focus:outline-hidden {className}"
         class:pr-6={trailingIcon}
-        {autocomplete}
-        {onblur}
-        {required}
-        {type}
-        bind:value
+        autocomplete={field.autocomplete}
+        onblur={field.onblur}
+        oninput={field.oninput}
+        required={field.required}
+        type={type ?? field.type}
+        bind:value={field.value}
       />
     {:else}
       <textarea
-        {id}
-        {name}
-        class="peer min-h-24 w-full border-b-2 border-white bg-transparent focus:border-primary focus:outline-none {className}"
+        id={field.id}
+        name={field.name}
+        class="peer focus:border-primary min-h-24 w-full border-b-2 border-white bg-transparent focus:outline-hidden {className}"
         autocomplete="off"
-        {onblur}
-        {required}
-        bind:value
+        onblur={field.onblur}
+        oninput={field.oninput}
+        required={field.required}
+        bind:value={field.value}
       ></textarea>
     {/if}
     {#if trailingIcon}
-      <div class="absolute right-1 top-1/2 -translate-y-1/2 text-[#a6a6a6]">
+      <div class="absolute top-1/2 right-1 -translate-y-1/2 text-[#a6a6a6]">
         {@render trailingIcon()}
       </div>
     {/if}
     {#if label}
       <label
-        class="pointer-events-none absolute left-0 select-none text-lg text-text-secondary transition-all peer-focus:-top-3.5 peer-focus:text-sm {value
+        class="text-text-secondary pointer-events-none absolute left-0 text-lg transition-all select-none peer-focus:-top-3.5 peer-focus:text-sm {field.value
           ? '-top-3.5 text-sm'
           : 'top-2 text-base'}"
-        for={id}
+        for={field.id}
       >
         {@render label()}
       </label>
     {/if}
-    {#if invalidText}
-      <p class="pointer-events-none select-none text-sm {invalid ? 'opacity-100' : 'opacity-0'} text-error">
-        {invalidText}
-      </p>
-    {/if}
+    <p class="pointer-events-none text-sm select-none {!field.isValid ? 'opacity-100' : 'opacity-0'} text-error-light">
+      {field.invalidText}
+    </p>
   </div>
 </div>

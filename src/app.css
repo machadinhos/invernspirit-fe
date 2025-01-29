@@ -1,28 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #ff883e;
+  --color-secondary: #2c2c2b;
+  --color-secondary-dark: #201f1d;
+  --color-background: #3f3d3b;
+  --color-background-dark: #323230;
+  --color-secondary-background: #7e7e78;
+  --color-error: #eb1400;
+  --color-error-light: #ff6f61;
+  --color-warning: #c36a2d;
+  --color-success: #43a047;
+  --color-text-secondary: #b5b5b5;
+}
 
 body {
   color: white;
   font-family: 'Playfair', serif;
 }
 
-h1 {
-  font-family: 'Cormorant SC', serif;
-}
-
-h2 {
-  font-family: 'Cormorant SC', serif;
-}
-
-h3 {
-  font-family: 'Cormorant SC', serif;
-}
-
-h4 {
-  font-family: 'Cormorant SC', serif;
-}
-
+h1,
+h2,
+h3,
+h4,
 h5 {
   font-family: 'Cormorant SC', serif;
 }
@@ -32,8 +32,8 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 ::selection {
-  background-color: theme('colors.primary');
-  color: #ffffff;
+  background-color: var(--color-primary);
+  color: white;
 }
 
 *:disabled {
@@ -41,5 +41,19 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 .paddings {
-  @apply px-8 py-14;
+  padding-inline: calc(var(--spacing) * 8);
+  padding-block: calc(var(--spacing) * 14);
+}
+
+@media (hover: hover) {
+  button:hover {
+    cursor: pointer;
+  }
+  button:disabled:hover {
+    cursor: not-allowed;
+  }
+}
+
+.price {
+  font-family: 'Cormorant SC', serif;
 }

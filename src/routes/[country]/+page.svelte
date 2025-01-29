@@ -7,10 +7,10 @@
   let currentImageIndex = $state(0);
   let nextImageIndex = 1;
 
-  function rotateImages() {
+  const rotateImages = (): void => {
     nextImageIndex = (currentImageIndex + 1) % imageLinks.home.bgImages.length;
     currentImageIndex = nextImageIndex;
-  }
+  };
 
   setInterval(rotateImages, 10000);
 </script>
@@ -19,14 +19,13 @@
 <div class="hidden">
   <a href="/{page.params.country}/sign-in">sign-in</a>
   <a href="/{page.params.country}/sign-up">sign-up</a>
-  <a href="/{page.params.country}/order">order</a>
 </div>
 
 <svelte:head><title>{home.headTitle}</title></svelte:head>
 
-<div class="pointer-events-none fixed inset-0 -z-10 h-full w-full select-none overflow-hidden grayscale filter">
+<div class="pointer-events-none fixed inset-0 -z-10 h-full w-full overflow-hidden grayscale filter select-none">
   <GrainyFilter />
-  {#each imageLinks.home.bgImages as image, index}
+  {#each imageLinks.home.bgImages as image, index (index)}
     <div>
       <div
         style="background-image: url({image})"
@@ -45,16 +44,32 @@
         <div class="flex gap-4 font-thin">
           <h1 class="text-6xl md:text-8xl">{home.title}</h1>
           <div class="flex flex-col justify-center">
-            <h3>{home.subTitle.firstLine}</h3>
-            <h3>{home.subTitle.secondLine}</h3>
+            <h2>{home.subTitle.firstLine}</h2>
+            <h2>{home.subTitle.secondLine}</h2>
           </div>
         </div>
         <div class="h-0.5 w-full bg-white"></div>
       </div>
-      <h2 class="text-2xl md:text-3xl">{home.description}</h2>
+      <h3 class="text-2xl md:text-3xl">{home.description}</h3>
     </div>
-    <a class="inline-flex" href="{page.params.country}/shop/products">
-      <Button className="px-3">{home.button}</Button>
+    <a class="pulsating inline-flex" href="{page.params.country}/shop/products">
+      <Button class="px-3 text-3xl">{home.button}</Button>
     </a>
   </div>
 </div>
+
+<style>
+  @keyframes pulsate {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+    }
+    50% {
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0));
+    }
+  }
+
+  .pulsating {
+    animation: pulsate 2s infinite ease-in-out;
+  }
+</style>

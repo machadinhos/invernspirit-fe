@@ -1,12 +1,12 @@
 <script lang="ts">
   import FlyUpElement from '../FlyUpElement.svelte';
 
-  interface Props {
+  type Props = {
     children: import('svelte').Snippet;
-    classNames?: string;
-  }
+    class?: HTMLElement['className'];
+  };
 
-  let { classNames, children }: Props = $props();
+  let { class: className, children }: Props = $props();
 </script>
 
-<FlyUpElement {classNames} duration={500}>{@render children()}</FlyUpElement>
+<FlyUpElement class={className} duration={500}>{@render children()}</FlyUpElement>

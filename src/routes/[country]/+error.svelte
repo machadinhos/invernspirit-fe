@@ -5,7 +5,7 @@
 </script>
 
 <div class="flex h-full flex-col items-center justify-center">
-  <h1>{page.status}: {page.error?.message || common.errorPage.messageAlternative}</h1>
+  <h1>{page.status}: {page.error?.message ?? common.errorPage.messageAlternative}</h1>
 
   {#if page.status === 404}
     <p>{common.errorPage['404Message']}</p>
@@ -13,5 +13,5 @@
     <p>{common.errorPage.otherErrorMessage}</p>
   {/if}
 
-  <a href="/"><Button>{common.errorPage.button}</Button></a>
+  <a href="/{page.params.country}"><Button>{common.errorPage.button}</Button></a>
 </div>

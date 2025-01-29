@@ -1,9 +1,11 @@
 {
   "addToCartButtonLabel": "add to cart",
   "collections": {
+    "headTitle": "Invern Spirit • collections",
     "title": "Collections"
   },
   "products": {
+    "headTitle": "Invern Spirit • products",
     "title": "Products",
     "id": {
       "belongsToCollectionStart": "This product belongs to the ",

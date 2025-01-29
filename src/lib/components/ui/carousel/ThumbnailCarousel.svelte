@@ -6,9 +6,9 @@
   import type { Image } from '$types';
   import Thumbnails from '$lib/components/ui/carousel/Thumbnails.svelte';
 
-  interface Props {
+  type Props = {
     images: Image[];
-  }
+  };
 
   let { images }: Props = $props();
 
@@ -23,36 +23,35 @@
   let nextButton: HTMLElement;
 
   $effect(() => {
-    if (emblaApi !== undefined && verticalThumbsApi !== undefined && horizontalThumbsApi !== undefined) {
-      emblaApi.on('select', (eventApi) => {
-        const selectedIndex = eventApi.selectedScrollSnap();
-        if (selectedIndex !== undefined && verticalThumbsApi !== undefined && horizontalThumbsApi !== undefined) {
-          verticalThumbsApi.scrollTo(selectedIndex);
-          horizontalThumbsApi.scrollTo(selectedIndex);
-          selectedSlide = selectedIndex;
-        }
-      });
-    }
+    if (emblaApi === undefined || verticalThumbsApi === undefined || horizontalThumbsApi === undefined) return;
+    emblaApi.on('select', (eventApi) => {
+      const selectedIndex = eventApi.selectedScrollSnap();
+      if (verticalThumbsApi !== undefined && horizontalThumbsApi !== undefined) {
+        verticalThumbsApi.scrollTo(selectedIndex);
+        horizontalThumbsApi.scrollTo(selectedIndex);
+        selectedSlide = selectedIndex;
+      }
+    });
   });
 
-  function stopPropagation(fn: { call: (arg0: HTMLElement, arg1: Event) => void }) {
-    return function (this: HTMLElement, event: Event) {
+  const stopPropagation = (fn: { call: (arg0: HTMLElement, arg1: Event) => void }) => {
+    return function (this: HTMLElement, event: Event): void {
       event.stopPropagation();
       fn.call(this, event);
     };
-  }
+  };
 
-  function onInit(event: CustomEvent) {
+  const onInit = (event: CustomEvent): void => {
     emblaApi = event.detail;
 
     if (emblaApi !== undefined) {
       prevButton.addEventListener('click', stopPropagation(emblaApi.scrollPrev));
       nextButton.addEventListener('click', stopPropagation(emblaApi.scrollNext));
     }
-  }
+  };
 </script>
 
-<div class="flex select-none flex-col-reverse lg:flex-row">
+<div class="flex flex-col-reverse select-none lg:flex-row">
   <div class="hidden h-[35vw] w-[8.75vw] lg:block">
     <Thumbnails axis="y" {emblaApi} {images} {selectedSlide} bind:thumbsApi={verticalThumbsApi} />
   </div>
@@ -68,7 +67,7 @@
 
     <div class="embla" onemblaInit={onInit} use:emblaCarouselSvelte={{ plugins: [], options }}>
       <div class="embla__container">
-        {#each images as { url, alt }}
+        {#each images as { url, alt } (url + alt)}
           <div class="embla__slide">
             <img class="h-[85vw] object-cover lg:h-[35vw]" {alt} src={url} />
           </div>

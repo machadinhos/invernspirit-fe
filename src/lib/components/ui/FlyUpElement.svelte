@@ -2,19 +2,19 @@
   import { fly, type FlyParams } from 'svelte/transition';
   import { quintInOut } from 'svelte/easing';
 
-  interface Props {
+  type Props = {
     children: import('svelte').Snippet;
-    classNames?: string;
+    class?: string;
     duration: FlyParams['duration'];
-  }
+  };
 
-  let { classNames, children, duration }: Props = $props();
+  let { class: classNames, children, duration }: Props = $props();
 </script>
 
 <div class="overflow-hidden">
   <div
     class="w-fit {classNames}"
-    transition:fly={{
+    transition:fly|global={{
       duration: duration,
       y: window.innerHeight,
       easing: quintInOut,

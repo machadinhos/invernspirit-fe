@@ -1,16 +1,40 @@
-import type { Cart, ProductIdAndQuantity } from '$types';
-import { Client, type RequestHostContext } from '$lib/service/client';
+import type { Cart } from '$types';
+import { Client } from '../client';
+import type { Endpoint } from './endpoint';
 
-const ENDPOINT = 'cart';
+const PATH = 'cart';
 
-export function prepareGetCart(context: RequestHostContext) {
-  const method = 'POST';
-  return async function (products: ProductIdAndQuantity[], countryCode: string): Promise<Cart> {
-    const client = new Client<Cart, ProductIdAndQuantity[]>({
-      ...context,
-      endpoint: `/${countryCode}/${ENDPOINT}`,
-      method,
-    });
-    return await client.withBody(products).withHeaders({ action: 'get' }).call();
+export const prepareGetCart: Endpoint<Cart> = (context) => {
+  return (countryCode) => {
+    return Client.create<Cart>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}`)
+      .withMethod('GET')
+      .call();
   };
-}
+};
+
+type UpdateCartItemBody = {
+  quantity: number;
+};
+
+export const prepareUpdateCartItem: Endpoint<Cart, [string, number]> = (context) => {
+  return (countryCode, productId, productQuantity) => {
+    return Client.create<Cart, UpdateCartItemBody>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/items/${productId}`)
+      .withMethod('PUT')
+      .withBody({ quantity: productQuantity })
+      .call();
+  };
+};
+
+export const prepareRemoveCartItem: Endpoint<Cart, [string]> = (context) => {
+  return (countryCode, productId) => {
+    return Client.create<Cart>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/items/${productId}`)
+      .withMethod('DELETE')
+      .call();
+  };
+};

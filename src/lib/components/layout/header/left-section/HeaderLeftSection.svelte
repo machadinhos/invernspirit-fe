@@ -10,22 +10,22 @@
   import Newsletter from './Newsletter.svelte';
   import { page } from '$app/state';
 
-  interface Props {
+  type Props = {
     countries: Country[];
-  }
+  };
 
   let { countries }: Props = $props();
 
   let isOpen = $state(false);
 
-  function toggleDrawer() {
+  const toggleDrawer = (): void => {
     isOpen = !isOpen;
-  }
+  };
 </script>
 
 {#snippet icons()}
   <Newsletter />
-  <div class="h-9 w-0.5 bg-white"></div>
+  <div class="h-9 w-0.5 shrink-0 bg-white"></div>
   <MediaButtonsSection />
 {/snippet}
 
@@ -53,14 +53,14 @@
   </div>
   <div class="xl:hidden">
     <div class="flex items-center gap-1">
-      <HeaderIcon onclick={toggleDrawer} size={25} src={BiMenu} type="button" />
+      <HeaderIcon aria-label="menu" onclick={toggleDrawer} size={25} src={BiMenu} type="button" />
       <CountrySelector {countries} />
     </div>
     <Drawer bind:isOpen>
       <div class="mt-5 flex gap-4">
         {@render icons()}
       </div>
-      <div class="flex h-full w-full items-center justify-center">
+      <div class="flex h-[90%] w-full items-center justify-center">
         <div class="flex flex-col gap-2">
           <div>
             <DrawerItem>{@render drawerItem(common.header.pages.shop.title, 'main')}</DrawerItem>

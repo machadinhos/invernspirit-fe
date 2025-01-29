@@ -1,4 +1,12 @@
-#!/bin/sh
+#!/bin/bash
+set -eo pipefail
+
+branch=$(git symbolic-ref --short HEAD)
+if [ "$branch" = "main" ] || [ "$branch" = "preview" ]; then
+  echo "ERROR: Direct commits to $branch branch are not allowed."
+  echo "Please create a feature branch instead."
+  exit 1
+fi
 
 bun run check
 bun run build

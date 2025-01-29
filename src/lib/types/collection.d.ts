@@ -1,15 +1,15 @@
 import type { Image, Product } from '$types';
 
-interface BaseCollection {
+type BaseCollection = {
   id: string;
   name: string;
   description: string;
-}
+};
 
-export interface Collection extends BaseCollection {
+export type Collection = {
   image: Image;
-}
+} & BaseCollection;
 
-export interface CollectionDetails extends BaseCollection {
+export type CollectionDetails = {
   products: Product[];
-}
+} & BaseCollection;

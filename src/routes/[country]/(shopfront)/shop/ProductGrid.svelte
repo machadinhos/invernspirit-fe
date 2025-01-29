@@ -1,17 +1,17 @@
 <script lang="ts">
-  import type { Product } from '$types';
+  import type { Country, Product } from '$types';
   import ProductCard from './ProductCard.svelte';
 
-  interface Props {
+  type Props = {
     products: Product[];
-    currencySymbol: string;
-  }
+    country: Country;
+  };
 
-  let { products, currencySymbol }: Props = $props();
+  let { products, country }: Props = $props();
 </script>
 
-<div class="grid grid-cols-[repeat(auto-fit,minmax(256px,1fr))] justify-center justify-items-center gap-12">
-  {#each products as product}
-    <ProductCard {currencySymbol} {product} />
+<section class="grid grid-cols-[repeat(auto-fit,minmax(256px,1fr))] justify-center justify-items-center gap-12">
+  {#each products as product (product.id)}
+    <ProductCard {country} {product} />
   {/each}
-</div>
+</section>

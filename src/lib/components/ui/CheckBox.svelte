@@ -1,17 +1,17 @@
 <script lang="ts">
   import { scale } from 'svelte/transition';
 
-  interface Props {
+  type Props = {
     checked: boolean;
     label: string;
-  }
+  };
 
   let { checked = $bindable(), label }: Props = $props();
 </script>
 
 <label class="inline-flex cursor-pointer items-center gap-2">
   <input class="absolute hidden cursor-pointer" type="checkbox" bind:checked />
-  <div class="flex h-5 w-5 items-center justify-center border-2 border-text-secondary">
+  <div class="border-text-secondary flex h-5 w-5 items-center justify-center border-2">
     <div class="h-full w-full">
       {#if checked}
         <svg class="bg-primary" class:checked viewBox="0 0 24 24" transition:scale>

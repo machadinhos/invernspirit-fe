@@ -2,7 +2,10 @@
   "header": {
     "leftSection": {
       "newsletterTitle": "Subscribe to our newsletter",
-      "email": "Email",
+      "emailForm": {
+        "label": "Email",
+        "invalidText": "Please enter a valid email address."
+      },
       "subscribe": "Subscribe",
       "areaLabels": {
         "instagram": "instagram link",
@@ -24,9 +27,10 @@
     "rightSection": {
       "areaLabels": {
         "countrySelect": "select country",
-        "user": "user menu",
+        "user": "user",
         "cart": "cart link"
-      }
+      },
+      "profile": "View profile"
     }
   },
   "footer": {
@@ -39,5 +43,6 @@
     "otherErrorMessage": "Something went wrong while loading this page.",
     "button": "Return to homepage"
   },
-  "hidePasswordButtonAriaLabel": "hide/un-hide password"
+  "hidePasswordButtonAriaLabel": "hide/un-hide password",
+  "copyToClipboard": "Copied to clipboard."
 }

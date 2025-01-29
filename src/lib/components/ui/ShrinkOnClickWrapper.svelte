@@ -1,15 +1,13 @@
 <script lang="ts">
-  interface Props {
+  type Props = {
     children: import('svelte').Snippet;
     scaleConfig?: { scaleX: number; scaleY: number } | { scaleXY: number };
     disabled?: boolean;
-  }
+  };
 
   let { children, scaleConfig = { scaleXY: 90 }, disabled = false }: Props = $props();
 
-  if ('scaleXY' in scaleConfig) {
-    scaleConfig = { scaleX: scaleConfig.scaleXY, scaleY: scaleConfig.scaleXY };
-  }
+  if ('scaleXY' in scaleConfig) scaleConfig = { scaleX: scaleConfig.scaleXY, scaleY: scaleConfig.scaleXY };
 </script>
 
 <div

@@ -1,28 +1,36 @@
-import { Client, type RequestHostContext } from '$lib/service/client';
+import { Client } from '../client';
+import type { Endpoint } from './endpoint';
 import type { Product } from '$types';
 
-const ENDPOINT = 'products';
+const PATH = 'products';
 
-export function prepareGetAllProducts(context: RequestHostContext) {
-  const method = 'GET';
-  return async function (countryCode: string): Promise<Product[]> {
-    const client = new Client<Product[]>({ ...context, endpoint: `/${countryCode}/${ENDPOINT}`, method });
-    return await client.call();
+export const prepareGetAllProducts: Endpoint<Product[]> = (context) => {
+  return (countryCode) => {
+    return Client.create<Product[]>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}`)
+      .withMethod('GET')
+      .call();
   };
-}
+};
 
-export function prepareGetProductById(context: RequestHostContext) {
-  const method = 'GET';
-  return async function (id: string, countryCode: string): Promise<Product> {
-    const client = new Client<Product>({ ...context, endpoint: `/${countryCode}/${ENDPOINT}`, method });
-    return await client.withPathParams([id]).call();
+export const prepareGetProductById: Endpoint<Product, [string]> = (context) => {
+  return (countryCode, id: string) => {
+    return Client.create<Product>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/${id}`)
+      .withMethod('GET')
+      .call();
   };
-}
+};
 
-export function prepareGetProductsBySearch(context: RequestHostContext) {
-  const method = 'GET';
-  return async function (search: string, countryCode: string): Promise<Product[]> {
-    const client = new Client<Product[]>({ ...context, endpoint: `/${countryCode}/${ENDPOINT}`, method });
-    return await client.withQueryParams({ search }).call();
+export const prepareGetProductsBySearch: Endpoint<Product[], [string]> = (context) => {
+  return (countryCode, search: string) => {
+    return Client.create<Product[]>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}`)
+      .withMethod('GET')
+      .withQueryParams({ search })
+      .call();
   };
-}
+};

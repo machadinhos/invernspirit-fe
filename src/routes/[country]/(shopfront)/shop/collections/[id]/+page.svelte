@@ -4,13 +4,16 @@
   import { page } from '$app/state';
   import type { PageData } from './$types';
   import ProductGrid from '../../ProductGrid.svelte';
+  import { shop } from '$content';
 
-  interface Props {
+  type Props = {
     data: PageData;
-  }
+  };
 
   let { data }: Props = $props();
 </script>
+
+<svelte:head><title>{shop.collections.headTitle}</title></svelte:head>
 
 <div class="paddings flex flex-col lg:h-full lg:flex-row lg:items-center">
   <div class="flex flex-row-reverse justify-end lg:w-1/2 lg:flex-col lg:pl-40">
@@ -21,12 +24,12 @@
       </a>
     </div>
   </div>
-  <div class="mb-5 mt-3 h-px bg-white lg:hidden"></div>
+  <div class="mt-3 mb-5 h-px bg-white lg:hidden"></div>
   <div class="lg:w-1/2">
     <p>{data.collection.description}</p>
   </div>
 </div>
 
 <div class="paddings">
-  <ProductGrid currencySymbol={data.country.currency.symbol} products={data.collection.products} />
+  <ProductGrid country={data.country} products={data.collection.products} />
 </div>

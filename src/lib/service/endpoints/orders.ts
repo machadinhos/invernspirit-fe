@@ -1,12 +1,20 @@
-import { Client, type RequestHostContext } from '$lib/service/client';
+import { Client, type RetriesConfig } from '../client';
+import type { Endpoint } from './endpoint';
 import type { Order } from '$types';
 
-const ENDPOINT = 'orders';
+const PATH = 'orders';
 
-export function prepareGetOrderById(context: RequestHostContext) {
-  const method = 'GET';
-  return async function (id: string, countryCode: string): Promise<Order> {
-    const client = new Client<Order>({ ...context, endpoint: `/${countryCode}/${ENDPOINT}`, method });
-    return await client.withPathParams([id]).call();
+type OrderResponse = {
+  order: Order;
+};
+
+export const prepareGetOrderById: Endpoint<OrderResponse, [string, RetriesConfig | undefined]> = (context) => {
+  return (countryCode, id, retriesConfig) => {
+    return Client.create<OrderResponse>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/${id}`)
+      .withMethod('GET')
+      .withRetries(retriesConfig)
+      .call();
   };
-}
+};

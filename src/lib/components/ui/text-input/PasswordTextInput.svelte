@@ -1,55 +1,31 @@
 <script lang="ts">
   import { FaEye, FaEyeSlash } from 'svelte-icons-pack/fa';
-  import type { HTMLAttributes, HTMLInputAttributes } from 'svelte/elements';
   import BaseInput from './BaseTextInput.svelte';
   import { common } from '$content';
+  import type { GenericFormField } from '$lib/utils/form-fields.svelte';
+  import type { HTMLInputAttributes } from 'svelte/elements';
   import { Icon } from 'svelte-icons-pack';
   import type { Snippet } from 'svelte';
 
-  interface Props {
-    id: HTMLInputAttributes['id'];
-    value: string;
-    autocomplete: HTMLInputAttributes['autocomplete'];
+  type Props = {
+    field: GenericFormField;
     label?: Snippet;
-    name: HTMLInputAttributes['name'];
-    className?: HTMLAttributes<HTMLElement>['class'];
-    invalid?: boolean;
-    invalidText?: string;
-    required?: boolean;
-    onblur?: () => void;
-  }
+    trailingIcon?: Snippet;
+    class?: HTMLInputAttributes['class'];
+  };
 
-  let {
-    id,
-    value = $bindable(),
-    label,
-    name,
-    autocomplete,
-    className = '',
-    invalid = false,
-    invalidText,
-    required = false,
-    onblur = () => {},
-  }: Props = $props();
+  let props: Props = $props();
 
   let shown = $state(false);
+
+  const toggleShown = (): void => {
+    shown = !shown;
+  };
 </script>
 
-<BaseInput
-  {id}
-  {name}
-  {autocomplete}
-  {className}
-  {invalid}
-  {invalidText}
-  {label}
-  {onblur}
-  {required}
-  type={shown ? 'text' : 'password'}
-  bind:value
->
+<BaseInput {...props} type={shown ? 'text' : 'password'}>
   {#snippet trailingIcon()}
-    <button aria-label={common.hidePasswordButtonAriaLabel} onclick={() => (shown = !shown)} type="button">
+    <button aria-label={common.hidePasswordButtonAriaLabel} onclick={toggleShown} type="button">
       <Icon src={shown ? FaEye : FaEyeSlash} />
     </button>
   {/snippet}

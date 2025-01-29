@@ -1,66 +1,22 @@
 <script lang="ts">
-  import type { HTMLAttributes, HTMLInputAttributes } from 'svelte/elements';
   import BaseTextInput from './BaseTextInput.svelte';
+  import type { GenericFormField } from '$lib/utils/form-fields.svelte';
+  import type { HTMLInputAttributes } from 'svelte/elements';
   import PasswordTextInput from './PasswordTextInput.svelte';
   import type { Snippet } from 'svelte';
 
-  interface Props {
-    id: HTMLInputAttributes['id'];
-    value: string;
-    type: import('svelte/elements').HTMLInputTypeAttribute | 'textarea';
-    autocomplete: HTMLInputAttributes['autocomplete'];
-    name: HTMLInputAttributes['name'];
-    required?: boolean;
+  type Props = {
+    field: GenericFormField;
     label?: Snippet;
     trailingIcon?: Snippet;
-    className?: HTMLAttributes<HTMLElement>['class'];
-    invalid?: boolean;
-    invalidText?: string;
-    onblur?: () => void;
-  }
+    class?: HTMLInputAttributes['class'];
+  };
 
-  let {
-    id,
-    value = $bindable(),
-    type,
-    autocomplete,
-    label,
-    name,
-    trailingIcon,
-    className = '',
-    invalid = false,
-    invalidText,
-    required = false,
-    onblur = () => {},
-  }: Props = $props();
+  let props: Props = $props();
 </script>
 
-{#if type === 'password'}
-  <PasswordTextInput
-    {id}
-    {name}
-    {autocomplete}
-    {className}
-    {invalid}
-    {invalidText}
-    {label}
-    {onblur}
-    {required}
-    bind:value
-  />
+{#if props.field.type === 'password'}
+  <PasswordTextInput {...props} />
 {:else}
-  <BaseTextInput
-    {id}
-    {name}
-    {autocomplete}
-    {className}
-    {invalid}
-    {invalidText}
-    {label}
-    {onblur}
-    {required}
-    {trailingIcon}
-    {type}
-    bind:value
-  />
+  <BaseTextInput {...props} />
 {/if}

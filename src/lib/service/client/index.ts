@@ -1,1 +1,1 @@
-export { Client, type RequestHostContext } from './client';
+export * from './client';

@@ -1,71 +1,87 @@
 <script lang="ts">
-  import { cart as cartState, config } from '$state';
+  import { cart as cartState, config, loading, modal, toasts, user } from '$state';
+  import { Anchor } from '$components';
+  import { askForLoginModalSnippet } from '$lib/components/snippets';
   import { bffClient } from '$service';
   import { cart } from '$content';
-  import CartItem from './CartItem.svelte';
   import { flip } from 'svelte/animate';
-  import type { LineItem } from '$types';
+  import { goto } from '$app/navigation';
+  import LineItemCard from '../LineItemCard.svelte';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import type { PageData } from './$types';
-  import { PulsatingLogo } from '$components';
-  import SummarySection from './SummarySection.svelte';
+  import SummarySection from '../SummarySection.svelte';
 
-  interface Props {
+  type Props = {
     data: PageData;
-  }
+  };
 
   let { data }: Props = $props();
 
-  let cartProducts: LineItem[] | undefined = $state();
+  loading.value = true;
+
+  const onCheckout = (): void => {
+    const goToCheckout = (): Promise<void> => goto(`/${page.params.country}/checkout`);
+    if (user.value) {
+      goToCheckout();
+    } else {
+      modal.open(askForLoginModalSnippet, {
+        action: goToCheckout,
+        allowGuest: true,
+      });
+    }
+  };
 
   onMount(() => {
     config.afterInitialization(async () => {
-      if (cartState.size === 0) {
-        cartProducts = [];
-        return;
+      try {
+        cartState.setCart(await bffClient.cart.get(page.params.country));
+      } finally {
+        loading.value = false;
       }
-      cartProducts = (await bffClient.getCart(cartState.getCartArray(), page.params.country)).products;
     });
-  });
-
-  $effect(() => {
-    if (cartProducts !== undefined) cartState.setCartFromLineItemArray(cartProducts);
+    toasts.filterOutGroup('cart-update');
   });
 </script>
 
-<div class="mx-2 mt-10 flex flex-col justify-center gap-8 sm:mx-5 lg:mx-10 lg:flex-row">
-  <div class="flex h-fit w-full flex-col items-center lg:bg-background lg:shadow-2xl">
-    <div class="mt-4 flex w-full flex-col items-center">
-      <h1 style="font-size: 2.5rem" class="text-center">
-        {cart.title}
-      </h1>
-      <div class="pointer-events-none h-0.5 w-40 select-none bg-white"></div>
-    </div>
-    <div class="mb-10 mt-5 flex h-[50vh] w-full flex-col place-content-between overflow-hidden lg:h-[60vh]">
-      {#if cartProducts !== undefined}
-        {#if cartProducts.length > 0}
-          <div
-            class="grid grid-cols-[repeat(auto-fit,minmax(384px,1fr))] justify-center justify-items-center gap-6 overflow-y-auto overflow-x-hidden sm:gap-12 lg:mx-4"
-          >
-            {#each cartProducts as product (product.id)}
-              <div animate:flip={{ duration: 150 }}>
-                <CartItem {product} bind:cartProducts />
-              </div>
-            {/each}
-          </div>
+<svelte:head><title>{cart.headTitle}</title></svelte:head>
+
+<div class="flex h-full w-full flex-col items-center">
+  <div class="mt-4 mb-4 flex flex-col items-center">
+    <h1 style="font-size: 2.5rem" class="text-center">
+      {cart.title}
+    </h1>
+    <div class="pointer-events-none h-0.5 w-32 bg-white select-none"></div>
+  </div>
+  <div class="flex h-full w-full flex-col items-center md:flex-row md:items-start md:justify-center md:gap-5 lg:gap-10">
+    <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
+      {#if config.isInitialized}
+        {#if cartState.value.length > 0}
+          {#each cartState.value as product (product.id)}
+            <div class="flex w-full justify-center" animate:flip={{ duration: 150 }}>
+              <LineItemCard country={data.country} editable {product} />
+            </div>
+          {/each}
         {:else}
-          <p class="text-center">
+          <p class="mt-24 text-center text-2xl">
             {cart.emptyCartMessage}
-            <a class="text-primary underline" href="/{page.params.country}/shop/products">{cart.fillUpCTA}</a>
+            <Anchor href="/{page.params.country}/shop/products">{cart.fillUpCTA}</Anchor>
           </p>
         {/if}
-      {:else}
-        <div class="flex h-full w-full items-center justify-center">
-          <PulsatingLogo />
-        </div>
       {/if}
     </div>
+    <div class="bg-secondary sticky -bottom-px mt-4 w-full md:top-0 md:mt-0 md:w-1/3 md:max-w-[396px]">
+      <SummarySection buttonText={cart.checkoutButtonLabel} country={data.country} onclick={onCheckout} />
+      <div class="mx-[10%] mb-5 hidden md:block">
+        <div class="flex items-center gap-2">
+          <div class="h-0.5 w-full bg-white"></div>
+          {cart.or}
+          <div class="h-0.5 w-full bg-white"></div>
+        </div>
+        <div class="w-full text-center">
+          <Anchor href="/{page.params.country}/shop/products">{cart.continueShopping}</Anchor>
+        </div>
+      </div>
+    </div>
   </div>
-  <SummarySection {cartProducts} country={data.country} />
 </div>

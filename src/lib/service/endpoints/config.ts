@@ -1,20 +1,16 @@
-import { Client, type RequestHostContext } from '$lib/service/client';
+import { Client } from '../client';
+import type { Config } from '$types';
+import type { Endpoint } from './endpoint';
 
-const ENDPOINT = 'config';
+const PATH = 'config';
 
-interface ConfigRequestBody {
-  country?: string;
-  userVersion?: number;
-}
-
-export function prepareConfig(context: RequestHostContext) {
-  const method = 'POST';
-  return async function (body: ConfigRequestBody, countryCode: string): Promise<never> {
-    const client = new Client<never, ConfigRequestBody>({
-      ...context,
-      endpoint: `/${countryCode}/${ENDPOINT}`,
-      method,
-    });
-    return await client.withBody(body).call();
+export const prepareConfig: Endpoint<Config, [Record<string, string>]> = (context) => {
+  return (countryCode, headers) => {
+    return Client.create<Config>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}`)
+      .withMethod('GET')
+      .withHeaders(headers)
+      .call();
   };
-}
+};

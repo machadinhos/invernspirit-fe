@@ -1,21 +1,8 @@
-<script>
+<script lang="ts">
+  import Modal from '$lib/components/ui/Modal.svelte';
   import { PulsatingLogo } from '$components';
 </script>
 
-<div class="loading-screen">
+<Modal>
   <PulsatingLogo />
-</div>
-
-<style>
-  .loading-screen {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-</style>
+</Modal>
