@@ -16,7 +16,6 @@
   import ReviewPage from './ReviewPage.svelte';
   import ShippingMethodPage from './ShippingMethodPage.svelte';
   import SummarySection from '../SummarySection.svelte';
-  import { transition } from '$lib/utils/general';
 
   type Props = {
     data: PageData;
@@ -48,9 +47,7 @@
     if (!selectedStage || !enabledStages) return;
     const newStage = getStageFunc(selectedStage, enabledStages);
     if (selectedStage === newStage) return;
-    transition(async () => {
-      await goto(`/${page.params.country}/checkout?stage=${newStage}`);
-    });
+    goto(`/${page.params.country}/checkout?stage=${newStage}`);
   };
 
   const goToNextStage = (): void => goToStage(nextStage);
