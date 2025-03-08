@@ -1,6 +1,7 @@
 <script lang="ts">
   import { checkout, order as orderContent } from '$content';
   import { config, loading, toasts } from '$state';
+  import type { Order, OrderStatus } from '$types';
   import { bffClient } from '$service';
   import { copiedToClipboardToastSnippet } from '$lib/components/snippets/CopiedToClipboardToastSnippet.svelte';
   import { FaCopy } from 'svelte-icons-pack/fa';
@@ -8,9 +9,8 @@
   import { formatPrice } from '$lib/utils/currency-formating';
   import { goto } from '$app/navigation';
   import { Icon } from 'svelte-icons-pack';
-  import LineItemCard from '../../LineItemCard.svelte';
+  import LineItemCard from '../LineItemCard.svelte';
   import { onMount } from 'svelte';
-  import type { Order, OrderStatus } from '$types';
   import OrderInfoCard from './OrderInfoCard.svelte';
   import { page } from '$app/state';
   import type { PageData } from './$types';
@@ -24,10 +24,17 @@
   let { data }: Props = $props();
 
   let order: Order | null | undefined = $state();
+  let orderId: string | undefined = $state();
 
   loading.value = true;
 
   onMount(async () => {
+    orderId = page.url.searchParams.get('id') ?? undefined;
+    if (orderId === undefined) {
+      /* eslint-disable-next-line no-console */
+      console.error('No order id found');
+      goto(`/${page.params.country}`);
+    }
     const isAfterCheckout = page.url.searchParams.get('after-checkout') === 'true';
     let retriesConfig: RetriesConfig;
     if (isAfterCheckout) {
@@ -47,7 +54,7 @@
     try {
       order = (
         await config.afterInitialization(
-          async () => await bffClient.order.getById(page.params.country, page.params.id, retriesConfig),
+          async () => await bffClient.order.getById(page.params.country, orderId ?? '', retriesConfig),
         )
       ).order;
       /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
