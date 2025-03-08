@@ -18,7 +18,7 @@
   });
 </script>
 
-<div class="fixed inset-0 z-10 flex h-screen flex-col">
+<div class="fixed inset-0 z-10 flex h-[100dvh] flex-col">
   <Header countries={data.countries} />
 
   <main class="flex-1 overflow-auto">
