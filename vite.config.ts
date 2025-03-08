@@ -3,6 +3,7 @@ import type { Plugin, ViteDevServer } from 'vite';
 import process from 'process';
 import { spawn } from 'child_process';
 import { sveltekit } from '@sveltejs/kit/vite';
+import tailwindcss from '@tailwindcss/vite';
 
 type ViteEnv = {
   VITE_RUN_LOCAL_ON_START: string;
@@ -11,7 +12,7 @@ type ViteEnv = {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_') as ViteEnv;
   return {
-    plugins: [sveltekit(), runLocalOnServerStart(env)],
+    plugins: [sveltekit(), tailwindcss(), runLocalOnServerStart(env)],
 
     server: {
       allowedHosts: ['.invernspirit.com'],

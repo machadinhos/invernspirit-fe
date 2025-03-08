@@ -1,5 +1,4 @@
 import type { ExtendedAddress, ShippingMethod } from '$lib/types/checkout';
-import type { Country } from '$lib/types/country';
 import type { LineItem } from '$lib/types/cart';
 import type { User } from '$lib/types/user';
 

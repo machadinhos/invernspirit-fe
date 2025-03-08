@@ -6,7 +6,7 @@ import { toasts } from '$state';
 export type RetriesConfig = {
   maxRetries: number;
   retryDelay: number;
-  shouldRetry: (response: Response) => Promise<boolean>;
+  shouldRetry: (response: Response) => Promise<boolean> | boolean;
 };
 
 export type RequestHostContext = {
