@@ -17,10 +17,13 @@
   let { product, country, editable = false }: Props = $props();
 
   let selectedQuantity = $state(product.quantity);
+  let oldQuantity = product.quantity;
 
   $effect(() => {
-    if (product.quantity === selectedQuantity) return;
-    cartState.insertProduct(product, selectedQuantity);
+    if (product.quantity === selectedQuantity || oldQuantity === selectedQuantity) return;
+    const quantityDifference = selectedQuantity - oldQuantity;
+    oldQuantity = selectedQuantity;
+    cartState.insertProduct(product, quantityDifference);
   });
 
   const removeFromCart = (): void => {

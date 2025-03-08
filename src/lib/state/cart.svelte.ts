@@ -17,10 +17,8 @@ class Cart {
     this.isCheckoutPossible = isCheckoutPossible ?? true;
   };
 
-  insertProduct = async (product: Product, quantity: number): Promise<void> => {
+  insertProduct = async (product: Product, quantityDifference: number): Promise<void> => {
     await this.beCallQueue.enqueue(async () => {
-      const currentProductQuantity = this.getProductQuantity(product.id);
-      const quantityDifference = quantity - currentProductQuantity;
       const cart = await bffClient.cart.updateItem(page.params.country, product.id, quantityDifference);
       this.setCart(cart);
       if (page.url.pathname.endsWith('/cart')) return;

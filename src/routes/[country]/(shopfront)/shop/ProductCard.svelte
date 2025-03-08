@@ -29,9 +29,9 @@
     })();
   });
 
-  const onAddToCartClick = async (): Promise<void> => {
+  const onAddToCartClick = (): void => {
     if (inCartQuantity === undefined) return;
-    await cart.insertProduct(product, cart.getProductQuantity(product.id) + 1);
+    cart.insertProduct(product, 1);
     inCartQuantity += 1;
   };
 </script>
