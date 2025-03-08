@@ -66,7 +66,7 @@
   <div
     class="bg-background-dark relative flex max-h-[80%] min-h-[35%] w-[90%] max-w-[500px] flex-col items-center overflow-y-auto p-4 pb-8 lg:px-8"
     class:justify-center={state === 'choosing'}
-    use:onClickOutside={{ callback: modal.close, ignoreFirstClick: true }}
+    use:onClickOutside={{ callback: modal.close }}
   >
     <button
       class="absolute top-4 left-4"

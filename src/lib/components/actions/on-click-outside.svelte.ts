@@ -38,6 +38,6 @@ export const onClickOutside: Action<HTMLElement, Params> = (
       if (!containsTarget) callback();
     };
 
-    return on(document, 'click', handleClick);
+    return on(document, 'click', handleClick, { capture: true });
   });
 };
