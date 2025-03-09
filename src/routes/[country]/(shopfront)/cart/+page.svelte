@@ -4,6 +4,7 @@
   import { askForLoginModalSnippet } from '$lib/components/snippets';
   import { bffClient } from '$service';
   import { cart } from '$content';
+  import { clientErrorToastSnippet } from '$lib/components/snippets/ClientErrorToastSnippet.svelte';
   import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
   import LineItemCard from '../LineItemCard.svelte';
@@ -35,7 +36,13 @@
   onMount(() => {
     config.afterInitialization(async () => {
       try {
-        cartState.setCart(await bffClient.cart.get(page.params.country));
+        const newCart = await bffClient.cart.get(page.params.country);
+        cartState.setCart(newCart);
+        if (newCart.issues) {
+          for (const issue of newCart.issues) {
+            toasts.push(clientErrorToastSnippet, { extraParams: issue, type: 'error' });
+          }
+        }
       } finally {
         loading.value = false;
       }
@@ -47,7 +54,7 @@
 <svelte:head><title>{cart.headTitle}</title></svelte:head>
 
 <div class="flex h-full w-full flex-col items-center">
-  <div class="mt-4 mb-4 flex flex-col items-center">
+  <div class="mt-4 mb-10 flex flex-col items-center">
     <h1 style="font-size: 2.5rem" class="text-center">
       {cart.title}
     </h1>

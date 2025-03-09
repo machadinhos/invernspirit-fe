@@ -22,7 +22,7 @@ class Cart {
       const cart = await bffClient.cart.updateItem(page.params.country, product.id, quantityDifference);
       this.setCart(cart);
       if (page.url.pathname.endsWith('/cart')) return;
-      toasts.push(itemAddedToCartToastSnippet, { group: 'cart-update' });
+      toasts.push(itemAddedToCartToastSnippet, { group: 'cart-update', singleton: true });
     });
   };
 
