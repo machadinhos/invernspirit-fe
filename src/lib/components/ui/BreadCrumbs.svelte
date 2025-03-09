@@ -14,7 +14,7 @@
 <nav aria-label={ariaLabel}>
   <ul class="flex items-center gap-2">
     {#each breadCrumbs as breadCrumb, index (index)}
-      <li>
+      <li class="flex-1 sm:flex-auto">
         {@render breadCrumbSnippet(breadCrumb)}
       </li>
       {#if index !== breadCrumbs.length - 1}

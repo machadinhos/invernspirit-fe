@@ -54,6 +54,14 @@ input[type='search']::-webkit-search-cancel-button {
   }
 }
 
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
 .price {
   font-family: 'Cormorant SC', serif;
 }

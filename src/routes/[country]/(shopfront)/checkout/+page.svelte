@@ -77,7 +77,7 @@
 <div class="flex h-full w-full flex-col items-center">
   {#if stages && selectedStage && enabledStages}
     <div class="mt-4 mb-4 flex flex-col items-center">
-      <div class="flex gap-3">
+      <div class="ml-2 flex gap-3">
         <button
           onclick={prevStage(selectedStage, enabledStages) !== selectedStage ? goToPrevStage : goToCart}
           type="button"

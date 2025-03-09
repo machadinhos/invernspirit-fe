@@ -55,7 +55,7 @@
       <h3 class="text-2xl md:text-3xl">{home.description}</h3>
     </div>
     <a class="pulsating inline-flex" href="{page.params.country}/shop/products">
-      <Button class="px-3 text-3xl">{home.button}</Button>
+      <Button class="px-3 text-2xl">{home.button}</Button>
     </a>
   </div>
 </div>

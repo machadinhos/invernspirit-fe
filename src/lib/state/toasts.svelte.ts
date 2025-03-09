@@ -14,11 +14,18 @@ type ToastOptions<T> = DurationOptions & {
   type: 'normal' | 'error' | 'success';
   extraParams?: T;
   group?: string;
+  singleton?: boolean;
 };
 
 type Element<T> = Snippet<[Toast<T>, T]>;
 
 class Toast<T = void> {
+  remainingTime = $state() as number | null;
+  timeoutId: ReturnType<typeof setTimeout> | undefined = $state();
+  lastTime: number | undefined = $state();
+  intervalId: ReturnType<typeof setInterval> | undefined = $state();
+  progress = $state(100);
+
   declare readonly hasCloseButton: boolean;
   declare readonly duration: number | null;
   declare readonly pauseTimeOnHover: boolean;
@@ -29,11 +36,22 @@ class Toast<T = void> {
   declare readonly destroy: () => undefined;
   declare readonly type: 'normal' | 'error' | 'success';
   declare readonly group: string | undefined;
+  declare readonly singleton: boolean;
 
   constructor(
     element: Element<T>,
-    { hasCloseButton = true, duration = 4000, type = 'normal', extraParams, group, ...rest }: Partial<ToastOptions<T>>,
+    {
+      hasCloseButton = true,
+      duration = 4000,
+      type = 'normal',
+      extraParams,
+      group,
+      singleton = false,
+      ...rest
+    }: Partial<ToastOptions<T>>,
   ) {
+    this.remainingTime = duration;
+
     let pauseTimeOnHover = true;
     let hasRemainingTimeLine = true;
     if (
@@ -57,7 +75,33 @@ class Toast<T = void> {
     };
     this.type = type;
     this.group = group;
+    this.singleton = singleton;
   }
+
+  startTimer = (): void => {
+    if (this.remainingTime === null) return;
+    this.lastTime = Date.now();
+    this.timeoutId = setTimeout(() => {
+      this.destroy();
+    }, this.remainingTime);
+  };
+
+  pauseTimer = (): void => {
+    if (this.remainingTime === null) return;
+    if (this.timeoutId !== undefined && this.lastTime !== undefined) {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = undefined;
+      const elapsed = Date.now() - this.lastTime;
+      this.remainingTime -= elapsed;
+    }
+  };
+
+  resetTimer = (): void => {
+    if (this.intervalId === undefined) return;
+    if (this.timeoutId !== undefined) clearTimeout(this.timeoutId);
+    this.remainingTime = this.duration;
+    this.startTimer();
+  };
 }
 
 export class Toasts {
@@ -82,6 +126,13 @@ export class Toasts {
   }
 
   push = <T = void>(element: Element<T>, options?: Partial<ToastOptions<T>>): Toast<T> => {
+    if (options?.singleton && options.group !== undefined) {
+      const existingToast = this.findToastByGroup(options.group);
+      if (existingToast) {
+        existingToast.resetTimer();
+        return existingToast as Toast<T>;
+      }
+    }
     const newToast = new Toast<T>(element, options ?? {});
     if (this.value.length < this.maxToasts) {
       this.value.unshift(newToast as Toast<unknown>);
@@ -94,6 +145,12 @@ export class Toasts {
   filterOutGroup = (group: string): void => {
     this.restOfToasts = this.restOfToasts.filter((toast) => toast.group !== group);
     this.value = this.value.filter((toast) => toast.group !== group);
+  };
+
+  findToastByGroup = (group: string): Toast<unknown> | undefined => {
+    return (
+      this.value.find((toast) => toast.group === group) ?? this.restOfToasts.find((toast) => toast.group === group)
+    );
   };
 }
 

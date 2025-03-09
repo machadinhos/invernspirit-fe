@@ -31,34 +31,43 @@
   };
 </script>
 
-<div class="bg-background relative flex w-full items-center justify-between overflow-x-hidden p-3 shadow-2xl">
-  <div class="flex gap-4">
-    <div class="h-[100px] w-[100px]">
-      <a href="/{page.params.country}/shop/products/{product.id}">
-        <img alt={product.images[0].alt} height="100" src={product.images[0].url} width="100" />
-      </a>
+<div class="bg-background flex w-full flex-col gap-1.5 overflow-x-hidden p-3 shadow-2xl">
+  <div class="relative flex w-full items-center justify-between">
+    <div class="flex gap-4">
+      <div class="h-[100px] w-[100px]">
+        <a href="/{page.params.country}/shop/products/{product.id}">
+          <img alt={product.images[0].alt} height="100" src={product.images[0].url} width="100" />
+        </a>
+      </div>
+      <div>
+        <h3 class="truncate text-3xl">{product.name}</h3>
+        <h4 class="price text-2xl">
+          {formatPrice(country.locale, country.currency.code, product.grossPrice)}
+        </h4>
+      </div>
     </div>
-    <div>
-      <h3 class="truncate text-3xl">{product.name}</h3>
-      <h4 class="price text-2xl">
-        {formatPrice(country.locale, country.currency.code, product.grossPrice)}
-      </h4>
-    </div>
+    {#if editable}
+      <div class="absolute top-1/2 right-3 -translate-y-1/2">
+        <ProductQuantitySelector allowZero stock={product.stock} bind:selectedQuantity />
+      </div>
+      <button
+        class="text-primary absolute right-3 bottom-2 flex items-center justify-center"
+        aria-label="remove-from-cart"
+        onclick={removeFromCart}
+        type="button"
+      >
+        <span class="text-xs">{cart.remove}</span>
+        <Icon size="10" src={BiTrash} />
+      </button>
+    {:else}
+      <h4 class="absolute top-1/2 right-3 -translate-y-1/2 text-2xl">x {product.quantity}</h4>
+    {/if}
   </div>
-  {#if editable}
-    <div class="absolute top-1/2 right-3 -translate-y-1/2">
-      <ProductQuantitySelector allowZero stock={product.stock} bind:selectedQuantity />
-    </div>
-    <button
-      class="text-primary absolute right-3 bottom-2 flex items-center justify-center"
-      aria-label="remove-from-cart"
-      onclick={removeFromCart}
-      type="button"
-    >
-      <span class="text-xs">{cart.remove}</span>
-      <Icon size="10" src={BiTrash} />
-    </button>
-  {:else}
-    <h4 class="absolute top-1/2 right-3 -translate-y-1/2 text-2xl">x {product.quantity}</h4>
+  {#if product.issues && product.issues.length > 0}
+    {#each product.issues as issue (issue)}
+      <div class="bg-error p-2">
+        <p>{issue.message}</p>
+      </div>
+    {/each}
   {/if}
 </div>
