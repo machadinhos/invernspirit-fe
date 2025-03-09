@@ -1,5 +1,6 @@
 import { getAccessToken, setAccessToken } from './access-token';
 import { browser } from '$app/environment';
+import { ClientError } from '$service';
 import { clientErrorToastSnippet } from '$snippets';
 import { toasts } from '$state';
 
@@ -123,7 +124,7 @@ export class Client<T, K = void> {
     });
   };
 
-  call = async (): Promise<T> => {
+  call = async (shouldPushIssuesToToasts = true): Promise<T> => {
     let response: Response;
 
     try {
@@ -148,7 +149,7 @@ export class Client<T, K = void> {
     if (response.ok) {
       const { data, issues } = await response.json();
       if (browser && data.accessToken) setAccessToken(data.accessToken);
-      if (issues) pushIssuesToToasts(issues);
+      if (issues && shouldPushIssuesToToasts) pushIssuesToToasts(issues);
 
       return data;
     }
@@ -156,13 +157,15 @@ export class Client<T, K = void> {
     if (response.headers.get('content-type') === 'application/json') {
       const responseBody = await response.json();
       const { issues } = responseBody;
-      if (issues) pushIssuesToToasts(issues);
-      throw new Error(
+      if (issues && shouldPushIssuesToToasts) pushIssuesToToasts(issues);
+      throw new ClientError(
         `Error code: ${response.status}\nError calling endpoint ${this.url}\nClient error: ${JSON.stringify(responseBody, null, 2)}`,
+        response.status,
       );
     }
-    throw new Error(
+    throw new ClientError(
       `Error code: ${response.status}\nError calling endpoint ${this.url}\nClient error: ${await response.text()}`,
+      response.status,
     );
   };
 }
