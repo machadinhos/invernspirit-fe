@@ -78,7 +78,7 @@
     transition: scale 300ms ease-in-out;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .imageLink:hover > .logoImage {
       scale: 130%;
     }
