@@ -15,11 +15,8 @@ class Config {
   }
 
   init = async (searchParams: URLSearchParams): Promise<void> => {
-    const afterCheckout = searchParams.get('after-checkout') === 'true' ? 'true' : undefined;
-    const headers = {
-      ...(afterCheckout && { 'after-checkout': afterCheckout }),
-    };
-    const config = await bffClient.config.get(page.params.country, headers);
+    const configHeaders = searchParams.get('after-checkout') === 'true' ? { 'after-checkout': 'true' } : undefined;
+    const config = await bffClient.config.get(page.params.country, configHeaders);
     cart.setCart(config.cart);
     user.value = config.user;
     this.completeInitialization();

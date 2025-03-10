@@ -61,5 +61,9 @@
     "shippingCompany": "Shipping company",
     "deliveryTime": "Delivery time",
     "price": "Price"
+  },
+  "wrongUser": {
+    "message": "This order doesn't belong to you.",
+    "button": "Login with another account"
   }
 }

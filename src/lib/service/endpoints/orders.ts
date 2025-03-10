@@ -8,13 +8,24 @@ type OrderResponse = {
   order: Order;
 };
 
-export const prepareGetOrderById: Endpoint<OrderResponse, [string, RetriesConfig | undefined]> = (context) => {
-  return (countryCode, id, retriesConfig) => {
+type OrderHeaders = {
+  'x-user-email': string;
+};
+
+type OrderConfig = {
+  retriesConfig?: RetriesConfig;
+  headers?: OrderHeaders;
+  shouldPushIssuesToToasts?: boolean;
+};
+
+export const prepareGetOrderById: Endpoint<OrderResponse, [string, OrderConfig] | [string]> = (context) => {
+  return (countryCode, id, { shouldPushIssuesToToasts = true, retriesConfig, headers } = {}) => {
     return Client.create<OrderResponse>()
       .withHostContext(context)
       .withEndpoint(`/${countryCode}/${PATH}/${id}`)
       .withMethod('GET')
       .withRetries(retriesConfig)
-      .call();
+      .withHeaders(headers)
+      .call(shouldPushIssuesToToasts);
   };
 };
