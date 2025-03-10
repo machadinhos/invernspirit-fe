@@ -157,10 +157,13 @@ export class Client<T, K = void> {
     if (response.headers.get('content-type') === 'application/json') {
       const responseBody = await response.json();
       const { issues } = responseBody;
-      if (issues && shouldPushIssuesToToasts) pushIssuesToToasts(issues);
+      if (issues && shouldPushIssuesToToasts) {
+        pushIssuesToToasts(response.status !== 500 ? issues : ['Something went wrong. Hang tight while we fix it!']);
+      }
       throw new ClientError(
         `Error code: ${response.status}\nError calling endpoint ${this.url}\nClient error: ${JSON.stringify(responseBody, null, 2)}`,
         response.status,
+        issues,
       );
     }
     throw new ClientError(

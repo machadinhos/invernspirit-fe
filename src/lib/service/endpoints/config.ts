@@ -4,7 +4,11 @@ import type { Endpoint } from './endpoint';
 
 const PATH = 'config';
 
-export const prepareConfig: Endpoint<Config, [Record<string, string>]> = (context) => {
+type ConfigHeaders = {
+  'after-checkout': string;
+};
+
+export const prepareConfig: Endpoint<Config, [ConfigHeaders | undefined]> = (context) => {
   return (countryCode, headers) => {
     return Client.create<Config>()
       .withHostContext(context)
