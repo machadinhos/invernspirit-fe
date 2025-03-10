@@ -20,7 +20,7 @@
     transition: width 300ms ease-in-out;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .list-item-class:hover ~ div > .underline-class {
       width: 100%;
     }
