@@ -1,7 +1,7 @@
 <script lang="ts">
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   import { fade, fly } from 'svelte/transition';
-  import { FaSolidX } from 'svelte-icons-pack/fa';
+  import { FaSolidXmark } from 'svelte-icons-pack/fa';
   import { Icon } from 'svelte-icons-pack';
   import { onMount } from 'svelte';
   import { type Toast } from '$state';
@@ -52,7 +52,7 @@
       class="text-primary absolute top-3 right-3"
       aria-label="Close notification"
       onclick={toast.destroy}
-      type="button"><Icon src={FaSolidX} /></button
+      type="button"><Icon src={FaSolidXmark} /></button
     >
   {/if}
   <div class="pr-6 pl-6">

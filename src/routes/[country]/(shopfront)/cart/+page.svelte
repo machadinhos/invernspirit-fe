@@ -70,10 +70,10 @@
             </div>
           {/each}
         {:else}
-          <p class="mt-24 text-center text-2xl">
-            {cart.emptyCartMessage}
-            <Anchor href="/{page.params.country}/shop/products">{cart.fillUpCTA}</Anchor>
-          </p>
+          <div class="mt-24 text-center text-2xl md:flex md:gap-1.5">
+            <span>{cart.emptyCartMessage}</span>
+            <Anchor class="block" href="/{page.params.country}/shop/products">{cart.fillUpCTA}</Anchor>
+          </div>
         {/if}
       {/if}
     </div>

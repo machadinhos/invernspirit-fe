@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
-  import { FaSolidX } from 'svelte-icons-pack/fa';
+  import { FaSolidXmark } from 'svelte-icons-pack/fa';
   import type { HTMLAttributes } from 'svelte/elements';
   import { Icon } from 'svelte-icons-pack';
   import { quintOut } from 'svelte/easing';
@@ -40,9 +40,9 @@
       opacity: 1,
     }}
   >
-    <div class="h-full overflow-y-auto p-4">
-      <button class="float-right mt-8" onclick={closeDrawer} type="button">
-        <Icon color="white" src={FaSolidX} />
+    <div class="h-full overflow-y-auto p-4 pr-8">
+      <button class="float-right mt-7" onclick={closeDrawer} type="button">
+        <Icon color="white" size="25" src={FaSolidXmark} />
       </button>
       {@render children()}
     </div>
