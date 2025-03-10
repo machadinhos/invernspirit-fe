@@ -47,7 +47,7 @@
   {/if}
 {/snippet}
 
-<div class="mt-8 w-20 xl:w-52">
+<div class="mt-8 flex w-20 items-center xl:w-52">
   <div class=" hidden gap-4 xl:flex">
     {@render icons()}
   </div>

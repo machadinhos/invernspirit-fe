@@ -84,6 +84,7 @@
 <style>
   .prev-button,
   .next-button {
+    color: rgba(255, 255, 255, 0.5);
     position: absolute;
     top: 45%;
     z-index: 1;
