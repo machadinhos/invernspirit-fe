@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/state';
   import { shop } from '$content';
 
   type Props = {
@@ -11,16 +12,22 @@
   type Banner = {
     text: string;
     bgColor: string;
+    showInCartQuantity?: boolean;
+    linkToCart?: boolean;
   };
 
   const banners: Record<string, Banner> = {
     allItemsInCart: {
       text: shop.products.cardBanner.allItemsInCart,
       bgColor: 'bg-warning',
+      showInCartQuantity: true,
+      linkToCart: true,
     },
     someItemsInCart: {
       text: shop.products.cardBanner.someItemsInCart,
       bgColor: 'bg-background',
+      showInCartQuantity: true,
+      linkToCart: true,
     },
     outOfStock: {
       text: shop.products.cardBanner.outOfStock,
@@ -39,6 +46,17 @@
   let banner: Banner | undefined = $derived(getCurrentBanner());
 </script>
 
+{#snippet text(banner: Banner)}
+  {banner.text}
+  {#if banner.showInCartQuantity}
+    {inCartQuantity}
+  {/if}
+{/snippet}
+
 {#if banner}
-  <div class="px-2 {banner.bgColor}">{banner.text}</div>
+  {#if banner.linkToCart}
+    <a class="px-2 {banner.bgColor}" href="/{page.params.country}/cart">{@render text(banner)}</a>
+  {:else}
+    <div class="px-2 {banner.bgColor}">{@render text(banner)}</div>
+  {/if}
 {/if}

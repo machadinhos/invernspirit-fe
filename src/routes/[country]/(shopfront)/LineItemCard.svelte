@@ -23,7 +23,10 @@
     if (product.quantity === selectedQuantity || oldQuantity === selectedQuantity) return;
     const quantityDifference = selectedQuantity - oldQuantity;
     oldQuantity = selectedQuantity;
-    cartState.insertProduct(product, quantityDifference);
+    cartState.updateProductQuantity(product, quantityDifference).catch(() => {
+      selectedQuantity = cartState.getProductQuantity(product.id);
+      oldQuantity = selectedQuantity;
+    });
   });
 
   const removeFromCart = (): void => {
