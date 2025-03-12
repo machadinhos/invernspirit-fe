@@ -19,8 +19,9 @@
 <div class="hidden">
   <a href="/{page.params.country}/sign-in">sign-in</a>
   <a href="/{page.params.country}/sign-up">sign-up</a>
-  <a href="/{page.params.country}/checkout">sign-up</a>
-  <a href="/{page.params.country}/order">sign-up</a>
+  <a href="/{page.params.country}/profile">profile</a>
+  <a href="/{page.params.country}/checkout">checkout</a>
+  <a href="/{page.params.country}/order">order</a>
 </div>
 
 <svelte:head><title>{home.headTitle}</title></svelte:head>
