@@ -19,8 +19,7 @@
       loading.value = true;
 
       order = (await bffClient.order.getById(page.params.country, orderId ?? '')).order;
-      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    } catch (_) {
+    } catch {
       order = null;
     } finally {
       loading.value = false;

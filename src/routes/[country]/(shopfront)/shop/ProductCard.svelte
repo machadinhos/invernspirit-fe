@@ -20,6 +20,17 @@
   let inCartQuantity: number | undefined = $state();
   let availableStock = $derived(bucketStock && inCartQuantity !== undefined ? bucketStock - inCartQuantity : 0);
 
+  const onAddToCartClick = async (): Promise<void> => {
+    if (inCartQuantity === undefined) return;
+    try {
+      const updateProductQuantityPromise = cart.updateProductQuantity(product, 1);
+      inCartQuantity += 1;
+      await updateProductQuantityPromise;
+    } catch {
+      inCartQuantity = cart.getProductQuantity(product.id);
+    }
+  };
+
   onMount(() => {
     config.afterInitialization(() => {
       inCartQuantity = cart.getProductQuantity(product.id);
@@ -28,17 +39,11 @@
       bucketStock = (await getStockFromBucket(product.id)).data;
     })();
   });
-
-  const onAddToCartClick = (): void => {
-    if (inCartQuantity === undefined) return;
-    cart.insertProduct(product, 1);
-    inCartQuantity += 1;
-  };
 </script>
 
 <article class="bg-background h-fit w-64 shadow-2xl transition-all duration-300 hover:scale-110">
   <div class="relative h-64">
-    <div class="pointer-events-none absolute top-2 left-2 select-none">
+    <div class="absolute top-2 left-2">
       <ProductStatusBanner {bucketStock} {inCartQuantity} />
     </div>
     <a href="/{page.params.country}/shop/products/{product.id}">
