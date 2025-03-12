@@ -142,8 +142,10 @@ export class Client<T, K = void> {
     } catch (error) {
       /* eslint-disable-next-line no-console */
       console.error(error);
-      if (browser) toasts.push(clientErrorToastSnippet, { extraParams: 'Unable to connect to server', type: 'error' });
-      throw new Error('Unable to connect to server');
+
+      const errorString = 'Unable to connect to server';
+      if (browser) toasts.push(clientErrorToastSnippet, { extraParams: errorString, type: 'error' });
+      throw new Error(`${errorString} ${this.context.method} ${this.url}`);
     }
 
     if (response.ok) {
@@ -161,13 +163,13 @@ export class Client<T, K = void> {
         pushIssuesToToasts(response.status !== 500 ? issues : ['Something went wrong. Hang tight while we fix it!']);
       }
       throw new ClientError(
-        `Error code: ${response.status}\nError calling endpoint ${this.url}\nClient error: ${JSON.stringify(responseBody, null, 2)}`,
+        `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${JSON.stringify(responseBody, null, 2)}`,
         response.status,
         issues,
       );
     }
     throw new ClientError(
-      `Error code: ${response.status}\nError calling endpoint ${this.url}\nClient error: ${await response.text()}`,
+      `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${await response.text()}`,
       response.status,
     );
   };

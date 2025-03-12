@@ -21,6 +21,7 @@ import { prepareGetCart, prepareRemoveCartItem, prepareUpdateCartItem } from './
 import { prepareConfig } from '$lib/service/endpoints/config';
 import { prepareGetOrderById } from './endpoints/orders';
 import { prepareGetProductsBySearch } from '$lib/service/endpoints/products';
+import { prepareOauthGoogle } from '$lib/service/endpoints/oauth';
 import { PUBLIC_BFF_HOST } from '$env/static/public';
 import type { RequestHostContext } from './client';
 
@@ -61,6 +62,9 @@ export const bffClient = {
   order: { getById: prepareGetOrderById(context) },
   products: { getBySearch: prepareGetProductsBySearch(context) },
   user: {
+    oauth: {
+      google: prepareOauthGoogle(context),
+    },
     get: prepareGetLoggedInUser(context),
     update: prepareUpdateLoggedInUser(context),
     delete: prepareDeleteLoggedInUser(context),

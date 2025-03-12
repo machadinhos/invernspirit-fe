@@ -1,10 +1,10 @@
 export const imageLinks = {
   home: {
     bgImages: [
-      'https://images.invernspirit.com/products/ceramics-product-1-1.jpeg',
-      'https://images.invernspirit.com/products/ceramics-product-2-1.jpeg',
-      'https://images.invernspirit.com/products/ceramics-product-3-1.jpeg',
-      'https://images.invernspirit.com/products/ceramics-product-4-1.jpeg',
+      'https://images.invernspirit.com/products/ceramics-product-1-1.webp',
+      'https://images.invernspirit.com/products/ceramics-product-2-1.webp',
+      'https://images.invernspirit.com/products/ceramics-product-3-1.webp',
+      'https://images.invernspirit.com/products/ceramics-product-4-1.webp',
     ],
   },
 };
