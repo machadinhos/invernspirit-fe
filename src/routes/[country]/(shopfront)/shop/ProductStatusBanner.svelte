@@ -47,16 +47,16 @@
 </script>
 
 {#snippet text(banner: Banner)}
-  {banner.text}
   {#if banner.showInCartQuantity}
     {inCartQuantity}
   {/if}
+  {banner.text}
 {/snippet}
 
 {#if banner}
   {#if banner.linkToCart}
-    <a class="px-2 {banner.bgColor}" href="/{page.params.country}/cart">{@render text(banner)}</a>
+    <a class="inline-block px-2 {banner.bgColor}" href="/{page.params.country}/cart">{@render text(banner)}</a>
   {:else}
-    <div class="px-2 {banner.bgColor}">{@render text(banner)}</div>
+    <div class="inline-block px-2 {banner.bgColor}">{@render text(banner)}</div>
   {/if}
 {/if}
