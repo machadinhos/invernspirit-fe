@@ -23,7 +23,7 @@
     {onclick}
     type="button"
   >
-    <div class="flex h-[30px] w-[30px] items-center">
+    <div class="flex h-[20px] w-[20px] items-center">
       {@render icon()}
     </div>
     <p>Continue with {name}</p>

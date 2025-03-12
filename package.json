@@ -4,7 +4,7 @@
   "private": true,
   "repository": "https://github.com/machadinhos/invernspirit-fe-remake.git",
   "type": "module",
-  "packageManager": "bun@^1.2.2",
+  "packageManager": "bun@^1.2.5",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
