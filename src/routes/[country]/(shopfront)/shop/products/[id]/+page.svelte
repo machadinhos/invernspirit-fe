@@ -25,10 +25,15 @@
     bucketStock = (await getStockFromBucket(data.product.id)).data;
   });
 
-  const onAddToCartClick = (): void => {
-    cart.insertProduct(data.product, selectedQuantity);
-    inCartQuantity += selectedQuantity;
-    selectedQuantity = 1;
+  const onAddToCartClick = async (): Promise<void> => {
+    try {
+      const updateProductQuantityPromise = cart.updateProductQuantity(data.product, selectedQuantity);
+      inCartQuantity += selectedQuantity;
+      selectedQuantity = 1;
+      await updateProductQuantityPromise;
+    } catch {
+      inCartQuantity = cart.getProductQuantity(data.product.id);
+    }
   };
 </script>
 
