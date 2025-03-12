@@ -2,22 +2,32 @@ import { Env } from '@types';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
+type Config = {
+  filterFunction?: (request: Request) => Response | undefined;
+  beUrl?: string;
+};
+
 export const beClientProxy = async (
   request: Request,
   allowedMethods: HttpMethod[],
   env: Env,
-  filterFunction?: (request: Request) => Response | undefined,
+  config?: Config,
 ): Promise<Response> => {
-  const errorResponse = filterFunction?.(request);
+  const errorResponse = config?.filterFunction?.(request);
   if (errorResponse) return errorResponse;
   if (!request.cf) throw new Error('platform is not defined');
   if (!allowedMethods.includes(request.method as HttpMethod)) {
     return new Response('Method not allowed', { status: 405 });
   }
 
-  const url = new URL(request.url);
-  const bePathname = url.pathname.replace(/^\/api/, '');
-  const backendUrl = env.BE_HOST + bePathname + url.search;
+  let backendUrl: string;
+  if (config?.beUrl) {
+    backendUrl = config.beUrl;
+  } else {
+    const url = new URL(request.url);
+    const bePathname = url.pathname.replace(/^\/api/, '');
+    backendUrl = env.BE_HOST + bePathname + url.search;
+  }
 
   const headers = {
     [env.BE_ID_KEY]: env.BE_ID_VALUE,

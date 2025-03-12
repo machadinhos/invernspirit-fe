@@ -5,4 +5,5 @@ export type Env = {
   BE_SECRET_KEY: string;
   BE_SECRET_VALUE: string;
   ENV: string;
+  FE_HOST: string;
 };
