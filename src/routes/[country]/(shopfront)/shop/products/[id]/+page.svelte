@@ -18,10 +18,13 @@
 
   let selectedQuantity = $state(1);
   let bucketStock: number | undefined = $state();
-  let inCartQuantity = $state(cart.getProductQuantity(data.product.id));
-  let availableStock = $derived(bucketStock ? bucketStock - inCartQuantity : 0);
+  let inCartQuantity: number | undefined = $state();
+  let availableStock = $derived(
+    bucketStock !== undefined && inCartQuantity !== undefined ? bucketStock - inCartQuantity : 0,
+  );
 
   const onAddToCartClick = async (): Promise<void> => {
+    if (bucketStock === undefined || inCartQuantity === undefined || availableStock < selectedQuantity) return;
     try {
       const updateProductQuantityPromise = cart.updateProductQuantity(data.product, selectedQuantity);
       inCartQuantity += selectedQuantity;
@@ -68,7 +71,7 @@
     </div>
     <Button
       class="w-full font-bold"
-      disabled={bucketStock === undefined || availableStock <= 0}
+      disabled={bucketStock === undefined || availableStock === undefined || availableStock <= 0}
       onclick={onAddToCartClick}>{shop.addToCartButtonLabel}</Button
     >
   </div>
