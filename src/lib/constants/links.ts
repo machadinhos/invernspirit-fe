@@ -7,6 +7,10 @@ export const imageLinks = {
       'https://images.invernspirit.com/products/ceramics-product-4-1.webp',
     ],
   },
+  about: {
+    banner: 'https://images.invernspirit.com/about/about-1.webp',
+    mafalda: 'https://images.invernspirit.com/about/about-2.webp',
+  },
 };
 
 export const socialMediaLinks = {
