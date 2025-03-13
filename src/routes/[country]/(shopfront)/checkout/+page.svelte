@@ -23,8 +23,8 @@
 
   let { data }: Props = $props();
 
-  let selectedStage: StageName | undefined = $state();
   let stages: CheckoutStage[] | undefined = $state();
+  let selectedStageName: StageName | undefined = $state();
   let enabledStages: StageName[] | undefined = $derived(
     stages?.filter((stage) => stage.isEnabled).map((stage) => stage.name),
   );
@@ -38,15 +38,10 @@
 
   const getStageFromUrl = (): StageName | undefined => (page.url.searchParams.get('stage') as StageName) ?? undefined;
 
-  $effect(() => {
-    const newStage = getStageFromUrl();
-    if (enabledStages?.includes(newStage as StageName)) selectedStage = newStage;
-  });
-
   const goToStage = (getStageFunc: (stage: StageName, stages: StageName[]) => StageName): void => {
-    if (!selectedStage || !enabledStages) return;
-    const newStage = getStageFunc(selectedStage, enabledStages);
-    if (selectedStage === newStage) return;
+    if (!selectedStageName || !enabledStages) return;
+    const newStage = getStageFunc(selectedStageName, enabledStages);
+    if (selectedStageName === newStage) return;
     goto(`/${page.params.country}/checkout?stage=${newStage}`);
   };
 
@@ -54,6 +49,15 @@
   const goToPrevStage = (): void => goToStage(prevStage);
 
   const goToCart = (): Promise<void> => goto(`/${page.params.country}/cart`);
+
+  const isLastStage = (stageName: StageName): boolean => {
+    return stages !== undefined && stages.findIndex((stage) => stage.name === stageName) === stages.length - 1;
+  };
+
+  $effect(() => {
+    const newStage = getStageFromUrl();
+    if (enabledStages?.includes(newStage as StageName)) selectedStageName = newStage;
+  });
 
   onMount(async () => {
     const { availableCheckoutStages, isCheckoutPossible } = await config.afterInitialization(() =>
@@ -67,7 +71,7 @@
     const lastEnabledStage = enabledStages?.at(-1);
     if (lastEnabledStage !== getStageFromUrl()) {
       goto(`/${page.params.country}/checkout?stage=${lastEnabledStage}`, { replaceState: true });
-      selectedStage = lastEnabledStage;
+      selectedStageName = lastEnabledStage;
     }
   });
 </script>
@@ -75,11 +79,11 @@
 <svelte:head><title>{checkout.headTitle}</title></svelte:head>
 
 <div class="flex h-full w-full flex-col items-center">
-  {#if stages && selectedStage && enabledStages}
+  {#if stages && selectedStageName && enabledStages}
     <div class="mt-4 mb-4 flex flex-col items-center">
       <div class="ml-2 flex gap-3">
         <button
-          onclick={prevStage(selectedStage, enabledStages) !== selectedStage ? goToPrevStage : goToCart}
+          onclick={prevStage(selectedStageName, enabledStages) !== selectedStageName ? goToPrevStage : goToCart}
           type="button"
         >
           <Icon size="20" src={FaSolidArrowLeft} />
@@ -90,7 +94,7 @@
             {#if stage.isEnabled}
               <a
                 class="text-primary"
-                class:underline={stage.isEnabled && stage.name === selectedStage}
+                class:underline={stage.isEnabled && stage.name === selectedStageName}
                 href="/{page.params.country}/checkout?stage={stage.name}">{stage.title}</a
               >
             {:else}
@@ -100,7 +104,7 @@
         </BreadCrumbs>
       </div>
       <h1 style="font-size: 2.5rem" class="text-center">
-        {stagesTitles[selectedStage]}
+        {stagesTitles[selectedStageName]}
       </h1>
       <div class="pointer-events-none h-0.5 w-32 bg-white select-none"></div>
     </div>
@@ -109,13 +113,13 @@
       onsubmit={finalOnStageSubmit}
     >
       <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
-        {#if selectedStage === 'personal-details'}
+        {#if selectedStageName === 'personal-details'}
           <PersonalDetailsPage {goToNextStage} bind:onStageSubmit bind:stages />
-        {:else if selectedStage === 'address'}
+        {:else if selectedStageName === 'address'}
           <AddressPage {goToNextStage} bind:onStageSubmit bind:stages />
-        {:else if selectedStage === 'shipping'}
+        {:else if selectedStageName === 'shipping'}
           <ShippingMethodPage country={data.country} {goToNextStage} bind:onStageSubmit bind:stages />
-        {:else if selectedStage === 'review'}
+        {:else if selectedStageName === 'review'}
           <ReviewPage country={data.country} bind:onStageSubmit bind:shippingCost />
         {/if}
       </div>
@@ -124,7 +128,7 @@
           additionalCharges={page.url.searchParams.get('stage') === 'review' && shippingCost
             ? [{ name: checkout.shippingCost, price: shippingCost }]
             : undefined}
-          buttonText="Continue"
+          buttonText={isLastStage(selectedStageName) ? checkout.continueToPaymentButton : checkout.continueButton}
           buttonType="submit"
           country={data.country}
         />

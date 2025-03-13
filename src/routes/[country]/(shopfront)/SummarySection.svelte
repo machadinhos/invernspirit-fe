@@ -69,7 +69,7 @@
         <div class="h-0.5 bg-white"></div>
       </div>
       <Button
-        class="w-full"
+        class="w-full font-bold"
         disabled={config.isInitialized ? cartState.size < 1 || !cartState.isCheckoutPossible : true}
         {onclick}
         reverseColors
