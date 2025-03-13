@@ -22,6 +22,7 @@
   <a href="/{page.params.country}/profile">profile</a>
   <a href="/{page.params.country}/checkout">checkout</a>
   <a href="/{page.params.country}/order">order</a>
+  <a href="/{page.params.country}/shop/search">search</a>
 </div>
 
 <svelte:head><title>{home.headTitle}</title></svelte:head>

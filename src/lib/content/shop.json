@@ -17,5 +17,10 @@
       "someItemsInCart": "in cart",
       "outOfStock": "Out of stock"
     }
+  },
+  "search": {
+    "headTitle": "Invern Spirit • collections",
+    "title": "Search results",
+    "noResults": "No results found for"
   }
 }
