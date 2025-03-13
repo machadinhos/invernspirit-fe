@@ -1,6 +1,8 @@
 {
   "headTitle": "Invern Spirit • checkout",
   "shippingCost": "Shipping",
+  "continueButton": "Continue",
+  "continueToPaymentButton": "Continue to payment",
   "addressPage": {
     "title": "Delivery Address",
     "submitButton": "Confirm",

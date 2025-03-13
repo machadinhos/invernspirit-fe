@@ -63,8 +63,10 @@
       <p>{shop.products.id.available}: {bucketStock}</p>
       <ProductStatusBanner {bucketStock} {inCartQuantity} />
     </div>
-    <Button class="w-full" disabled={bucketStock === undefined || availableStock <= 0} onclick={onAddToCartClick}
-      >{shop.addToCartButtonLabel}</Button
+    <Button
+      class="w-full font-bold"
+      disabled={bucketStock === undefined || availableStock <= 0}
+      onclick={onAddToCartClick}>{shop.addToCartButtonLabel}</Button
     >
   </div>
 </div>
