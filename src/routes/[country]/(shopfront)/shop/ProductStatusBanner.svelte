@@ -5,9 +5,10 @@
   type Props = {
     bucketStock: number | undefined;
     inCartQuantity: number | undefined;
+    class?: HTMLElement['className'];
   };
 
-  let { bucketStock, inCartQuantity }: Props = $props();
+  let { bucketStock, inCartQuantity, class: className }: Props = $props();
 
   type Banner = {
     text: string;
@@ -20,7 +21,6 @@
     allItemsInCart: {
       text: shop.products.cardBanner.allItemsInCart,
       bgColor: 'bg-warning',
-      showInCartQuantity: true,
       linkToCart: true,
     },
     someItemsInCart: {
@@ -55,8 +55,12 @@
 
 {#if banner}
   {#if banner.linkToCart}
-    <a class="inline-block px-2 {banner.bgColor}" href="/{page.params.country}/cart">{@render text(banner)}</a>
+    <a class="inline-block px-2 {banner.bgColor} {className}" href="/{page.params.country}/cart"
+      >{@render text(banner)}</a
+    >
   {:else}
-    <div class="inline-block px-2 {banner.bgColor}">{@render text(banner)}</div>
+    <div class="pointer-events-none inline-block px-2 select-none {banner.bgColor} {className}">
+      {@render text(banner)}
+    </div>
   {/if}
 {/if}
