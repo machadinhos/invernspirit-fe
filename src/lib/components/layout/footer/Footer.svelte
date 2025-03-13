@@ -2,14 +2,18 @@
   import { Button } from '$components';
   import { common } from '$content';
   import { containsXSSPatterns } from '$lib/utils/input-validation';
+  import { goto } from '$app/navigation';
   import { Icon } from 'svelte-icons-pack';
+  import { page } from '$app/state';
   import { SlMagnifier } from 'svelte-icons-pack/sl';
 
   let searchString = $state('');
 
-  const doSearch = (): void => {
+  const doSearch = (event: Event): void => {
+    event.preventDefault();
     if (containsXSSPatterns(searchString) || searchString === '') return;
-    alert('todo');
+    goto(`/${page.params.country}/shop/search?q=${searchString}`);
+    searchString = '';
   };
 </script>
 

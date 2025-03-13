@@ -17,5 +17,7 @@
       "someItemsInCart": "in cart",
       "outOfStock": "Out of stock"
     }
-  }
+  },
+  "searchResults": "Search results",
+  "noResults": "No results found for"
 }
