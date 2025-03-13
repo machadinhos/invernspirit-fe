@@ -5,6 +5,7 @@
   import { formatPrice } from '$lib/utils/currency-formating';
   import { goto } from '$app/navigation';
   import LineItemCard from '../LineItemCard.svelte';
+  import { loading } from '$state';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import ReviewSection from './ReviewSection.svelte';
@@ -26,9 +27,14 @@
   };
 
   const onclick = async (): Promise<void> => {
-    const { url } = await bffClient.checkout.stages.payment.get(page.params.country);
-    if (!url) return;
-    window.location.assign(url);
+    try {
+      loading.value = true;
+      const { url } = await bffClient.checkout.stages.payment.get(page.params.country);
+      if (!url) return;
+      window.location.assign(url);
+    } finally {
+      loading.value = false;
+    }
   };
 
   onMount(async () => {

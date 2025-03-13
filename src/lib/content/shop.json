@@ -14,7 +14,7 @@
     },
     "cardBanner": {
       "allItemsInCart": "All items in cart",
-      "someItemsInCart": "In cart",
+      "someItemsInCart": "in cart",
       "outOfStock": "Out of stock"
     }
   }

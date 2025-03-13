@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Anchor, Button, ThumbnailCarousel } from '$components';
-  import { cart } from '$state';
+  import { cart, config } from '$state';
   import { formatPrice } from '$lib/utils/currency-formating';
   import { getStockFromBucket } from '$service';
   import { onMount } from 'svelte';
@@ -21,10 +21,6 @@
   let inCartQuantity = $state(cart.getProductQuantity(data.product.id));
   let availableStock = $derived(bucketStock ? bucketStock - inCartQuantity : 0);
 
-  onMount(async () => {
-    bucketStock = (await getStockFromBucket(data.product.id)).data;
-  });
-
   const onAddToCartClick = async (): Promise<void> => {
     try {
       const updateProductQuantityPromise = cart.updateProductQuantity(data.product, selectedQuantity);
@@ -35,6 +31,13 @@
       inCartQuantity = cart.getProductQuantity(data.product.id);
     }
   };
+
+  onMount(async () => {
+    bucketStock = (await getStockFromBucket(data.product.id)).data;
+    config.afterInitialization(() => {
+      inCartQuantity = cart.getProductQuantity(data.product.id);
+    });
+  });
 </script>
 
 <svelte:head><title>{shop.products.headTitle}</title></svelte:head>
