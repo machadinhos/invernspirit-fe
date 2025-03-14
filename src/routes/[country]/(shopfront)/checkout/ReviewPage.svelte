@@ -26,15 +26,12 @@
     };
   };
 
-  const onclick = async (): Promise<void> => {
-    try {
-      loading.value = true;
+  const onclick = (): void => {
+    loading.withLoading(async () => {
       const { url } = await bffClient.checkout.stages.payment.get(page.params.country);
       if (!url) return;
       window.location.assign(url);
-    } finally {
-      loading.value = false;
-    }
+    });
   };
 
   onMount(async () => {

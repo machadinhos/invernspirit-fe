@@ -23,62 +23,60 @@
   let orderId: string | undefined = $state();
   let issue: 'ask-for-email' | 'ask-for-login' | 'wrong-user' | undefined = $state();
 
-  onMount(async () => {
-    loading.value = true;
-
-    orderId = page.url.searchParams.get('id') ?? undefined;
-    if (orderId === undefined) {
-      /* eslint-disable-next-line no-console */
-      console.error('No order id found');
-      goto(`/${page.params.country}`);
-      return;
-    }
-    const isAfterCheckout = page.url.searchParams.get('after-checkout') === 'true';
-    let retriesConfig: RetriesConfig;
-    if (isAfterCheckout) {
-      await config.afterInitialization(() => {
-        const url = page.url;
-        url.searchParams.delete('after-checkout');
-        goto(url, { replaceState: true });
-      });
-
-      retriesConfig = {
-        maxRetries: 3,
-        retryDelay: 1500,
-        shouldRetry: (response): boolean => response.status === 404,
-      };
-    }
-
-    try {
-      order = (
-        await config.afterInitialization(
-          async () =>
-            await bffClient.order.getById(page.params.country, orderId ?? '', {
-              retriesConfig,
-              shouldPushIssuesToToasts: false,
-            }),
-        )
-      ).order;
-    } catch (error) {
-      if (!(error instanceof ClientError)) {
-        order = null;
+  onMount(() => {
+    loading.withLoading(async () => {
+      orderId = page.url.searchParams.get('id') ?? undefined;
+      if (orderId === undefined) {
+        /* eslint-disable-next-line no-console */
+        console.error('No order id found');
+        goto(`/${page.params.country}`);
         return;
       }
-      if (error.statusCode === 401) {
-        if (user.value) {
-          issue = 'wrong-user';
-        } else {
-          issue = 'ask-for-login';
-        }
-      } else if (error.statusCode === 422) {
-        issue = 'ask-for-email';
-      } else {
-        order = null;
-        error.pushIssuesToToasts();
+      const isAfterCheckout = page.url.searchParams.get('after-checkout') === 'true';
+      let retriesConfig: RetriesConfig;
+      if (isAfterCheckout) {
+        await config.afterInitialization(() => {
+          const url = page.url;
+          url.searchParams.delete('after-checkout');
+          goto(url, { replaceState: true });
+        });
+
+        retriesConfig = {
+          maxRetries: 3,
+          retryDelay: 1500,
+          shouldRetry: (response): boolean => response.status === 404,
+        };
       }
-    } finally {
-      loading.value = false;
-    }
+
+      try {
+        order = (
+          await config.afterInitialization(
+            async () =>
+              await bffClient.order.getById(page.params.country, orderId ?? '', {
+                retriesConfig,
+                shouldPushIssuesToToasts: false,
+              }),
+          )
+        ).order;
+      } catch (error) {
+        if (!(error instanceof ClientError)) {
+          order = null;
+          return;
+        }
+        if (error.statusCode === 401) {
+          if (user.isLoggedIn) {
+            issue = 'wrong-user';
+          } else {
+            issue = 'ask-for-login';
+          }
+        } else if (error.statusCode === 422) {
+          issue = 'ask-for-email';
+        } else {
+          order = null;
+          error.pushIssuesToToasts();
+        }
+      }
+    });
   });
 </script>
 

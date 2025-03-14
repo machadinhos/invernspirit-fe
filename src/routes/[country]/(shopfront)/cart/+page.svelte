@@ -19,11 +19,9 @@
 
   let { data }: Props = $props();
 
-  loading.value = true;
-
   const onCheckout = (): void => {
     const goToCheckout = (): Promise<void> => goto(`/${page.params.country}/checkout`);
-    if (user.value) {
+    if (user.isLoggedIn) {
       goToCheckout();
     } else {
       modal.open(askForLoginModalSnippet, {
@@ -34,8 +32,8 @@
   };
 
   onMount(() => {
-    config.afterInitialization(async () => {
-      try {
+    config.afterInitialization(() => {
+      loading.withLoading(async () => {
         const newCart = await bffClient.cart.get(page.params.country);
         cartState.setCart(newCart);
         if (newCart.issues) {
@@ -43,11 +41,9 @@
             toasts.push(clientErrorToastSnippet, { extraParams: issue, type: 'error' });
           }
         }
-      } finally {
-        loading.value = false;
-      }
+      });
+      toasts.filterOutGroup('cart-update');
     });
-    toasts.filterOutGroup('cart-update');
   });
 </script>
 
