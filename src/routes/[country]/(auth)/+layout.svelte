@@ -14,7 +14,7 @@
   let selected = $derived(page.url.pathname.split('/')[2]);
 
   onMount(() => {
-    if (user.value) goto(`/${page.params.country}`);
+    if (user.isLoggedIn) goto(`/${page.params.country}`);
   });
 </script>
 

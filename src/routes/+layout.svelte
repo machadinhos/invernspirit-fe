@@ -21,7 +21,7 @@
   {/if}
 </svelte:head>
 
-{#if loading.value}
+{#if loading.isLoading}
   <LoadingScreen />
 {/if}
 

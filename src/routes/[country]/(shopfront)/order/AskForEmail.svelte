@@ -28,32 +28,31 @@
     }),
   };
 
-  const onFormSubmit = async (event: Event): Promise<void> => {
+  const onFormSubmit = (event: Event): void => {
     event.preventDefault();
     if (!validateFormFields(formFields)) return;
     const orderId = page.url.searchParams.get('id') ?? undefined;
 
     const email = mapFormFieldsToValues(formFields).email;
-    try {
-      loading.value = true;
 
-      order = (
-        await bffClient.order.getById(page.params.country, orderId ?? '', { headers: { 'x-user-email': email } })
-      ).order;
+    loading.withLoading(async () => {
+      try {
+        order = (
+          await bffClient.order.getById(page.params.country, orderId ?? '', { headers: { 'x-user-email': email } })
+        ).order;
 
-      issue = undefined;
-    } catch (error) {
-      if (!(error instanceof ClientError)) {
-        order = null;
-        return;
-      }
-      if (error.statusCode !== 401) {
-        order = null;
         issue = undefined;
+      } catch (error) {
+        if (!(error instanceof ClientError)) {
+          order = null;
+          return;
+        }
+        if (error.statusCode !== 401) {
+          order = null;
+          issue = undefined;
+        }
       }
-    } finally {
-      loading.value = false;
-    }
+    });
   };
 </script>
 

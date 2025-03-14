@@ -25,10 +25,9 @@
       products = [];
     }
 
-    bffClient.products
-      .getBySearch(page.params.country, search)
-      .then((value) => (products = value))
-      .catch(() => (loading.value = false));
+    loading.withLoading(async () => {
+      products = await bffClient.products.getBySearch(page.params.country, search);
+    });
   });
 </script>
 
