@@ -62,7 +62,7 @@
         {#if cartState.value.length > 0}
           {#each cartState.value as product (product.id)}
             <div class="flex w-full justify-center" animate:flip={{ duration: 150 }}>
-              <LineItemCard country={data.country} editable {product} />
+              <LineItemCard country={data.country} editable {product} pushToastOnQuantityUpdate={false} />
             </div>
           {/each}
         {:else}
