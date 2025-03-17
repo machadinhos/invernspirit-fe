@@ -168,6 +168,10 @@ export class Client<T, K = void> {
         issues,
       );
     }
+
+    if (shouldPushIssuesToToasts) {
+      pushIssuesToToasts(['Something went wrong. Hang tight while we fix it!']);
+    }
     throw new ClientError(
       `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${await response.text()}`,
       response.status,
