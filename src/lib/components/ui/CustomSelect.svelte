@@ -72,6 +72,8 @@
     }
   };
 
+  const isEnabled = (): boolean => isOpen;
+
   $effect(() => {
     if (isOpen) {
       focused = selected;
@@ -80,7 +82,7 @@
   });
 </script>
 
-<div class="relative" use:onClickOutside={{ callback: closeSelect }}>
+<div class="relative" use:onClickOutside={{ callback: closeSelect, isEnabled }}>
   <button
     bind:this={triggerElementRef}
     class="bg-background flex cursor-pointer items-center gap-1"

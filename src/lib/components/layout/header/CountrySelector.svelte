@@ -15,6 +15,7 @@
   const countriesCodes = countries.map((country) => country.code);
 
   let selectedCountry = $state(countriesCodes.indexOf(page.params.country.toUpperCase()));
+  let focused = $state(countriesCodes.indexOf(page.params.country.toUpperCase()));
   let isOpen = $state(false);
 
   $effect(() => {
@@ -29,7 +30,7 @@
   });
 </script>
 
-<CustomSelect options={countriesCodes} bind:selected={selectedCountry} bind:isOpen>
+<CustomSelect options={countriesCodes} bind:focused bind:selected={selectedCountry} bind:isOpen>
   {#snippet triggerElement()}
     <div class="flex w-14 items-center justify-center gap-1">
       <div class="flex items-center gap-1">
@@ -49,7 +50,7 @@
   {#snippet optionSnippet(text: string, index: number)}
     <div
       class="bg-background hover:bg-primary flex w-14 items-center justify-center gap-1"
-      class:bg-primary={index === selectedCountry}
+      class:bg-primary={index === focused}
     >
       <span>{text}</span>
       <img alt="{text} flag" height="3" src="/flags/{text.toLowerCase()}.svg" width="13" />

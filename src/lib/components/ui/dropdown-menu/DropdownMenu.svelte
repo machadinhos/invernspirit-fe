@@ -44,13 +44,17 @@
 
   let menuPositionStyle = $derived(getMenuPositionStyle());
 
-  $effect(() => {
-    if (!isOpen) onClose();
-  });
-
   const onClickOutsideCallback = (): void => {
     isOpen = false;
   };
+
+  const onClickOutsideIsEnabled = (): boolean => {
+    return closeOnOutsideClick && isOpen;
+  };
+
+  $effect(() => {
+    if (!isOpen) onClose();
+  });
 </script>
 
 <div bind:this={triggerElementRef} class="relative">
@@ -61,7 +65,7 @@
       class="bg-background z-20 shadow-2xl"
       use:onClickOutside={{
         callback: onClickOutsideCallback,
-        enabled: closeOnOutsideClick && isOpen,
+        isEnabled: onClickOutsideIsEnabled,
         otherIncludedElements: [triggerElementRef],
       }}
       transition:slide={{ duration: 800, easing: isOpen ? backOut : backIn }}
