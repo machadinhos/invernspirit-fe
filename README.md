@@ -19,29 +19,26 @@ bun install
 ### Set Up Environment Variables
 
 Refer to the [.env.example](.env.example) file.
+
 Create a `.env.local` file with the same variables.
-
-Additionally, create a `.dev.vars` file with the following variables:
-
-```.dotenv
-BE_HOST=
-BE_ID_KEY=
-BE_ID_VALUE=
-BE_SECRET_KEY=
-BE_SECRET_VALUE=
+```bash
+cp .env.example .env.local
 ```
 
-These variables align with the "Private Variables" section of the [.env.example](.env.example) file. They are required for configuring Cloudflare functions.
+Additionally, you'll need a `.dev.vars` file that only contains the private variables portion of the [.env.example](.env.example) file.
+```bash
+cp .env.example .dev.vars
+```
 
 ### Start the Development Server
 
 - Run the dev and local scripts from the package.json file:
-  - Use bun run dev to start the development server.
-  - If VITE_RUN_LOCAL_ON_START is not set to true in your `.env.local` file, run bun run local manually to start the BFF.
+  - Use `bun run dev` to start the development server.
+  - If the `VITE_RUN_LOCAL_ON_START` environment variable is not set to `true`, run `bun run local` manually to start the BFF.
 
 ### Connect to the Backend
 
-- Either run the [backend](https://github.com/manuelfesantos/invern-be) server locally or provide the backend's URL in the `.env.local` file using the BE_HOST variable.
+Provide the backend host followed by `/public/countries` to the `BE_HOST` environment variable. You can run the [backend](https://github.com/manuelfesantos/invern-be) server locally.
 
 ### Main Commands
 

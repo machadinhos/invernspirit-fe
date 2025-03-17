@@ -7,45 +7,106 @@
     optionSnippet: Snippet<[T, number]>;
     options: T[];
     selected: number;
+    focused: number;
     isOpen: boolean;
   };
 
-  let { triggerElement, optionSnippet, options, selected = $bindable(), isOpen = $bindable() }: Props = $props();
+  let {
+    triggerElement,
+    optionSnippet,
+    options,
+    selected = $bindable(),
+    focused = $bindable(),
+    isOpen = $bindable(),
+  }: Props = $props();
+  const id = $props.id();
+
+  let triggerElementRef: HTMLButtonElement;
 
   const toggleOpen = (): void => {
     isOpen = !isOpen;
   };
 
   const closeSelect = (): void => {
+    if (!isOpen) return;
     isOpen = false;
+    triggerElementRef.focus();
   };
 
   const getSelectOptionCallback = (index: number) => {
     return (): void => {
+      closeSelect();
       selected = index;
     };
   };
+
+  const focusOption = (index: number): void => {
+    focused = index;
+    document.getElementById(`${id}-option-${index}`)?.focus();
+  };
+
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    switch (event.key) {
+      case 'Escape':
+        closeSelect();
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        if (focused < options.length - 1) focusOption(focused + 1);
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        if (focused > 0) focusOption(focused - 1);
+        break;
+      case 'Tab':
+        closeSelect();
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        closeSelect();
+        selected = focused;
+        break;
+      default:
+        break;
+    }
+  };
+
+  $effect(() => {
+    if (isOpen) {
+      focused = selected;
+      document.getElementById(`${id}-option-${selected}`)?.focus();
+    }
+  });
 </script>
 
-<div class="relative">
+<div class="relative" use:onClickOutside={{ callback: closeSelect }}>
   <button
+    bind:this={triggerElementRef}
     class="bg-background flex cursor-pointer items-center gap-1"
     class:open={isOpen}
+    aria-controls={`${id}-listbox`}
+    aria-expanded={isOpen}
+    aria-haspopup="listbox"
     onclick={toggleOpen}
     type="button"
   >
     {@render triggerElement()}
   </button>
   {#if isOpen}
-    <div
-      class="absolute top-full flex flex-col rounded-xs"
-      use:onClickOutside={{ callback: closeSelect, enabled: isOpen, ignoreFirstClick: true }}
-    >
+    <ul id={`${id}-listbox`} class="absolute top-full flex cursor-pointer flex-col" role="listbox" tabindex="-1">
       {#each options as option, index (index)}
-        <button onclick={getSelectOptionCallback(index)} type="button">
+        <li
+          id={`${id}-option-${index}`}
+          aria-selected={selected === index}
+          onclick={getSelectOptionCallback(index)}
+          onkeydown={handleKeyDown}
+          role="option"
+          tabIndex={index === focused ? 0 : -1}
+        >
           {@render optionSnippet(option, index)}
-        </button>
+        </li>
       {/each}
-    </div>
+    </ul>
   {/if}
 </div>
