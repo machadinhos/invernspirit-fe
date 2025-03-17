@@ -26,7 +26,7 @@
   const onAddToCartClick = async (): Promise<void> => {
     if (bucketStock === undefined || inCartQuantity === undefined || availableStock < selectedQuantity) return;
     try {
-      const updateProductQuantityPromise = cart.updateProductQuantity(data.product, selectedQuantity);
+      const updateProductQuantityPromise = cart.patchProductQuantity(data.product, selectedQuantity);
       inCartQuantity += selectedQuantity;
       selectedQuantity = 1;
       await updateProductQuantityPromise;

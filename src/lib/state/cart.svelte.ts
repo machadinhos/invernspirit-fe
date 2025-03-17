@@ -17,11 +17,28 @@ class Cart {
     this.isCheckoutPossible = isCheckoutPossible ?? true;
   };
 
-  updateProductQuantity = async (product: Product, quantityDifference: number): Promise<void> => {
+  updateProductQuantity = async (
+    product: Product,
+    newQuantity: number,
+    pushToastOnQuantityUpdate = true,
+  ): Promise<void> => {
     await this.beCallQueue.enqueue(async () => {
-      const cart = await bffClient.cart.updateItem(page.params.country, product.id, quantityDifference);
+      const cart = await bffClient.cart.updateItemQuantity(page.params.country, product.id, newQuantity);
       this.setCart(cart);
-      if (page.url.pathname.endsWith('/cart')) return;
+      if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
+      toasts.push(itemAddedToCartToastSnippet, { group: 'cart-update', singleton: true });
+    });
+  };
+
+  patchProductQuantity = async (
+    product: Product,
+    quantityDifference: number,
+    pushToastOnQuantityUpdate = true,
+  ): Promise<void> => {
+    await this.beCallQueue.enqueue(async () => {
+      const cart = await bffClient.cart.patchItemQuantity(page.params.country, product.id, quantityDifference);
+      this.setCart(cart);
+      if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
       toasts.push(itemAddedToCartToastSnippet, { group: 'cart-update', singleton: true });
     });
   };

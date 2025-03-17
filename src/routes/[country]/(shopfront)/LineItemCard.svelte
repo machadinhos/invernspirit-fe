@@ -8,24 +8,31 @@
   import { page } from '$app/state';
   import ProductQuantitySelector from './ProductQuantitySelector.svelte';
 
-  type Props = {
+  type EditableProps =
+    | {
+        editable: true;
+        pushToastOnQuantityUpdate?: boolean;
+      }
+    | {
+        editable?: false;
+        pushToastOnQuantityUpdate?: never;
+      };
+
+  type Props = EditableProps & {
     product: LineItem;
     country: { locale: string; currency: { code: string } };
-    editable?: boolean;
   };
 
-  let { product, country, editable = false }: Props = $props();
+  let { product, country, editable = false, ...rest }: Props = $props();
+  const pushToastOnQuantityUpdate =
+    'pushToastOnQuantityUpdate' in rest ? (rest.pushToastOnQuantityUpdate ?? true) : true;
 
   let selectedQuantity = $state(product.quantity);
-  let oldQuantity = product.quantity;
 
   $effect(() => {
-    if (product.quantity === selectedQuantity || oldQuantity === selectedQuantity) return;
-    const quantityDifference = selectedQuantity - oldQuantity;
-    oldQuantity = selectedQuantity;
-    cartState.updateProductQuantity(product, quantityDifference).catch(() => {
+    if (product.quantity === selectedQuantity) return;
+    cartState.updateProductQuantity(product, selectedQuantity, pushToastOnQuantityUpdate).catch(() => {
       selectedQuantity = cartState.getProductQuantity(product.id);
-      oldQuantity = selectedQuantity;
     });
   });
 

@@ -23,7 +23,7 @@
   const onAddToCartClick = async (): Promise<void> => {
     if (inCartQuantity === undefined) return;
     try {
-      const updateProductQuantityPromise = cart.updateProductQuantity(product, 1);
+      const updateProductQuantityPromise = cart.patchProductQuantity(product, 1);
       inCartQuantity += 1;
       await updateProductQuantityPromise;
     } catch {

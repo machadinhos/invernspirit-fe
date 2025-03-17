@@ -18,13 +18,24 @@ type UpdateCartItemBody = {
   quantity: number;
 };
 
-export const prepareUpdateCartItem: Endpoint<Cart, [string, number]> = (context) => {
+export const prepareUpdateCartItemQuantity: Endpoint<Cart, [string, number]> = (context) => {
   return (countryCode, productId, productQuantity) => {
     return Client.create<Cart, UpdateCartItemBody>()
       .withHostContext(context)
       .withEndpoint(`/${countryCode}/${PATH}/items/${productId}`)
       .withMethod('PUT')
       .withBody({ quantity: productQuantity })
+      .call();
+  };
+};
+
+export const preparePatchCartItemQuantity: Endpoint<Cart, [string, number]> = (context) => {
+  return (countryCode, productId, productQuantityDifference) => {
+    return Client.create<Cart, UpdateCartItemBody>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/items/${productId}`)
+      .withMethod('PATCH')
+      .withBody({ quantity: productQuantityDifference })
       .call();
   };
 };
