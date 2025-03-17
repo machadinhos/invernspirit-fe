@@ -29,11 +29,11 @@ type RequestContext<T = void> = {
 } & RequestBaseContext;
 
 export class Client<T, K = void> {
-  private readonly context: RequestContext<K>;
+  protected readonly context: RequestContext<K>;
   private _url: string | null = null;
   private _headers: Record<string, string> | null = null;
 
-  private constructor(context: RequestBaseContext) {
+  protected constructor(context: RequestBaseContext) {
     this.context = context;
   }
 
@@ -64,8 +64,15 @@ export class Client<T, K = void> {
     context: RequestHostContext,
     endpoint: RequestBaseContext['endpoint'],
   ) => {
-    return (method: RequestBaseContext['method']): Client<T, K> => {
-      return new Client<T, K>({ ...context, endpoint, method });
+    return <Method extends RequestBaseContext['method']>(
+      method: Method,
+    ): Method extends 'GET' ? Client<T, K> : ClientWithBody<T, K> => {
+      if (method === 'GET') {
+        return new Client<T, K>({ ...context, endpoint, method }) as Method extends 'GET'
+          ? Client<T, K>
+          : ClientWithBody<T, K>;
+      }
+      return new ClientWithBody<T, K>({ ...context, endpoint, method });
     };
   };
 
@@ -95,11 +102,6 @@ export class Client<T, K = void> {
 
     return this._headers;
   }
-
-  withBody = (body: K): this => {
-    this.context.body = body;
-    return this;
-  };
 
   withHeaders = (headers: RequestContext['headers']): this => {
     this.context.headers = { ...this.context.headers, ...headers };
@@ -176,6 +178,13 @@ export class Client<T, K = void> {
       `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${await response.text()}`,
       response.status,
     );
+  };
+}
+
+class ClientWithBody<T, K> extends Client<T, K> {
+  withBody = (body: K): this => {
+    this.context.body = body;
+    return this;
   };
 }
 
