@@ -1,3 +1,4 @@
+export { default as Accordion } from './Accordion.svelte';
 export { default as Anchor } from './Anchor.svelte';
 export { default as BreadCrumbs } from './BreadCrumbs.svelte';
 export { default as Button } from './Button.svelte';
