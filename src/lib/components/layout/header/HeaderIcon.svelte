@@ -3,11 +3,22 @@
   import type { HTMLButtonAttributes } from 'svelte/elements';
   import { ShrinkOnClickWrapper } from '$components';
 
-  type Props = {
+  type ElementType =
+    | {
+        type: 'div';
+      }
+    | {
+        type: 'button';
+        onclick?: HTMLButtonElement['onclick'];
+      }
+    | {
+        type: 'anchor';
+        href: HTMLAnchorElement['href'];
+      };
+
+  type Props = ElementType & {
     src: IconType;
-    type?: 'button' | 'div';
-    onclick?: () => void;
-    ref?: HTMLButtonElement;
+    ref?: HTMLButtonElement | HTMLAnchorElement | HTMLDivElement;
     badge?: string;
     'aria-label': HTMLButtonAttributes['aria-label'] | null;
     size?: number;
@@ -15,13 +26,15 @@
 
   let {
     src,
-    onclick = (): void => undefined,
-    type = 'button',
+    type = 'div',
     ref = $bindable(),
     badge,
     'aria-label': ariaLabel,
     size = 20,
+    ...restProps
   }: Props = $props();
+  const onclick = 'onclick' in restProps ? restProps.onclick : undefined;
+  const href = 'href' in restProps ? restProps.href : '';
 </script>
 
 {#snippet innerElements()}
@@ -48,8 +61,17 @@
     >
       {@render innerElements()}
     </button>
+  {:else if type === 'anchor'}
+    <a
+      bind:this={ref}
+      class="outer-element relative flex h-9 w-9 cursor-pointer items-center justify-center"
+      aria-label={ariaLabel}
+      {href}
+    >
+      {@render innerElements()}
+    </a>
   {:else}
-    <div class="outer-element relative flex h-9 w-9 cursor-pointer items-center justify-center">
+    <div bind:this={ref} class="outer-element relative flex h-9 w-9 cursor-pointer items-center justify-center">
       {@render innerElements()}
     </div>
   {/if}
@@ -59,6 +81,7 @@
   .outer-element > div {
     transition: all 300ms ease-in-out;
   }
+
   @media (hover: hover) and (pointer: fine) {
     .outer-element:hover > div {
       transform: scale(1.75);

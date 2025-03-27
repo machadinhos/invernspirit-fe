@@ -20,7 +20,7 @@
     isOpen = false;
     user.value = undefined;
     cart.setCart(newCart);
-    goto(`/${page.params.country}`);
+    goto(`/${page.params.country}`, {});
   };
 
   const closeDropdown = (): void => {
@@ -31,46 +31,41 @@
 <div>
   <DropdownMenu class="p-5" position="right" bind:isOpen>
     {#snippet triggerElement()}
-      <HeaderIcon
-        aria-label={common.header.rightSection.areaLabels.user}
-        onclick={handleUserButtonClick}
-        src={FaSolidUser}
-      />
+      {#if !user.value}
+        <HeaderIcon
+          aria-label={common.header.rightSection.areaLabels.user}
+          href="/{page.params.country}/sign-in"
+          src={FaSolidUser}
+          type="anchor"
+        />
+      {:else}
+        <HeaderIcon
+          aria-label={common.header.rightSection.areaLabels.user}
+          onclick={handleUserButtonClick}
+          src={FaSolidUser}
+          type="button"
+        />
+      {/if}
     {/snippet}
-    {#if !user.value}
-      <div class="flex flex-col gap-4 text-nowrap">
-        <DropdownMenuItem>
-          <a class="hover:text-primary" href="/{page.params.country}/sign-in" onclick={closeDropdown}
-            >{auth.signIn.title}</a
+    <div class="text-nowrap">
+      <DropdownMenuItem>
+        <p class="text-2xl">{user.value?.firstName} {user.value?.lastName}</p>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <p>{user.value?.email}</p>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Anchor href="/{page.params.country}/profile" onclick={closeDropdown}
+          >{common.header.rightSection.profile}</Anchor
+        >
+      </DropdownMenuItem>
+      <DropdownMenuItem class="mt-2 w-full">
+        <div class="flex w-full justify-end">
+          <Button class="flex gap-1.5" onclick={handleSignOut}
+            ><Icon src={FaSolidArrowRightFromBracket} />{auth.signOut}</Button
           >
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <a class="hover:text-primary" href="/{page.params.country}/sign-up" onclick={closeDropdown}
-            >{auth.signUp.title}</a
-          >
-        </DropdownMenuItem>
-      </div>
-    {:else}
-      <div class="text-nowrap">
-        <DropdownMenuItem>
-          <p class="text-2xl">{user.value.firstName} {user.value.lastName}</p>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <p>{user.value.email}</p>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Anchor href="/{page.params.country}/profile" onclick={closeDropdown}
-            >{common.header.rightSection.profile}</Anchor
-          >
-        </DropdownMenuItem>
-        <DropdownMenuItem class="mt-2 w-full">
-          <div class="flex w-full justify-end">
-            <Button class="flex gap-1.5" onclick={handleSignOut}
-              ><Icon src={FaSolidArrowRightFromBracket} />{auth.signOut}</Button
-            >
-          </div>
-        </DropdownMenuItem>
-      </div>
-    {/if}
+        </div>
+      </DropdownMenuItem>
+    </div>
   </DropdownMenu>
 </div>

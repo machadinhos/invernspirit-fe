@@ -47,6 +47,7 @@
         aria-label={common.header.leftSection.areaLabels.newsletter}
         onclick={handleIconClick}
         src={FaNewspaper}
+        type="button"
       />
     {/snippet}
     <form class="m-5" onsubmit={subscribeToNewsletter}>

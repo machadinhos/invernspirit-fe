@@ -20,7 +20,11 @@
     <CountrySelector {countries} />
   </div>
   <UserButton />
-  <a class="h-fit w-fit" aria-label={common.header.rightSection.areaLabels.cart} href="/{page.params.country}/cart">
-    <HeaderIcon aria-label="cart" badge={cart.size > 0 ? `${cart.size}` : ''} src={BiSolidCart} type="div" />
-  </a>
+  <HeaderIcon
+    aria-label={common.header.rightSection.areaLabels.cart}
+    badge={cart.size > 0 ? `${cart.size}` : ''}
+    href="/{page.params.country}/cart"
+    src={BiSolidCart}
+    type="anchor"
+  />
 </div>
