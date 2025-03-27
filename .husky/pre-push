@@ -8,5 +8,6 @@ if [ "$branch" = "main" ] || [ "$branch" = "preview" ]; then
   exit 1
 fi
 
-bun run check
-bun run build
+bun run check &
+bun run build &
+wait

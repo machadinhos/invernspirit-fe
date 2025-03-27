@@ -66,7 +66,7 @@
     </p>
     <div class="my-4 flex gap-3">
       <ProductQuantitySelector disabled={bucketStock === undefined} stock={availableStock} bind:selectedQuantity />
-      <p>{shop.products.id.available}: {bucketStock}</p>
+      <p>{shop.products.id.stock}: {bucketStock}</p>
       <ProductStatusBanner {bucketStock} {inCartQuantity} />
     </div>
     <Button

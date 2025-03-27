@@ -10,7 +10,7 @@
     "id": {
       "belongsToCollectionStart": "This product belongs to the ",
       "belongsToCollectionEnd": " collection.",
-      "available": "Available"
+      "stock": "Stock"
     },
     "cardBanner": {
       "allItemsInCart": "All items in cart",

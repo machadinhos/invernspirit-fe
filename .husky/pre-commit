@@ -14,7 +14,6 @@ if [ -z "$files" ]; then
   exit 0
 fi
 
-echo "$files" | xargs bun run format
-echo "$files" | xargs bun run lint
+echo "$files" | xargs -I {} -P 5 sh -c 'bun run lint "{}" & bun run format "{}" & wait'
 
 echo "$files" | xargs git add

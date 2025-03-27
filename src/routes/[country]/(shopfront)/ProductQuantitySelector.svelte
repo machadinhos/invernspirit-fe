@@ -12,6 +12,9 @@
 
   let canIncrementSelectedQuantity = $derived(!disabled && selectedQuantity < stock);
   let canDecrementSelectedQuantity = $derived(!disabled && selectedQuantity > (allowZero ? 0 : 1));
+  let quantityInputValue = $state(selectedQuantity);
+
+  let inputElementRef: HTMLInputElement;
 
   const incrementSelectedQuantity = (): void => {
     selectedQuantity++;
@@ -20,6 +23,19 @@
   const decrementSelectedQuantity = (): void => {
     selectedQuantity--;
   };
+
+  const onblur = (): void => {
+    const currentValue = inputElementRef.value;
+    const sanitized = currentValue.replace(/\D/g, '');
+
+    selectedQuantity = Math.max(Math.min(Number(sanitized), stock), 1);
+    inputElementRef.value = String(selectedQuantity);
+  };
+
+  $effect(() => {
+    quantityInputValue = selectedQuantity;
+    inputElementRef.value = String(selectedQuantity);
+  });
 </script>
 
 {#snippet quantityButton(type: 'increment' | 'decrement')}
@@ -33,8 +49,25 @@
 
 <div class="flex">
   {@render quantityButton('decrement')}
-  <div class="flex h-full w-4 items-center justify-center">
-    <span>{selectedQuantity}</span>
+  <div class="flex h-full w-7 items-center justify-center">
+    <input
+      bind:this={inputElementRef}
+      class="w-7 text-center focus:outline-hidden"
+      disabled={disabled || (!canDecrementSelectedQuantity && !canIncrementSelectedQuantity)}
+      max={stock}
+      min={allowZero ? 0 : 1}
+      {onblur}
+      type="number"
+      bind:value={quantityInputValue}
+    />
   </div>
   {@render quantityButton('increment')}
 </div>
+
+<style>
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
