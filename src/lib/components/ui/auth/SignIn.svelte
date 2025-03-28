@@ -78,7 +78,7 @@
 
   <div class="flex justify-between">
     <CheckBox label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
-    <Anchor href={forgotPasswordUrl}>{auth.signIn.forgotPassword}</Anchor>
+    <Anchor class="text-right" href={forgotPasswordUrl}>{auth.signIn.forgotPassword}</Anchor>
   </div>
 
   <Button class="mt-5 w-full" type="submit">{auth.signIn.submitButton}</Button>
