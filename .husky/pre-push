@@ -9,5 +9,14 @@ if [ "$branch" = "main" ] || [ "$branch" = "preview" ]; then
 fi
 
 bun run check &
+check_pid=$!
 bun run build &
-wait
+build_pid=$!
+
+wait $check_pid || exit_status=$?
+wait $build_pid || exit_status=$?
+
+if [ -n "$exit_status" ]; then
+  exit 1
+fi
+

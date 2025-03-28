@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, CheckBox, TextInput } from '$components';
+  import { Anchor, Button, CheckBox, TextInput } from '$components';
   import { cart, user } from '$state';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { validateEmail, validatePassword } from '$lib/utils/input-validation';
@@ -54,15 +54,15 @@
     actionAfterAuthentication();
   };
 
-  const onForgotPasswordClick = (): void => {
-    if (formFields.email.value !== '' && formFields.email.validate(formFields.email.value)) {
-      // TODO
-      alert('todo email filled');
-      return;
-    }
-    // TODO
-    alert('todo email not filled');
-  };
+  let forgotPasswordUrl = $derived(
+    ((): string => {
+      const forgotPasswordUrl = `/${page.params.country}/forgot-password`;
+      if (formFields.email.value !== '' && formFields.email.validate(formFields.email.value)) {
+        return `${forgotPasswordUrl}?autofill-email=${encodeURIComponent(formFields.email.value)}`;
+      }
+      return forgotPasswordUrl;
+    })(),
+  );
 </script>
 
 <form class="w-full gap-6 pt-10" onsubmit={submitSignIn}>
@@ -78,9 +78,7 @@
 
   <div class="flex justify-between">
     <CheckBox label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
-    <button class="text-primary underline" onclick={onForgotPasswordClick} type="button"
-      >{auth.signIn.forgotPassword}</button
-    >
+    <Anchor href={forgotPasswordUrl}>{auth.signIn.forgotPassword}</Anchor>
   </div>
 
   <Button class="mt-5 w-full" type="submit">{auth.signIn.submitButton}</Button>

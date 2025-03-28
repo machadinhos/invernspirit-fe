@@ -1,6 +1,12 @@
 #!/bin/bash
 set -eo pipefail
 
+lint_and_format() {
+  local file="$1"
+  bun run format "$file"
+  bun run lint "$file"
+}
+
 branch=$(git symbolic-ref --short HEAD)
 if [ "$branch" = "main" ] || [ "$branch" = "preview" ]; then
   echo "ERROR: Direct commits to $branch branch are not allowed."
@@ -9,11 +15,18 @@ if [ "$branch" = "main" ] || [ "$branch" = "preview" ]; then
 fi
 
 files=$(git diff --name-only --cached --diff-filter=d | grep -E '\.(ts|js|svelte)$' || true)
-
 if [ -z "$files" ]; then
   exit 0
 fi
 
-echo "$files" | xargs -I {} -P 5 sh -c 'bun run lint "{}" & bun run format "{}" & wait'
+export -f lint_and_format
+
+echo "$files" | xargs -I {} -P 5 bash -c 'lint_and_format "{}"'
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo "Linting failed. Please fix the linting errors before committing."
+  exit 1
+fi
 
 echo "$files" | xargs git add
