@@ -1,5 +1,8 @@
 import {
   prepareDeleteLoggedInUser,
+  prepareForgotPasswordResetPassword,
+  prepareForgotPasswordSubmitEmail,
+  prepareForgotPasswordValidateCode,
   prepareGetLoggedInUser,
   prepareLogin,
   prepareLogout,
@@ -77,5 +80,10 @@ export const bffClient = {
     signUp: prepareSignUp(context),
     login: prepareLogin(context),
     logout: prepareLogout(context),
+    forgotPassword: {
+      submitEmail: prepareForgotPasswordSubmitEmail(context),
+      validCode: prepareForgotPasswordValidateCode(context),
+      resetPassword: prepareForgotPasswordResetPassword(context),
+    },
   },
 };

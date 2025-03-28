@@ -76,3 +76,36 @@ export const prepareLogout: Endpoint<LogoutResponse> = (context) => {
       .call();
   };
 };
+
+export const prepareForgotPasswordSubmitEmail: Endpoint<void, [string]> = (context) => {
+  return (countryCode, email) => {
+    return Client.create<never, { email: string }>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/forgot-password/submit-email`)
+      .withMethod('POST')
+      .withBody({ email })
+      .call();
+  };
+};
+
+export const prepareForgotPasswordValidateCode: Endpoint<void, [string, string]> = (context) => {
+  return (countryCode, email, code) => {
+    return Client.create<never, { email: string; code: string }>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/forgot-password/validate-code`)
+      .withMethod('POST')
+      .withBody({ email, code })
+      .call();
+  };
+};
+
+export const prepareForgotPasswordResetPassword: Endpoint<void, [string, string, string]> = (context) => {
+  return (countryCode, email, code, newPassword) => {
+    return Client.create<never, { email: string; code: string; password: string }>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/forgot-password/reset`)
+      .withMethod('POST')
+      .withBody({ email, code, password: newPassword })
+      .call();
+  };
+};

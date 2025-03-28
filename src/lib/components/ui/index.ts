@@ -14,3 +14,4 @@ export { default as ThumbnailCarousel } from './carousel/ThumbnailCarousel.svelt
 export { default as ShrinkOnClickWrapper } from './ShrinkOnClickWrapper.svelte';
 export { default as LoadingScreen } from './loading/LoadingScreen.svelte';
 export { default as PulsatingLogo } from './loading/PulsatingLogo.svelte';
+export { default as VerificationCodeInput } from './VerificationCodeInput.svelte';
