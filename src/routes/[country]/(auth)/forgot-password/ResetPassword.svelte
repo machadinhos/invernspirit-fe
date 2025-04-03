@@ -12,9 +12,10 @@
   type Props = {
     email: string;
     code: string;
+    pageState: 'ask-email' | 'ask-code' | 'set-password' | 'success' | undefined;
   };
 
-  let { email, code }: Props = $props();
+  let { email, code, pageState = $bindable() }: Props = $props();
 
   let validated: boolean | undefined = $state();
 
@@ -50,7 +51,7 @@
     const newPassword = mapFormFieldsToValues(formFields).newPassword;
     await bffClient.user.forgotPassword.resetPassword(page.params.country, email, code, newPassword);
 
-    goto(`/${page.params.country}`);
+    pageState = 'success';
   };
 
   onMount(async () => {

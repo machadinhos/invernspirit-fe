@@ -4,10 +4,11 @@
   import { auth } from '$content';
   import { page } from '$app/state';
   import ResetPassword from './ResetPassword.svelte';
+  import Success from './Success.svelte';
 
   let email: string | undefined = $state();
   let code: string | undefined = $state();
-  let pageState: 'ask-email' | 'ask-code' | 'set-password' | undefined = $state();
+  let pageState: 'ask-email' | 'ask-code' | 'set-password' | 'success' | undefined = $state();
 
   $effect(() => {
     email = page.url.searchParams.get('email') ?? undefined;
@@ -30,7 +31,9 @@
         {:else if pageState === 'ask-code' && email}
           <AskCode {email} />
         {:else if pageState === 'set-password' && email && code}
-          <ResetPassword {code} {email} />
+          <ResetPassword {code} {email} bind:pageState />
+        {:else if pageState === 'success'}
+          <Success />
         {/if}
       </div>
     </div>
