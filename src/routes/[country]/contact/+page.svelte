@@ -76,7 +76,7 @@
             </TextInput>
           </div>
         {/each}
-        <Button class="mt-5 w-full" type="submit">{contactUs.submitButton}</Button>
+        <Button class="mt-5" fullWidth type="submit">{contactUs.submitButton}</Button>
       </form>
     </div>
   </div>

@@ -81,7 +81,7 @@
     <Anchor class="text-right" href={forgotPasswordUrl}>{auth.signIn.forgotPassword}</Anchor>
   </div>
 
-  <Button class="mt-5 w-full" type="submit">{auth.signIn.submitButton}</Button>
+  <Button class="mt-5" fullWidth type="submit">{auth.signIn.submitButton}</Button>
 </form>
 
 <OAuthSection />

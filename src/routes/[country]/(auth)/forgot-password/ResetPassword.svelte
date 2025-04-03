@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { Button, TextInput } from '$components';
+  import { Anchor, Button, TextInput } from '$components';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { auth } from '$content';
   import { bffClient } from '$service';
   import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
   import { page } from '$app/state';
   import PasswordChecks from '$lib/components/ui/auth/PasswordChecks.svelte';
   import { validatePassword } from '$lib/utils/input-validation';
@@ -14,6 +15,8 @@
   };
 
   let { email, code }: Props = $props();
+
+  let validated: boolean | undefined = $state();
 
   const formFields = {
     newPassword: new FormField({
@@ -49,20 +52,44 @@
 
     goto(`/${page.params.country}`);
   };
+
+  onMount(async () => {
+    if (page.url.searchParams.get('validate-code') === 'true') {
+      page.url.searchParams.delete('validate-code');
+      goto(page.url);
+      try {
+        await bffClient.user.forgotPassword.validCode(page.params.country, email, code);
+        validated = true;
+      } catch {
+        validated = false;
+      }
+    } else {
+      validated = true;
+    }
+  });
 </script>
 
-<form class="w-full" {onsubmit}>
-  <h1 class="mb-2.5 text-center text-3xl">{auth.forgotPassword.resetPasswordPage.title}</h1>
-  <TextInput field={formFields.newPassword}>
-    {#snippet label()}
-      {formFields.newPassword.label}
-    {/snippet}
-  </TextInput>
-  <PasswordChecks password={formFields.newPassword.value} />
-  <TextInput field={formFields.confirmPassword}>
-    {#snippet label()}
-      {formFields.confirmPassword.label}
-    {/snippet}
-  </TextInput>
-  <Button class="mt-2.5 w-full" type="submit">{auth.forgotPassword.resetPasswordPage.submitButton}</Button>
-</form>
+{#if validated === true}
+  <form class="w-full" {onsubmit}>
+    <h1 class="mb-2.5 text-center text-3xl">{auth.forgotPassword.resetPasswordPage.title}</h1>
+    <TextInput field={formFields.newPassword}>
+      {#snippet label()}
+        {formFields.newPassword.label}
+      {/snippet}
+    </TextInput>
+    <PasswordChecks password={formFields.newPassword.value} />
+    <TextInput field={formFields.confirmPassword}>
+      {#snippet label()}
+        {formFields.confirmPassword.label}
+      {/snippet}
+    </TextInput>
+    <Button class="mt-2.5" fullWidth type="submit">{auth.forgotPassword.resetPasswordPage.submitButton}</Button>
+  </form>
+{:else if validated === false}
+  <div class="text-center">
+    <p>{auth.forgotPassword.resetPasswordPage.invalidCode}</p>
+    <Anchor href="/{page.params.country}/forgot-password?autofill-email={email}"
+      >{auth.forgotPassword.resetPasswordPage.tryAgain}</Anchor
+    >
+  </div>
+{/if}

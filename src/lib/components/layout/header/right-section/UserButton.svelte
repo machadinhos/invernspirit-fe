@@ -55,7 +55,7 @@
         <p>{user.value?.email}</p>
       </DropdownMenuItem>
       <DropdownMenuItem>
-        <Anchor href="/{page.params.country}/profile" onclick={closeDropdown}
+        <Anchor href="/{page.params.country}/profile/user-details" onclick={closeDropdown}
           >{common.header.rightSection.profile}</Anchor
         >
       </DropdownMenuItem>

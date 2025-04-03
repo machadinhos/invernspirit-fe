@@ -21,9 +21,10 @@
   type Props = EditableProps & {
     product: LineItem;
     country: { locale: string; currency: { code: string } };
+    background?: boolean;
   };
 
-  let { product, country, editable = false, ...rest }: Props = $props();
+  let { product, country, editable = false, background = true, ...rest }: Props = $props();
   const pushToastOnQuantityUpdate =
     'pushToastOnQuantityUpdate' in rest ? (rest.pushToastOnQuantityUpdate ?? true) : true;
 
@@ -41,7 +42,7 @@
   };
 </script>
 
-<div class="bg-background flex w-full flex-col gap-1.5 overflow-x-hidden p-3 shadow-2xl">
+<div class="flex w-full flex-col gap-1.5 overflow-x-hidden p-3 {background ? 'bg-background shadow-2xl' : ''}">
   <div class="relative flex w-full items-center justify-between">
     <div class="flex gap-4">
       <div class="h-[100px] w-[100px]">
@@ -50,8 +51,8 @@
         </a>
       </div>
       <div>
-        <h3 class="truncate text-3xl">{product.name}</h3>
-        <h4 class="price text-2xl">
+        <h3 class="truncate text-2xl md:text-3xl">{product.name}</h3>
+        <h4 class="price text-xl md:text-2xl">
           {formatPrice(country.locale, country.currency.code, product.grossPrice)}
         </h4>
       </div>

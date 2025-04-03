@@ -48,5 +48,5 @@
       {formFields.email.label}
     {/snippet}
   </TextInput>
-  <Button class="mt-2.5 w-full" type="submit">{auth.forgotPassword.emailPage.submitButton}</Button>
+  <Button class="mt-2.5" fullWidth type="submit">{auth.forgotPassword.emailPage.submitButton}</Button>
 </form>

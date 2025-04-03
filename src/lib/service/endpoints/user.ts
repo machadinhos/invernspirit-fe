@@ -1,4 +1,4 @@
-import type { Cart, LogInUser, SignUpUser, User } from '$types';
+import type { Cart, LogInUser, SignUpUser, User, UserDetails } from '$types';
 import { Client } from '../client';
 import type { Endpoint } from './endpoint';
 
@@ -24,9 +24,9 @@ export const prepareDeleteLoggedInUser: Endpoint<void> = (context) => {
   };
 };
 
-export const prepareUpdateLoggedInUser: Endpoint<User, [Partial<SignUpUser>]> = (context) => {
+export const prepareUpdateLoggedInUser: Endpoint<UserDetails, [Partial<UserDetails>]> = (context) => {
   return (countryCode, updatedUser) => {
-    return Client.create<User, Partial<SignUpUser>>()
+    return Client.create<UserDetails, Partial<UserDetails>>()
       .withHostContext(context)
       .withEndpoint(`/${countryCode}/${PATH}`)
       .withMethod('PUT')
