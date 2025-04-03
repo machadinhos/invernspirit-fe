@@ -29,3 +29,17 @@ export const prepareGetOrderById: Endpoint<OrderResponse, [string, OrderConfig] 
       .call(shouldPushIssuesToToasts);
   };
 };
+
+type OrdersResponse = {
+  orders: Order[];
+};
+
+export const prepareGetAllOrders: Endpoint<OrdersResponse> = (context) => {
+  return (countryCode) => {
+    return Client.create<OrdersResponse>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}`)
+      .withMethod('GET')
+      .call();
+  };
+};

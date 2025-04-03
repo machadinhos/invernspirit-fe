@@ -20,6 +20,7 @@ import {
   prepareSetPersonalDetails,
   prepareSetShippingMethod,
 } from './endpoints/checkout';
+import { prepareGetAllOrders, prepareGetOrderById } from './endpoints/orders';
 import {
   prepareGetCart,
   preparePatchCartItemQuantity,
@@ -27,7 +28,6 @@ import {
   prepareUpdateCartItemQuantity,
 } from './endpoints/cart';
 import { prepareConfig } from '$lib/service/endpoints/config';
-import { prepareGetOrderById } from './endpoints/orders';
 import { prepareGetProductsBySearch } from '$lib/service/endpoints/products';
 import { prepareOauthGoogle } from '$lib/service/endpoints/oauth';
 import { PUBLIC_BFF_HOST } from '$env/static/public';
@@ -68,7 +68,10 @@ export const bffClient = {
     patchItemQuantity: preparePatchCartItemQuantity(context),
     removeItem: prepareRemoveCartItem(context),
   },
-  order: { getById: prepareGetOrderById(context) },
+  order: {
+    getById: prepareGetOrderById(context),
+    getAll: prepareGetAllOrders(context),
+  },
   products: { getBySearch: prepareGetProductsBySearch(context) },
   user: {
     oauth: {

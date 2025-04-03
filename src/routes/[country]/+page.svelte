@@ -19,7 +19,7 @@
 <div class="hidden">
   <a href="/{page.params.country}/sign-in">sign-in</a>
   <a href="/{page.params.country}/sign-up">sign-up</a>
-  <a href="/{page.params.country}/profile">profile</a>
+  <a href="/{page.params.country}/profile/user-details">profile</a>
   <a href="/{page.params.country}/checkout">checkout</a>
   <a href="/{page.params.country}/order">order</a>
   <a href="/{page.params.country}/shop/search">search</a>

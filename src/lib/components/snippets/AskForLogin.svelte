@@ -64,7 +64,8 @@
 </script>
 
 {#snippet setStateButton(name: string, action: () => void, reverseColor: boolean = false)}
-  <Button class="w-full font-bold" onclick={action} reverseColors={reverseColor} shrinkOnClick={false}>{name}</Button>
+  <Button class="font-bold" fullWidth onclick={action} reverseColors={reverseColor} shrinkOnClick={false}>{name}</Button
+  >
 {/snippet}
 
 <div class="flex h-full w-full items-center justify-center" in:scale|global>

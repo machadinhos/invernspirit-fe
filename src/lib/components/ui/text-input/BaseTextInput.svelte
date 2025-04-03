@@ -14,7 +14,7 @@
   let { field, type, label, trailingIcon, class: className }: Props = $props();
 </script>
 
-<div class="pt-2.5">
+<div class:pt-2.5={label}>
   <div class="relative">
     {#if field.type !== 'textarea'}
       <input

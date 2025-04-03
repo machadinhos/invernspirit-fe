@@ -63,5 +63,5 @@
     {/snippet}
   </TextInput>
 
-  <Button class="mt-5 w-full" type="submit">Submit</Button>
+  <Button class="mt-5" fullWidth type="submit">Submit</Button>
 </form>

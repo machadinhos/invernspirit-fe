@@ -115,7 +115,7 @@
 
   <CheckBox label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
 
-  <Button class="mt-5 w-full" type="submit">{auth.signUp.submitButton}</Button>
+  <Button class="mt-5" fullWidth type="submit">{auth.signUp.submitButton}</Button>
 </form>
 
 <OAuthSection />

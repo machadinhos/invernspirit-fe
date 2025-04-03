@@ -7,4 +7,5 @@ export { default as contactUs } from './contact-us.json';
 export { default as faq } from './faq.json';
 export { default as home } from './home.json';
 export { default as order } from './order.json';
+export { default as profile } from './profile.json';
 export { default as shop } from './shop.json';

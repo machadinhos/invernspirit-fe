@@ -67,7 +67,7 @@
         </div>
       </DropdownMenuItem>
       <DropdownMenuItem class="w-full">
-        <Button class="mt-2 w-full" type="submit">{common.header.leftSection.subscribe}</Button>
+        <Button class="mt-2" fullWidth type="submit">{common.header.leftSection.subscribe}</Button>
       </DropdownMenuItem>
     </form>
   </DropdownMenu>

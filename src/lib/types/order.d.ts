@@ -8,6 +8,7 @@ export type Order = {
   id: string;
   status: OrderStatus;
   createdAt: string;
+  lastModifiedAt: string;
   address: ExtendedAddress;
   personalDetails: User;
   shippingMethod: ShippingMethod;

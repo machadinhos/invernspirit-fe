@@ -1,0 +1,22 @@
+{
+  "headTitle": "Invern Spirit • profile",
+  "title": "Profile",
+  "links": {
+    "orders": "Orders",
+    "userDetails": "User details"
+  },
+  "userDetails": {
+    "email": "Email",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "edit": "Edit",
+    "saveChanges": "Save changes",
+    "cancelChanges": "Cancel",
+    "changePassword": "Change password"
+  },
+  "orders": {
+    "moreProducts": "more products",
+    "total": "Total",
+    "viewOrder": "View order"
+  }
+}

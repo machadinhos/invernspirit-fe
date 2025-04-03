@@ -35,11 +35,13 @@
 
 <div class="flex h-full w-full flex-col items-center">
   <h1 class="mb-9 text-center text-5xl">{profile.title}</h1>
-  <div class="flex w-[90%] max-w-[900px] gap-5">
-    <ul class="flex flex-col gap-2">
+  <div class="flex w-[90%] flex-col gap-5 md:max-w-[900px] md:flex-row">
+    <ul class="flex flex-col gap-2 md:w-44">
       {@render listItem('user-details', profile.links.userDetails, FaAddressCard)}
       {@render listItem('orders', profile.links.orders, FaSolidReceipt)}
     </ul>
-    {@render children()}
+    <div class="w-full">
+      {@render children()}
+    </div>
   </div>
 </div>

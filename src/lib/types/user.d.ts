@@ -1,3 +1,5 @@
+import type { Address } from '$lib/types/checkout';
+
 type UserBaseInfo = {
   email: string;
 };
@@ -13,3 +15,6 @@ export type LogInUser = {
 } & UserBaseInfo;
 
 export type SignUpUser = LogInUser & User;
+
+// TODO
+type UserDetails = { address?: Address } & User;

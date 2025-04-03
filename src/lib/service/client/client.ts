@@ -161,8 +161,16 @@ export class Client<T, K = void> {
     if (response.headers.get('content-type') === 'application/json') {
       const responseBody = await response.json();
       const { issues } = responseBody;
-      if (issues && shouldPushIssuesToToasts) {
-        pushIssuesToToasts(response.status !== 500 ? issues : ['Something went wrong. Hang tight while we fix it!']);
+      if (shouldPushIssuesToToasts) {
+        if (issues) {
+          pushIssuesToToasts(response.status !== 500 ? issues : ['Something went wrong. Hang tight while we fix it!']);
+        } else {
+          pushIssuesToToasts(
+            response.status === 429
+              ? ['Careful with that button, Eugene.']
+              : ['Something went wrong. Hang tight while we fix it!'],
+          );
+        }
       }
       throw new ClientError(
         `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${JSON.stringify(responseBody, null, 2)}`,
@@ -172,7 +180,11 @@ export class Client<T, K = void> {
     }
 
     if (shouldPushIssuesToToasts) {
-      pushIssuesToToasts(['Something went wrong. Hang tight while we fix it!']);
+      pushIssuesToToasts(
+        response.status === 429
+          ? ['Careful with that button, Eugene.']
+          : ['Something went wrong. Hang tight while we fix it!'],
+      );
     }
     throw new ClientError(
       `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${await response.text()}`,
