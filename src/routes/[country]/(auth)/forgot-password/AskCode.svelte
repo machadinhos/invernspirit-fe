@@ -15,7 +15,7 @@
   let code = $state('');
 
   const validateCode = (value: string): boolean => {
-    return value.length === 6 && /^[0-9]+$/.test(value) && validateRequiredInput(value);
+    return value.length === 8 && /^[0-9]+$/.test(value) && validateRequiredInput(value);
   };
 
   const onsubmit = async (event: Event): Promise<void> => {
@@ -41,7 +41,7 @@
     >
   </div>
   <div class="flex w-full justify-center">
-    <VerificationCodeInput length={6} type="numeric" bind:value={code} />
+    <VerificationCodeInput length={8} type="numeric" bind:value={code} />
   </div>
-  <Button class="mt-2.5 w-full" type="submit">{auth.forgotPassword.codePage.submitButton}</Button>
+  <Button class="mt-2.5" fullWidth type="submit">{auth.forgotPassword.codePage.submitButton}</Button>
 </form>
