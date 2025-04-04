@@ -15,6 +15,7 @@ const config = {
       '$components-actions': 'src/lib/components/actions/index.ts',
       '$components-svg-icons': 'src/lib/components/svg-icons/index.ts',
       '$components-global': 'src/lib/components/global/index.ts',
+      '$components-utils': 'src/lib/components/utils/index.ts',
       $constants: 'src/lib/constants/index.ts',
       $content: 'src/lib/content/index.ts',
       $state: 'src/lib/state/index.ts',

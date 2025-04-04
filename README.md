@@ -21,11 +21,13 @@ bun install
 Refer to the [.env.example](.env.example) file.
 
 Create a `.env.local` file with the same variables.
+
 ```bash
 cp .env.example .env.local
 ```
 
 Additionally, you'll need a `.dev.vars` file that only contains the private variables portion of the [.env.example](.env.example) file.
+
 ```bash
 cp .env.example .dev.vars
 ```

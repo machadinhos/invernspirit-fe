@@ -14,7 +14,7 @@ export type LogInUser = {
   remember: boolean;
 } & UserBaseInfo;
 
-export type SignUpUser = LogInUser & User;
+export type SignUpUser = LogInUser & User & { captchaToken: string };
 
 // TODO
 type UserDetails = { address?: Address } & User;
