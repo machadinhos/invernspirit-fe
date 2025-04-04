@@ -6,6 +6,7 @@
   import { auth } from '$content';
   import AuthSwitchMessage from './AuthSwitchMessage.svelte';
   import { bffClient } from '$service';
+  import { CaptchaElement } from '$components-utils';
   import OAuthSection from './OAuthSection.svelte';
   import { page } from '$app/state';
   import PasswordChecks from './PasswordChecks.svelte';
@@ -16,6 +17,8 @@
   };
 
   let { actionAfterAuthentication, showAuthSwitchMessage = true }: Props = $props();
+
+  let captchaToken: string | undefined;
 
   const formFields = {
     firstName: new FormField({
@@ -74,16 +77,24 @@
   let rememberMeInput = $state(true);
 
   const submitSignUp = async (event: Event): Promise<void> => {
-    if (!validateFormFields(formFields)) return;
     event.preventDefault();
+    if (!validateFormFields(formFields) || captchaToken === undefined) return;
 
-    const payload = { ...mapFormFieldsToValues(formFields), remember: rememberMeInput };
+    const payload = {
+      ...mapFormFieldsToValues(formFields),
+      remember: rememberMeInput,
+      captchaToken,
+    };
     const { user: signedUpUser, cart: signedUpCart } = await bffClient.user.signUp(page.params.country, payload);
 
     user.value = signedUpUser;
     cart.setCart(signedUpCart);
 
     actionAfterAuthentication();
+  };
+
+  const captchaCallback = (token: string): void => {
+    captchaToken = token;
   };
 </script>
 
@@ -113,7 +124,9 @@
     </div>
   {/each}
 
-  <CheckBox label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
+  <CheckBox class="mb-4" label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
+
+  <CaptchaElement action="sign-up" callback={captchaCallback} />
 
   <Button class="mt-5" fullWidth type="submit">{auth.signUp.submitButton}</Button>
 </form>

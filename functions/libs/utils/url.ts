@@ -27,7 +27,6 @@ export const beClientProxy = async (
 
   request.headers.set(env.BE_ID_KEY, env.BE_ID_VALUE);
   request.headers.set(env.BE_SECRET_KEY, env.BE_SECRET_VALUE);
-  request.headers.set('X-Data-Center', request.cf?.colo ?? '');
 
   const beRequest: RequestInit = {
     body: request.body,
