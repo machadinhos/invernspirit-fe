@@ -7,9 +7,9 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
 
   if (!state.country) return new Response('No country provided in state', { status: 400 });
 
-  const beUrl = `${env.BE_HOST}/${state.country}/oauth/google/callback${url.search}`;
+  const bePath = `/${state.country}/oauth/google/callback${url.search}`;
 
-  const beResponse = await beClientProxy(request, ['GET'], env, { beUrl: beUrl });
+  const beResponse = await beClientProxy(request, ['GET'], env, { bePath });
 
   if (!beResponse.ok) return beResponse;
 

@@ -36,7 +36,7 @@
     "vite": "^6.2.5"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250404.0",
+    "@cloudflare/workers-types": "^4.20250405.0",
     "@types/cloudflare-turnstile": "^0.2.2",
     "@types/eslint": "^9.6.1",
     "eslint": "^9.24.0",
@@ -49,7 +49,7 @@
     "prettier-plugin-svelte": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "svelte-check": "^4.1.5",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.0"
   }
 }

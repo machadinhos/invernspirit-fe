@@ -3,7 +3,7 @@ import { Env } from '@types';
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 type Config = {
-  beUrl?: string;
+  bePath?: string;
 };
 
 export const beClientProxy = async (
@@ -17,8 +17,8 @@ export const beClientProxy = async (
   }
 
   let backendUrl: string;
-  if (config?.beUrl) {
-    backendUrl = config.beUrl;
+  if (config?.bePath) {
+    backendUrl = env.BE_HOST + config.bePath;
   } else {
     const url = new URL(request.url);
     const bePathname = url.pathname.replace(/^\/api/, '');
@@ -34,19 +34,10 @@ export const beClientProxy = async (
     method: request.method,
   };
 
-  const start = performance.now();
-
   const beResponse = await fetch(backendUrl, beRequest);
-
-  const end = performance.now();
-
-  const testHeaders = new Headers(beResponse.headers);
-
-  testHeaders.set('X-Backend-Response-Time', `${Math.round(end - start)}ms`);
 
   return new Response(JSON.stringify(await beResponse.json()), {
     status: beResponse.status,
-    // headers: beResponse.headers,
-    headers: testHeaders,
+    headers: beResponse.headers,
   });
 };
