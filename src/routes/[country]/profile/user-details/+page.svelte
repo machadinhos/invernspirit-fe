@@ -12,6 +12,8 @@
 
   let user: UserDetails | undefined = $state();
   let editing = $state(false);
+  let processing = $state(false);
+
   const formFields = {
     firstName: new FormField({
       id: 'sign-up-first-name',
@@ -57,11 +59,18 @@
   };
 
   const onSaveChanges = async (): Promise<void> => {
-    if (!validateFormFields(formFields)) return;
-    const payload = mapFormFieldsToValues(formFields);
-    user = await bffClient.user.update(page.params.country, payload);
-    editing = false;
-    return;
+    if (processing) return;
+    processing = true;
+
+    try {
+      if (!validateFormFields(formFields)) return;
+      const payload = mapFormFieldsToValues(formFields);
+      user = await bffClient.user.update(page.params.country, payload);
+      editing = false;
+      return;
+    } finally {
+      processing = false;
+    }
   };
 
   const onCancelChanges = (): void => {
@@ -103,8 +112,10 @@
       <Button class="w-16" onclick={onEditClick} type="button">{profile.userDetails.edit}</Button>
     {:else}
       <div class="flex gap-5">
-        <Button onclick={onCancelChanges} type="button">{profile.userDetails.cancelChanges}</Button>
-        <Button onclick={onSaveChanges} type="button">{profile.userDetails.saveChanges}</Button>
+        <Button disabled={processing} onclick={onCancelChanges} type="button"
+          >{profile.userDetails.cancelChanges}</Button
+        >
+        <Button disabled={processing} onclick={onSaveChanges} type="button">{profile.userDetails.saveChanges}</Button>
       </div>
     {/if}
     <!--  TODO-->

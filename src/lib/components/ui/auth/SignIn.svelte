@@ -6,6 +6,7 @@
   import { auth } from '$content';
   import AuthSwitchMessage from './AuthSwitchMessage.svelte';
   import { bffClient } from '$service';
+  import { Form } from '$components-utils';
   import OAuthSection from './OAuthSection.svelte';
   import { page } from '$app/state';
 
@@ -15,6 +16,9 @@
   };
 
   let { actionAfterAuthentication, showAuthSwitchMessage = true }: Props = $props();
+
+  let rememberMeInput = $state(true);
+  let processing = $state(false);
 
   const formFields = {
     email: new FormField({
@@ -39,11 +43,8 @@
     }),
   };
 
-  let rememberMeInput = $state(true);
-
-  const submitSignIn = async (event: Event): Promise<void> => {
+  const submitSignIn = async (): Promise<void> => {
     if (!validateFormFields(formFields)) return;
-    event.preventDefault();
 
     const payload = { ...mapFormFieldsToValues(formFields), remember: rememberMeInput };
     const { user: signedInUser, cart: signedInCart } = await bffClient.user.login(page.params.country, payload);
@@ -65,7 +66,7 @@
   );
 </script>
 
-<form class="w-full gap-6 pt-10" onsubmit={submitSignIn}>
+<Form class="w-full gap-6 pt-10" onsubmit={submitSignIn} bind:processing>
   {#each Object.values(formFields) as field (field.id)}
     <div class="w-full">
       <TextInput {field}>
@@ -81,8 +82,8 @@
     <Anchor class="text-right" href={forgotPasswordUrl}>{auth.signIn.forgotPassword}</Anchor>
   </div>
 
-  <Button class="mt-5" fullWidth type="submit">{auth.signIn.submitButton}</Button>
-</form>
+  <Button class="mt-5" disabled={processing} fullWidth type="submit">{auth.signIn.submitButton}</Button>
+</Form>
 
 <OAuthSection />
 
