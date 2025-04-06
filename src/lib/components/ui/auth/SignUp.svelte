@@ -1,12 +1,12 @@
 <script lang="ts">
   import { Button, CheckBox, TextInput } from '$components';
+  import { CaptchaElement, Form } from '$components-utils';
   import { cart, user } from '$state';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { validateEmail, validatePassword, validateRequiredInput } from '$lib/utils/input-validation';
   import { auth } from '$content';
   import AuthSwitchMessage from './AuthSwitchMessage.svelte';
   import { bffClient } from '$service';
-  import { CaptchaElement } from '$components-utils';
   import OAuthSection from './OAuthSection.svelte';
   import { page } from '$app/state';
   import PasswordChecks from './PasswordChecks.svelte';
@@ -19,6 +19,8 @@
   let { actionAfterAuthentication, showAuthSwitchMessage = true }: Props = $props();
 
   let captchaToken: string | undefined;
+
+  let processing = $state(false);
 
   const formFields = {
     firstName: new FormField({
@@ -76,8 +78,7 @@
 
   let rememberMeInput = $state(true);
 
-  const submitSignUp = async (event: Event): Promise<void> => {
-    event.preventDefault();
+  const submitSignUp = async (): Promise<void> => {
     if (!validateFormFields(formFields) || captchaToken === undefined) return;
 
     const payload = {
@@ -98,7 +99,7 @@
   };
 </script>
 
-<form class="w-full gap-6 pt-10" onsubmit={submitSignUp}>
+<Form class="w-full gap-6 pt-10" onsubmit={submitSignUp} bind:processing>
   <div class="flex w-full gap-4">
     {#each [formFields.firstName, formFields.lastName] as field (field.id)}
       <div class="w-1/2">
@@ -128,8 +129,8 @@
 
   <CaptchaElement action="sign-up" callback={captchaCallback} />
 
-  <Button class="mt-5" fullWidth type="submit">{auth.signUp.submitButton}</Button>
-</form>
+  <Button class="mt-5" disabled={processing} fullWidth type="submit">{auth.signUp.submitButton}</Button>
+</Form>
 
 <OAuthSection />
 

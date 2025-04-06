@@ -3,6 +3,7 @@
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { auth } from '$content';
   import { bffClient } from '$service';
+  import { Form } from '$components-utils';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
@@ -18,6 +19,7 @@
   let { email, code, pageState = $bindable() }: Props = $props();
 
   let validated: boolean | undefined = $state();
+  let processing = $state(false);
 
   const formFields = {
     newPassword: new FormField({
@@ -43,9 +45,7 @@
     }),
   };
 
-  const onsubmit = async (event: Event): Promise<void> => {
-    event.preventDefault();
-
+  const onsubmit = async (): Promise<void> => {
     if (!validateFormFields(formFields)) return;
 
     const newPassword = mapFormFieldsToValues(formFields).newPassword;
@@ -71,7 +71,7 @@
 </script>
 
 {#if validated === true}
-  <form class="w-full" {onsubmit}>
+  <Form class="w-full" {onsubmit} bind:processing>
     <h1 class="mb-2.5 text-center text-3xl">{auth.forgotPassword.resetPasswordPage.title}</h1>
     <TextInput field={formFields.newPassword}>
       {#snippet label()}
@@ -84,8 +84,10 @@
         {formFields.confirmPassword.label}
       {/snippet}
     </TextInput>
-    <Button class="mt-2.5" fullWidth type="submit">{auth.forgotPassword.resetPasswordPage.submitButton}</Button>
-  </form>
+    <Button class="mt-2.5" disabled={processing} fullWidth type="submit"
+      >{auth.forgotPassword.resetPasswordPage.submitButton}</Button
+    >
+  </Form>
 {:else if validated === false}
   <div class="text-center">
     <p>{auth.forgotPassword.resetPasswordPage.invalidCode}</p>
