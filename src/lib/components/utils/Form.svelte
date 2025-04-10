@@ -1,6 +1,6 @@
 <script lang="ts">
   type Props = {
-    class: HTMLFormElement['class'];
+    class?: HTMLFormElement['class'];
     children: import('svelte').Snippet;
     onsubmit: (event: Event) => Promise<void>;
     processing: boolean;

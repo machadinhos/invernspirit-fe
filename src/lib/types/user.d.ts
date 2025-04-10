@@ -9,12 +9,4 @@ export type User = {
   lastName: string;
 } & UserBaseInfo;
 
-export type LogInUser = {
-  password: string;
-  remember: boolean;
-} & UserBaseInfo;
-
-export type SignUpUser = LogInUser & User & { captchaToken: string };
-
-// TODO
 type UserDetails = { address?: Address } & User;
