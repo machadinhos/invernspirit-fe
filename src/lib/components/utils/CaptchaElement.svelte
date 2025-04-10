@@ -5,9 +5,10 @@
   type Props = {
     callback: (token: string) => void;
     action: string;
+    resetToken?: () => void;
   };
 
-  let { callback, action }: Props = $props();
+  let { callback, action, resetToken = $bindable() }: Props = $props();
 
   let turnstileContainer: HTMLDivElement;
   let widgetId: string | null | undefined;
@@ -21,6 +22,12 @@
         action: action,
         callback,
       });
+      resetToken = (): void => {
+        if (widgetId && typeof turnstile !== 'undefined') {
+          /* eslint-disable-next-line no-undef */
+          turnstile.reset(widgetId);
+        }
+      };
       return true;
     };
 
