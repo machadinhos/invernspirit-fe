@@ -1,12 +1,12 @@
 <script lang="ts">
   import { Anchor, Button, CheckBox, TextInput } from '$components';
+  import { CaptchaElement, Form } from '$components-utils';
   import { cart, user } from '$state';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { validateEmail, validatePassword } from '$lib/utils/input-validation';
   import { auth } from '$content';
   import AuthSwitchMessage from './AuthSwitchMessage.svelte';
   import { bffClient } from '$service';
-  import { Form } from '$components-utils';
   import OAuthSection from './OAuthSection.svelte';
   import { page } from '$app/state';
 
@@ -19,6 +19,9 @@
 
   let rememberMeInput = $state(true);
   let processing = $state(false);
+  let resetToken: (() => void) | undefined = $state();
+
+  let captchaToken: string | undefined;
 
   const formFields = {
     email: new FormField({
@@ -44,15 +47,21 @@
   };
 
   const submitSignIn = async (): Promise<void> => {
-    if (!validateFormFields(formFields)) return;
+    if (!validateFormFields(formFields) || captchaToken === undefined) return;
 
-    const payload = { ...mapFormFieldsToValues(formFields), remember: rememberMeInput };
-    const { user: signedInUser, cart: signedInCart } = await bffClient.user.login(page.params.country, payload);
+    const payload = { ...mapFormFieldsToValues(formFields), remember: rememberMeInput, captchaToken };
 
-    user.value = signedInUser;
-    cart.setCart(signedInCart);
+    try {
+      const { user: signedInUser, cart: signedInCart } = await bffClient.user.login(page.params.country, payload);
 
-    actionAfterAuthentication();
+      user.value = signedInUser;
+      cart.setCart(signedInCart);
+
+      actionAfterAuthentication();
+    } catch {
+      captchaToken = undefined;
+      resetToken?.();
+    }
   };
 
   let forgotPasswordUrl = $derived(
@@ -64,6 +73,10 @@
       return forgotPasswordUrl;
     })(),
   );
+
+  const captchaCallback = (token: string): void => {
+    captchaToken = token;
+  };
 </script>
 
 <Form class="w-full gap-6 pt-10" onsubmit={submitSignIn} bind:processing>
@@ -77,10 +90,12 @@
     </div>
   {/each}
 
-  <div class="flex justify-between">
+  <div class="mb-4 flex justify-between">
     <CheckBox label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
     <Anchor class="text-right" href={forgotPasswordUrl}>{auth.signIn.forgotPassword}</Anchor>
   </div>
+
+  <CaptchaElement action="log-in" callback={captchaCallback} bind:resetToken />
 
   <Button class="mt-5" disabled={processing} fullWidth type="submit">{auth.signIn.submitButton}</Button>
 </Form>
