@@ -6,6 +6,7 @@ import {
   prepareGetLoggedInUser,
   prepareLogin,
   prepareLogout,
+  prepareResendEmail,
   prepareSignUp,
   prepareUpdateLoggedInUser,
   prepareVerifyEmail,
@@ -84,6 +85,7 @@ export const bffClient = {
     signUp: {
       create: prepareSignUp(context),
       verifyEmail: prepareVerifyEmail(context),
+      resendEmail: prepareResendEmail(context),
     },
     login: prepareLogin(context),
     logout: prepareLogout(context),

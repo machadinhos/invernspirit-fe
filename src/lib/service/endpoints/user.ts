@@ -80,9 +80,20 @@ export const prepareVerifyEmail: Endpoint<LogInAndSignUpUserResponse, [VerifyEma
   return (countryCode, payload) => {
     return Client.create<LogInAndSignUpUserResponse, VerifyEmailPayload>()
       .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/signup/validate-email`)
+      .withEndpoint(`/${countryCode}/${PATH}/signup/verify-email`)
       .withMethod('POST')
       .withBody(payload)
+      .call();
+  };
+};
+
+export const prepareResendEmail: Endpoint<void, [string]> = (context) => {
+  return (countryCode, email) => {
+    return Client.create<never, UserBaseInfo>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/signup/resend-email`)
+      .withMethod('POST')
+      .withBody({ email })
       .call();
   };
 };
