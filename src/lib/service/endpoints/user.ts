@@ -1,4 +1,4 @@
-import type { Cart, LogInUser, SignUpUser, User, UserDetails } from '$types';
+import type { Cart, User, UserBaseInfo, UserDetails } from '$types';
 import { Client } from '../client';
 import type { Endpoint } from './endpoint';
 
@@ -40,9 +40,29 @@ type LogInAndSignUpUserResponse = {
   cart: Cart;
 };
 
-export const prepareSignUp: Endpoint<LogInAndSignUpUserResponse, [SignUpUser]> = (context) => {
+type BaseAuthUserPayload = {
+  password: string;
+  remember: boolean;
+} & UserBaseInfo;
+
+type LogInPayload = BaseAuthUserPayload;
+
+export const prepareLogin: Endpoint<LogInAndSignUpUserResponse, [LogInPayload]> = (context) => {
   return (countryCode, user) => {
-    return Client.create<LogInAndSignUpUserResponse, SignUpUser>()
+    return Client.create<LogInAndSignUpUserResponse, LogInPayload>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/login`)
+      .withMethod('POST')
+      .withBody(user)
+      .call();
+  };
+};
+
+type SignUpPayload = BaseAuthUserPayload & User & { captchaToken: string };
+
+export const prepareSignUp: Endpoint<never, [SignUpPayload]> = (context) => {
+  return (countryCode, user) => {
+    return Client.create<never, SignUpPayload>()
       .withHostContext(context)
       .withEndpoint(`/${countryCode}/${PATH}/signup`)
       .withMethod('POST')
@@ -51,13 +71,18 @@ export const prepareSignUp: Endpoint<LogInAndSignUpUserResponse, [SignUpUser]> =
   };
 };
 
-export const prepareLogin: Endpoint<LogInAndSignUpUserResponse, [LogInUser]> = (context) => {
-  return (countryCode, user) => {
-    return Client.create<LogInAndSignUpUserResponse, LogInUser>()
+type VerifyEmailPayload = {
+  email: string;
+  code: string;
+};
+
+export const prepareVerifyEmail: Endpoint<LogInAndSignUpUserResponse, [VerifyEmailPayload]> = (context) => {
+  return (countryCode, payload) => {
+    return Client.create<LogInAndSignUpUserResponse, VerifyEmailPayload>()
       .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/login`)
+      .withEndpoint(`/${countryCode}/${PATH}/signup/verify-email`)
       .withMethod('POST')
-      .withBody(user)
+      .withBody(payload)
       .call();
   };
 };

@@ -8,6 +8,7 @@ import {
   prepareLogout,
   prepareSignUp,
   prepareUpdateLoggedInUser,
+  prepareVerifyEmail,
 } from './endpoints/user';
 import {
   prepareGetAddress,
@@ -80,7 +81,10 @@ export const bffClient = {
     get: prepareGetLoggedInUser(context),
     update: prepareUpdateLoggedInUser(context),
     delete: prepareDeleteLoggedInUser(context),
-    signUp: prepareSignUp(context),
+    signUp: {
+      create: prepareSignUp(context),
+      verifyEmail: prepareVerifyEmail(context),
+    },
     login: prepareLogin(context),
     logout: prepareLogout(context),
     forgotPassword: {
