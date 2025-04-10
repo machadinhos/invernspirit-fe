@@ -1,3 +1,4 @@
+import { checkCaptchaToken } from './captcha-token-check.js';
 import { Env } from '@types';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
@@ -40,4 +41,29 @@ export const beClientProxy = async (
     status: beResponse.status,
     headers: beResponse.headers,
   });
+};
+
+export const beClientProxyWithCaptcha = async (
+  request: Request,
+  allowedMethods: HttpMethod[],
+  env: Env,
+  config?: Config,
+): Promise<Response> => {
+  const { captchaToken: token } = (await request.clone().json()) as { captchaToken: string };
+  if (!token) {
+    return new Response(JSON.stringify({ issues: ['Captcha token not provided'] }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+  const remoteIp = request.headers.get('CF-Connecting-IP') ?? undefined;
+  const isValidUser = await checkCaptchaToken({ token, secret: env.CF_CAPTCHA_SECRET_KEY, remoteIp });
+  if (!isValidUser) {
+    return new Response(JSON.stringify({ issues: ['Invalid captcha token'] }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  return beClientProxy(request, allowedMethods, env, config);
 };

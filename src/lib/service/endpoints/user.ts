@@ -45,7 +45,11 @@ type BaseAuthUserPayload = {
   remember: boolean;
 } & UserBaseInfo;
 
-type LogInPayload = BaseAuthUserPayload;
+type CaptchaToken = {
+  captchaToken: string;
+};
+
+type LogInPayload = BaseAuthUserPayload & CaptchaToken;
 
 export const prepareLogin: Endpoint<LogInAndSignUpUserResponse, [LogInPayload]> = (context) => {
   return (countryCode, user) => {
@@ -58,7 +62,7 @@ export const prepareLogin: Endpoint<LogInAndSignUpUserResponse, [LogInPayload]> 
   };
 };
 
-type SignUpPayload = BaseAuthUserPayload & User & { captchaToken: string };
+type SignUpPayload = BaseAuthUserPayload & User & CaptchaToken;
 
 export const prepareSignUp: Endpoint<never, [SignUpPayload]> = (context) => {
   return (countryCode, user) => {
