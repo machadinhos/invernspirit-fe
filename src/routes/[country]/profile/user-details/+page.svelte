@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { Anchor, Button, TextInput } from '$components';
   import { auth, profile } from '$content';
+  import { Button, TextInput } from '$components';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { validateEmail, validateRequiredInput } from '$lib/utils/input-validation';
   import { bffClient } from '$service';
   import { config } from '$state';
   import type { GenericFormField } from '$lib/utils/form-fields.svelte';
+  import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import type { UserDetails } from '$types';
@@ -46,6 +47,7 @@
       invalidText: auth.signUp.formFields.email.invalidText,
       validate: validateEmail,
       required: true,
+      includeInMapping: false,
       filterFunction: (value: string): boolean => value.trim() !== user?.email,
     }),
   };
@@ -65,9 +67,16 @@
     try {
       if (!validateFormFields(formFields)) return;
       const payload = mapFormFieldsToValues(formFields);
-      user = await bffClient.user.update(page.params.country, payload);
+      if (Object.keys(payload).length > 0) {
+        user = await bffClient.user.update.personalInformation(page.params.country, payload);
+      }
+
+      if (formFields.email.filterFunction(formFields.email.value)) {
+        await bffClient.user.update.email.submitEmail(page.params.country, formFields.email.value);
+        goto(`/${page.params.country}/profile/user-details/update-email`);
+      }
+
       editing = false;
-      return;
     } finally {
       processing = false;
     }
@@ -75,6 +84,10 @@
 
   const onCancelChanges = (): void => {
     editing = false;
+  };
+
+  const onChangePasswordClick = (): void => {
+    goto(`/${page.params.country}/profile/user-details/update-password`);
   };
 
   onMount(() => {
@@ -109,7 +122,12 @@
     <!--  TODO-->
     {#if user.address}{/if}
     {#if !editing}
-      <Button class="w-16" onclick={onEditClick} type="button">{profile.userDetails.edit}</Button>
+      <div class="flex flex-col gap-5">
+        <Button class="w-16" onclick={onEditClick} type="button">{profile.userDetails.edit}</Button>
+        {#if user.isValidated}
+          <Button class="w-fit" onclick={onChangePasswordClick}>{profile.userDetails.changePassword}</Button>
+        {/if}
+      </div>
     {:else}
       <div class="flex gap-5">
         <Button disabled={processing} onclick={onCancelChanges} type="button"
@@ -118,7 +136,5 @@
         <Button disabled={processing} onclick={onSaveChanges} type="button">{profile.userDetails.saveChanges}</Button>
       </div>
     {/if}
-    <!--  TODO-->
-    <Anchor class="w-fit" href="/{page.params.country}/">{profile.userDetails.changePassword}</Anchor>
   </div>
 {/if}

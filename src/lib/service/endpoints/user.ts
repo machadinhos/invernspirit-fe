@@ -1,12 +1,12 @@
-import type { Cart, User, UserBaseInfo, UserDetails } from '$types';
+import type { Cart, User, UserBaseInfo, UserDetails, UserPersonalInformation } from '$types';
 import { Client } from '../client';
 import type { Endpoint } from './endpoint';
 
 const PATH = 'user';
 
-export const prepareGetLoggedInUser: Endpoint<User> = (context) => {
+export const prepareGetLoggedInUser: Endpoint<UserDetails> = (context) => {
   return (countryCode) => {
-    return Client.create<User>()
+    return Client.create<UserDetails>()
       .withHostContext(context)
       .withEndpoint(`/${countryCode}/${PATH}`)
       .withMethod('GET')
@@ -24,19 +24,59 @@ export const prepareDeleteLoggedInUser: Endpoint<void> = (context) => {
   };
 };
 
-export const prepareUpdateLoggedInUser: Endpoint<UserDetails, [Partial<UserDetails>]> = (context) => {
+export const prepareUpdateLoggedInUserPersonalInformation: Endpoint<UserDetails, [Partial<UserPersonalInformation>]> = (
+  context,
+) => {
   return (countryCode, updatedUser) => {
-    return Client.create<UserDetails, Partial<UserDetails>>()
+    return Client.create<UserDetails, Partial<UserPersonalInformation>>()
       .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}`)
-      .withMethod('PUT')
+      .withEndpoint(`/${countryCode}/${PATH}/update/personal-information`)
+      .withMethod('POST')
       .withBody(updatedUser)
       .call();
   };
 };
 
+export const prepareUpdateLoggedInUserEmailSubmitEmail: Endpoint<void, [string]> = (context) => {
+  return (countryCode, newEmail) => {
+    return Client.create<never, { email: string }>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/update/email/submit`)
+      .withMethod('POST')
+      .withBody({ email: newEmail })
+      .call();
+  };
+};
+
+export const prepareUpdateLoggedInUserEmailValidateCode: Endpoint<void, [string]> = (context) => {
+  return (countryCode, code) => {
+    return Client.create<never, { code: string }>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/update/email/validate-code`)
+      .withMethod('POST')
+      .withBody({ code })
+      .call();
+  };
+};
+
+type UpdatePasswordPayload = {
+  currentPassword: string;
+  newPassword: string;
+};
+
+export const prepareUpdateLoggedInUserPassword: Endpoint<void, [UpdatePasswordPayload]> = (context) => {
+  return (countryCode, payload) => {
+    return Client.create<never, UpdatePasswordPayload>()
+      .withHostContext(context)
+      .withEndpoint(`/${countryCode}/${PATH}/update/password`)
+      .withMethod('POST')
+      .withBody(payload)
+      .call();
+  };
+};
+
 type LogInAndSignUpUserResponse = {
-  user: User;
+  user: UserDetails;
   cart: Cart;
 };
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { CheckBox, TextInput } from '$components';
   import {
     FormField,
     mapFormFieldsToValues,
@@ -11,7 +12,7 @@
   import type { CheckoutStage } from '$types';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
-  import { TextInput } from '$components';
+  import { user } from '$state';
 
   type Props = {
     stages: CheckoutStage[];
@@ -20,6 +21,8 @@
   };
 
   let { stages = $bindable(), goToNextStage, onStageSubmit = $bindable() }: Props = $props();
+
+  let saveAddress = $state(true);
 
   const formFields = {
     street: new FormField({
@@ -90,6 +93,7 @@
     if (!validateFormFields(formFields)) return;
     const payload = {
       address: mapFormFieldsToValues(formFields),
+      ...(user.isLoggedIn && { saveAddress }),
     };
     const { availableCheckoutStages } = await bffClient.checkout.stages.address.set(page.params.country, payload);
     stages = availableCheckoutStages;
@@ -115,3 +119,7 @@
     {/if}
   {/each}
 </div>
+
+{#if user.isLoggedIn}
+  <CheckBox label={checkout.addressPage.saveAddress} bind:checked={saveAddress} />
+{/if}

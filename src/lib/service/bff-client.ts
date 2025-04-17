@@ -8,7 +8,10 @@ import {
   prepareLogout,
   prepareResendEmail,
   prepareSignUp,
-  prepareUpdateLoggedInUser,
+  prepareUpdateLoggedInUserEmailSubmitEmail,
+  prepareUpdateLoggedInUserEmailValidateCode,
+  prepareUpdateLoggedInUserPassword,
+  prepareUpdateLoggedInUserPersonalInformation,
   prepareVerifyEmail,
 } from './endpoints/user';
 import {
@@ -80,7 +83,14 @@ export const bffClient = {
       google: prepareOauthGoogle(context),
     },
     get: prepareGetLoggedInUser(context),
-    update: prepareUpdateLoggedInUser(context),
+    update: {
+      personalInformation: prepareUpdateLoggedInUserPersonalInformation(context),
+      password: prepareUpdateLoggedInUserPassword(context),
+      email: {
+        submitEmail: prepareUpdateLoggedInUserEmailSubmitEmail(context),
+        validateCode: prepareUpdateLoggedInUserEmailValidateCode(context),
+      },
+    },
     delete: prepareDeleteLoggedInUser(context),
     signUp: {
       create: prepareSignUp(context),
