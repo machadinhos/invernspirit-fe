@@ -6,10 +6,8 @@
   import { onMount } from 'svelte';
   import { page } from '$app/state';
 
-  onMount(async () => {
-    try {
-      loading.startLoading();
-
+  onMount(() => {
+    loading.withLoading(async () => {
       const email = page.url.searchParams.get('email');
       const code = page.url.searchParams.get('code');
 
@@ -31,9 +29,7 @@
       cart.setCart(signedUpCart);
 
       goto(`/${page.params.country}`, { replaceState: true });
-    } finally {
-      loading.stopLoading();
-    }
+    });
   });
 </script>
 

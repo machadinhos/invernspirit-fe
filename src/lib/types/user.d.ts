@@ -4,9 +4,11 @@ type UserBaseInfo = {
   email: string;
 };
 
-export type User = {
+export type UserPersonalInformation = {
   firstName: string;
   lastName: string;
-} & UserBaseInfo;
+};
 
-type UserDetails = { address?: Address } & User;
+export type User = UserPersonalInformation & UserBaseInfo;
+
+type UserDetails = { address?: Address; isValidated: boolean } & User;

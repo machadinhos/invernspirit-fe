@@ -6,6 +6,7 @@
   "addressPage": {
     "title": "Delivery Address",
     "submitButton": "Confirm",
+    "saveAddress": "Save address",
     "formFields": {
       "street": {
         "label": "Street",

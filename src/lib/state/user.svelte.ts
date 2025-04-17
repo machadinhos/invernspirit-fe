@@ -1,4 +1,4 @@
-import type { User as UserType } from '$types';
+import type { UserDetails as UserType } from '$types';
 
 class User {
   value: UserType | undefined = $state();

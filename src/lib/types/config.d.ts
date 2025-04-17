@@ -1,8 +1,8 @@
 import type { LineItem } from '$lib/types/line-item';
-import type { User } from './user';
+import type { UserDetails } from './user';
 
 export type Config = {
-  user?: User;
+  user?: UserDetails;
   cart: {
     products: LineItem[];
   };

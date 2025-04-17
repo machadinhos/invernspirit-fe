@@ -12,7 +12,29 @@
     "edit": "Edit",
     "saveChanges": "Save changes",
     "cancelChanges": "Cancel",
-    "changePassword": "Change password"
+    "changePassword": "Change password",
+    "updateEmail": {
+      "title": "Verification code",
+      "description": "To update your email, we will send you a verification code. Please check your inbox.",
+      "submitButton": "Submit"
+    },
+    "updatePassword": {
+      "formFields": {
+        "currentPassword": {
+          "label": "Current password",
+          "invalidText": "Please enter a valid password."
+        },
+        "newPassword": {
+          "label": "New password",
+          "invalidText": "Please enter a valid password."
+        },
+        "confirmPassword": {
+          "label": "Confirm password",
+          "invalidText": "Please enter a valid password."
+        }
+      },
+      "submitButton": "Submit"
+    }
   },
   "orders": {
     "moreProducts": "more products",
