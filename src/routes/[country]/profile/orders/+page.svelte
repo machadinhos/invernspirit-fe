@@ -5,6 +5,7 @@
   import type { Order } from '$types';
   import OrderSummary from './OrderSummary.svelte';
   import { page } from '$app/state';
+  import { profile } from '$content';
 
   type Props = {
     data: import('./$types').PageData;
@@ -25,6 +26,8 @@
   <div class="flex flex-col gap-5">
     {#each orders as order (order.id)}
       <OrderSummary country={data.country} {order} />
+    {:else}
+      <p class="text-2xl">{profile.orders.noOrders}</p>
     {/each}
   </div>
 {/if}

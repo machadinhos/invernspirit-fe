@@ -74,7 +74,7 @@
       <h4 class="absolute top-1/2 right-3 -translate-y-1/2 text-2xl">x {product.quantity}</h4>
     {/if}
   </div>
-  {#if product.issues && product.issues.length > 0}
+  {#if product.issues}
     {#each product.issues as issue (issue)}
       <div class="bg-error p-2">
         <p>{issue.message}</p>

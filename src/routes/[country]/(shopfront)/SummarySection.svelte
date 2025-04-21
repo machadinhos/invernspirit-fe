@@ -10,10 +10,18 @@
     onclick?: () => void;
     buttonText: string;
     buttonType?: HTMLButtonElement['type'];
+    buttonDisabled?: boolean;
     additionalCharges?: { name: string; price: number }[];
   };
 
-  let { country, onclick, buttonText, buttonType = 'button', additionalCharges = [] }: Props = $props();
+  let {
+    country,
+    onclick,
+    buttonText,
+    buttonType = 'button',
+    buttonDisabled = false,
+    additionalCharges = [],
+  }: Props = $props();
 
   const getTaxesPrices = (): { name: string; value: number; rate: number }[] => {
     return country.taxes.reduce(
@@ -70,7 +78,7 @@
       </div>
       <Button
         class="font-bold"
-        disabled={config.isInitialized ? cartState.size < 1 || !cartState.isCheckoutPossible : true}
+        disabled={config.isInitialized ? cartState.size < 1 || !cartState.isCheckoutPossible || buttonDisabled : true}
         fullWidth
         {onclick}
         reverseColors

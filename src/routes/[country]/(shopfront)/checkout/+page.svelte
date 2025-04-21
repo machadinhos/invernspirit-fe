@@ -7,6 +7,7 @@
   import { checkout } from '$content';
   import { config } from '$state';
   import { FaSolidArrowLeft } from 'svelte-icons-pack/fa';
+  import { Form } from '$components-utils';
   import { goto } from '$app/navigation';
   import { Icon } from 'svelte-icons-pack';
   import { onMount } from 'svelte';
@@ -25,6 +26,7 @@
 
   let stages: CheckoutStage[] | undefined = $state();
   let selectedStageName: StageName | undefined = $state();
+  let processing = $state(false);
   let enabledStages: StageName[] | undefined = $derived(
     stages?.filter((stage) => stage.isEnabled).map((stage) => stage.name),
   );
@@ -108,15 +110,16 @@
       </h1>
       <div class="pointer-events-none h-0.5 w-32 bg-white select-none"></div>
     </div>
-    <form
+    <Form
       class="flex w-full flex-1 flex-col items-center md:flex-row md:items-start md:justify-center md:gap-5 lg:gap-10"
       onsubmit={finalOnStageSubmit}
+      bind:processing
     >
       <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
         {#if selectedStageName === 'personal-details'}
           <PersonalDetailsPage {goToNextStage} bind:onStageSubmit bind:stages />
         {:else if selectedStageName === 'address'}
-          <AddressPage {goToNextStage} bind:onStageSubmit bind:stages />
+          <AddressPage country={data.country} {goToNextStage} bind:onStageSubmit bind:stages />
         {:else if selectedStageName === 'shipping'}
           <ShippingMethodPage country={data.country} {goToNextStage} bind:onStageSubmit bind:stages />
         {:else if selectedStageName === 'review'}
@@ -128,11 +131,12 @@
           additionalCharges={page.url.searchParams.get('stage') === 'review' && shippingCost
             ? [{ name: checkout.shippingCost, price: shippingCost }]
             : undefined}
+          buttonDisabled={processing}
           buttonText={isLastStage(selectedStageName) ? checkout.continueToPaymentButton : checkout.continueButton}
           buttonType="submit"
           country={data.country}
         />
       </div>
-    </form>
+    </Form>
   {/if}
 </div>

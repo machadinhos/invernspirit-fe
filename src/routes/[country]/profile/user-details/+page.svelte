@@ -119,8 +119,11 @@
       {@render detailLine(profile.userDetails.firstName, user.firstName, formFields.firstName)}
       {@render detailLine(profile.userDetails.lastName, user.lastName, formFields.lastName)}
     </table>
-    <!--  TODO-->
-    {#if user.address}{/if}
+    {#if user.address}
+      test
+    {:else}
+      test
+    {/if}
     {#if !editing}
       <div class="flex flex-col gap-5">
         <Button class="w-16" onclick={onEditClick} type="button">{profile.userDetails.edit}</Button>

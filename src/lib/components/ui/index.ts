@@ -10,6 +10,7 @@ export { default as DrawerItem } from './drawer/DrawerItem.svelte';
 export { default as DropdownMenu } from './dropdown-menu/DropdownMenu.svelte';
 export { default as DropdownMenuItem } from './dropdown-menu/DropdownMenuItem.svelte';
 export { default as TextInput } from './text-input/TextInput.svelte';
+export { default as TextInputWithAutocomplete } from './text-input/TextInputWithAutocomplete.svelte';
 export { default as ThumbnailCarousel } from './carousel/ThumbnailCarousel.svelte';
 export { default as ShrinkOnClickWrapper } from './ShrinkOnClickWrapper.svelte';
 export { default as LoadingScreen } from './loading/LoadingScreen.svelte';

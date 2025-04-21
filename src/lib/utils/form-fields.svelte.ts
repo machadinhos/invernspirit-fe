@@ -1,10 +1,10 @@
-import type { HTMLInputAttributes, HTMLInputTypeAttribute } from 'svelte/elements';
+import type { FullAutoFill, HTMLInputAttributes, HTMLInputTypeAttribute } from 'svelte/elements';
 
-export type FormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction> = {
-  id: HTMLInputAttributes['id'];
-  autocomplete: HTMLInputAttributes['autocomplete'];
+type BaseFormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction> = {
+  id: string;
+  autocomplete: FullAutoFill;
   type: HTMLInputTypeAttribute | 'textarea';
-  name: HTMLInputAttributes['name'];
+  name: string;
   label: string;
   invalidText: string;
   validate: (value: string) => boolean;
@@ -15,8 +15,22 @@ export type FormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunc
   includeInMapping?: IncludeInMapping;
   filterFunction?: FilterFunction;
 
-  onblur?: () => void;
-  oninput?: () => void;
+  onblur?: (event: FocusEvent) => void;
+  oninput?: (event: Event) => void;
+};
+
+type AdditionalElementAttributes<Value, MappingFunction, IncludeInMapping, FilterFunction> = Omit<
+  HTMLInputAttributes,
+  keyof BaseFormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction>
+>;
+
+export type FormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction> = BaseFormFieldConfig<
+  Value,
+  MappingFunction,
+  IncludeInMapping,
+  FilterFunction
+> & {
+  additionalElementAttributes?: AdditionalElementAttributes<Value, MappingFunction, IncludeInMapping, FilterFunction>;
 };
 
 export class FormField<
@@ -29,10 +43,10 @@ export class FormField<
   value = $state() as Value;
   isValid = $state(true);
 
-  declare readonly id: HTMLInputAttributes['id'];
-  declare readonly autocomplete: HTMLInputAttributes['autocomplete'];
+  declare readonly id: string;
+  declare readonly autocomplete: FullAutoFill;
   declare readonly type: HTMLInputTypeAttribute | 'textarea';
-  declare readonly name: HTMLInputAttributes['name'];
+  declare readonly name: string;
   declare readonly label: string;
   declare readonly invalidText: string;
   declare readonly validate: (value: string) => boolean;
@@ -42,8 +56,11 @@ export class FormField<
   readonly mappingFunction: MappingFunction = ((value) => value) as MappingFunction;
   readonly filterFunction: FilterFunction = null as FilterFunction;
 
-  readonly onblur: () => void = generateFormFieldOnblurCallback(this);
-  readonly oninput: () => void = generateFormFieldOninputCallback(this);
+  onblur: (event: FocusEvent) => void = generateFormFieldOnblurCallback(this);
+  oninput: (event: Event) => void = generateFormFieldOninputCallback(this);
+
+  additionalElementAttributes: AdditionalElementAttributes<Value, MappingFunction, IncludeInMapping, FilterFunction> =
+    {};
 
   constructor({
     initialValue = '' as Value,

@@ -1,4 +1,4 @@
-import type { Address, CheckoutStage, Review, ShippingMethod, User } from '$types';
+import type { Address, CheckoutStage, ExtendedAddress, Review, ShippingMethod, User } from '$types';
 import { Client } from '../client';
 import type { Endpoint } from './endpoint';
 
@@ -53,7 +53,7 @@ export const prepareSetPersonalDetails: Endpoint<BaseCheckoutResponse, [Personal
 };
 
 type AddressResponse = {
-  address?: Address;
+  address?: ExtendedAddress;
 } & BaseCheckoutResponse;
 
 export const prepareGetAddress: Endpoint<AddressResponse> = (context) => {

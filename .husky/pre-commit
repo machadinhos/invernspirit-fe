@@ -21,7 +21,7 @@ fi
 
 export -f lint_and_format
 
-echo "$files" | xargs -I {} -P 5 bash -c 'lint_and_format "{}"'
+echo "$files" | xargs -I {} -P 10 bash -c 'lint_and_format "{}"'
 status=$?
 
 if [ $status -ne 0 ]; then

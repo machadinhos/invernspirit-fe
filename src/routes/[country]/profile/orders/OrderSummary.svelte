@@ -30,7 +30,7 @@
   <div class="flex justify-between p-2 text-3xl">
     <h3>{profile.orders.total}</h3>
     <h3 class="price">
-      {formatPrice(country.locale, country.currency.code, order.payment.netAmount)}
+      {formatPrice(country.locale, country.currency.code, order.payment.grossAmount)}
     </h3>
   </div>
   <div class="mb-2 flex w-full justify-center">

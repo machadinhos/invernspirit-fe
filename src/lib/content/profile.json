@@ -37,6 +37,7 @@
     }
   },
   "orders": {
+    "noOrders": "You have no orders",
     "moreProducts": "more products",
     "total": "Total",
     "viewOrder": "View order"

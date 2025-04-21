@@ -2,13 +2,12 @@
   import { FaEye, FaEyeSlash } from 'svelte-icons-pack/fa';
   import BaseInput from './BaseTextInput.svelte';
   import { common } from '$content';
-  import type { GenericFormField } from '$lib/utils/form-fields.svelte';
   import type { HTMLInputAttributes } from 'svelte/elements';
   import { Icon } from 'svelte-icons-pack';
   import type { Snippet } from 'svelte';
 
   type Props = {
-    field: GenericFormField;
+    field: import('$lib/utils/form-fields.svelte').GenericFormField;
     label?: Snippet;
     trailingIcon?: Snippet;
     class?: HTMLInputAttributes['class'];

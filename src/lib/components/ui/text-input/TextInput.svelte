@@ -1,12 +1,11 @@
 <script lang="ts">
   import BaseTextInput from './BaseTextInput.svelte';
-  import type { GenericFormField } from '$lib/utils/form-fields.svelte';
   import type { HTMLInputAttributes } from 'svelte/elements';
   import PasswordTextInput from './PasswordTextInput.svelte';
   import type { Snippet } from 'svelte';
 
   type Props = {
-    field: GenericFormField;
+    field: import('$lib/utils/form-fields.svelte').GenericFormField;
     label?: Snippet;
     trailingIcon?: Snippet;
     class?: HTMLInputAttributes['class'];
