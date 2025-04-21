@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { type GenericFormField } from '$lib/utils/form-fields.svelte';
   import type { HTMLInputAttributes } from 'svelte/elements';
   import type { Snippet } from 'svelte';
 
   type Props = {
-    field: GenericFormField;
+    field: import('$lib/utils/form-fields.svelte').GenericFormField;
     type?: HTMLInputAttributes['type'];
     label?: Snippet;
     trailingIcon?: Snippet;
@@ -18,6 +17,7 @@
   <div class="relative">
     {#if field.type !== 'textarea'}
       <input
+        {...field.additionalElementAttributes}
         id={field.id}
         name={field.name}
         class="peer focus:border-primary h-10 w-full border-b-2 border-white bg-transparent focus:outline-hidden {className}"

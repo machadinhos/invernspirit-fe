@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { CheckBox, TextInput } from '$components';
+  import { CheckBox, TextInput, TextInputWithAutocomplete } from '$components';
+  import type { CheckoutStage, Country } from '$types';
   import {
     FormField,
     mapFormFieldsToValues,
@@ -9,18 +10,19 @@
   import { validateNotRequiredInput, validateRequiredInput } from '$lib/utils/input-validation';
   import { bffClient } from '$service';
   import { checkout } from '$content';
-  import type { CheckoutStage } from '$types';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
+  import { provinces } from '$lib/utils/address';
   import { user } from '$state';
 
   type Props = {
     stages: CheckoutStage[];
     goToNextStage: () => void;
     onStageSubmit: ((e: SubmitEvent) => void) | undefined;
+    country: Country;
   };
 
-  let { stages = $bindable(), goToNextStage, onStageSubmit = $bindable() }: Props = $props();
+  let { stages = $bindable(), goToNextStage, onStageSubmit = $bindable(), country }: Props = $props();
 
   let saveAddress = $state(true);
 
@@ -79,11 +81,14 @@
     province: new FormField({
       id: 'address-province',
       name: 'province',
-      autocomplete: 'address-level1',
+      autocomplete: 'off',
       type: 'text',
       label: checkout.addressPage.formFields.province.label,
       invalidText: checkout.addressPage.formFields.province.invalidText,
-      validate: page.params.country === 'es' ? validateRequiredInput : (): boolean => true,
+      validate:
+        page.params.country === 'es'
+          ? (value): boolean => validateRequiredInput(value) && provinces.includes(value)
+          : (): boolean => true,
       required: page.params.country === 'es',
       filterFunction: (): boolean => page.params.country === 'es',
     }),
@@ -102,15 +107,23 @@
 
   onMount(async () => {
     const { address } = await bffClient.checkout.stages.address.get(page.params.country);
-    if (address) populateFormFields(formFields, address);
+    if (address && address.country === country.code) populateFormFields(formFields, address);
 
     onStageSubmit = onFormSubmit;
   });
 </script>
 
+<p>{checkout.addressPage.countryDisclaimer}</p>
+
 <div class="grid gap-4 lg:grid-cols-2">
   {#each Object.values(formFields) as field (field.id)}
-    {#if field.name !== 'province' || (field.name === 'province' && page.params.country === 'es')}
+    {#if field.name === 'province' && page.params.country === 'es'}
+      <TextInputWithAutocomplete {field} options={provinces}>
+        {#snippet label()}
+          {field.label}
+        {/snippet}
+      </TextInputWithAutocomplete>
+    {:else if field.name !== 'province'}
       <TextInput {field}>
         {#snippet label()}
           {field.label}

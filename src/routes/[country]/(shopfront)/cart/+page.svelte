@@ -59,18 +59,16 @@
   <div class="flex h-full w-full flex-col items-center md:flex-row md:items-start md:justify-center md:gap-5 lg:gap-10">
     <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
       {#if config.isInitialized}
-        {#if cartState.value.length > 0}
-          {#each cartState.value as product (product.id)}
-            <div class="flex w-full justify-center" animate:flip={{ duration: 150 }}>
-              <LineItemCard country={data.country} editable {product} pushToastOnQuantityUpdate={false} />
-            </div>
-          {/each}
+        {#each cartState.value as product (product.id)}
+          <div class="flex w-full justify-center" animate:flip={{ duration: 150 }}>
+            <LineItemCard country={data.country} editable {product} pushToastOnQuantityUpdate={false} />
+          </div>
         {:else}
           <div class="mt-24 text-center text-2xl md:flex md:gap-1.5">
             <span>{cart.emptyCartMessage}</span>
             <Anchor class="block" href="/{page.params.country}/shop/products">{cart.fillUpCTA}</Anchor>
           </div>
-        {/if}
+        {/each}
       {/if}
     </div>
     <div class="bg-secondary sticky -bottom-px mt-4 w-full md:top-0 md:mt-0 md:w-1/3 md:max-w-[396px]">

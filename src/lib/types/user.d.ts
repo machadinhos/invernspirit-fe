@@ -1,4 +1,4 @@
-import type { Address } from '$lib/types/checkout';
+import type { ExtendedAddress } from '$lib/types/checkout';
 
 type UserBaseInfo = {
   email: string;
@@ -11,4 +11,4 @@ export type UserPersonalInformation = {
 
 export type User = UserPersonalInformation & UserBaseInfo;
 
-type UserDetails = { address?: Address; isValidated: boolean } & User;
+type UserDetails = { address?: ExtendedAddress; isValidated: boolean } & User;

@@ -5,6 +5,8 @@
   "continueToPaymentButton": "Continue to payment",
   "addressPage": {
     "title": "Delivery Address",
+    "selectedCountry": "Selected country",
+    "countryDisclaimer": "Make sure to select the correct country from the country selector at the top of the page.",
     "submitButton": "Confirm",
     "saveAddress": "Save address",
     "formFields": {
@@ -30,7 +32,7 @@
       },
       "province": {
         "label": "Province",
-        "invalidText": "Please enter your province."
+        "invalidText": "Use the dropdown menu to select a valid province."
       }
     }
   },
