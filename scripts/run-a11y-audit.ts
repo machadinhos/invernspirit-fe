@@ -1,53 +1,69 @@
 /* eslint-disable no-console */
 import AxePuppeteer from '@axe-core/puppeteer';
+import { findPages } from './utils/find-pages';
 import puppeteer from 'puppeteer';
+import type { Result } from 'axe-core';
 
 const host = 'http://localhost:5173';
-const countryCodes = ['/es'];
-const pagesToTest = [
-  '/',
-  '/about',
-  '/contact',
-  '/shop/collections',
-  '/shop/products',
-  '/cart',
-  '/sign-in',
-  '/sign-up',
-  '/checkout',
-];
+const pagesToTest = findPages();
 
 const browser = await puppeteer.launch();
-const page = await browser.newPage();
+
+type AuditResult = {
+  path: string;
+  url: string;
+  violations: Result[];
+};
+
+async function auditPage(path: string): Promise<AuditResult> {
+  const url = `${host}/${path}`;
+  const page = await browser.newPage();
+  await page.goto(url, { waitUntil: 'networkidle0' });
+  const results = await new AxePuppeteer(page).analyze();
+  await page.close();
+
+  return {
+    path,
+    url,
+    violations: results.violations,
+  };
+}
+
+console.log(`🔍 Launching audits for ${pagesToTest.length} pages…\n`);
+
+const settled = await Promise.allSettled(pagesToTest.map(auditPage));
+
+const successful = settled
+  .filter((s) => s.status === 'fulfilled')
+  .map((s: PromiseFulfilledResult<AuditResult>) => s.value)
+  .sort((a, b) => a.violations.length - b.violations.length);
+
+const errors = settled.filter((s) => s.status === 'rejected').map((s: PromiseRejectedResult) => s.reason);
 
 let totalViolations = 0;
-
-for (const path of pagesToTest) {
-  for (const countryCode of countryCodes) {
-    const url = `${host}${countryCode}${path}`;
-    console.log(`\n🔍 Testing ${url}...`);
-    await page.goto(url, { waitUntil: 'networkidle0' });
-
-    const results = await new AxePuppeteer(page).analyze();
-
-    if (results.violations.length > 0) {
-      totalViolations += results.violations.length;
-      console.log(`🚨 Accessibility violations found:`);
-      results.violations.forEach((violation) => {
-        console.log(`\n- ${violation.id}: ${violation.description}`);
-        violation.nodes.forEach((node, index) => {
-          console.log(`  ${index + 1}. HTML Element: ${node.html}`);
-          console.log(`     Failure Summary: ${node.failureSummary}`);
-        });
+for (const { path, url, violations } of successful) {
+  if (violations.length === 0) {
+    console.log(`✅ [${path}] no violations`);
+  } else {
+    totalViolations += violations.length;
+    console.log(`\n🚨 [${path}] ${violations.length} violations at ${url}:`);
+    for (const v of violations) {
+      console.log(`\n  • ${v.id}: ${v.description}`);
+      v.nodes.forEach((node, i) => {
+        console.log(`     ${i + 1}. <${node.html.trim()}>`);
+        console.log(`        ${node.failureSummary}`);
       });
-    } else {
-      console.log(`✅ No accessibility violations found.`);
     }
   }
 }
 
-await browser.close();
+if (errors.length) {
+  console.log(`\n❌ ${errors.length} pages failed to audit due to errors:`);
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  errors.forEach((e: any, i) => console.log(`  ${i + 1}. ${e.stack || e}`));
+}
 
-console.log('\n✅ Accessibility audit completed.');
-console.log('Found accessibility violations:', totalViolations);
+console.log('\n✅ All audits complete.');
+console.log(`Total accessibility violations: ${totalViolations}`);
 
-process.exit(totalViolations > 0 ? 1 : 0);
+process.exit(totalViolations > 0 || errors.length > 0 ? 1 : 0);

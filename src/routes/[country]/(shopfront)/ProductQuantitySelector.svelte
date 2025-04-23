@@ -53,6 +53,7 @@
     <input
       bind:this={inputElementRef}
       class="w-7 text-center focus:outline-hidden"
+      aria-label="quantity"
       disabled={disabled || (!canDecrementSelectedQuantity && !canIncrementSelectedQuantity)}
       max={stock}
       min={allowZero ? 0 : 1}

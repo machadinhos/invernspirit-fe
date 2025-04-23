@@ -19,7 +19,7 @@
   <div class="flex flex-row-reverse justify-end lg:w-1/2 lg:flex-col lg:pl-40">
     <h1 class="ml-3 text-5xl">{data.collection.name}</h1>
     <div class="mt-5 w-fit">
-      <a href="/{page.params.country}/shop/collections">
+      <a aria-label="back" href="/{page.params.country}/shop/collections">
         <Icon size="30" src={BsArrowReturnLeft} />
       </a>
     </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, GrainyFilter } from '$components';
+  import { Button, GrainyFilter, VerificationCodeInput } from '$components';
   import { home } from '$content';
   import { imageLinks } from '$constants';
   import { page } from '$app/state';
@@ -64,6 +64,8 @@
     </a>
   </div>
 </div>
+
+<VerificationCodeInput length={8} type="numeric" value="" />
 
 <style>
   @keyframes pulsate {
