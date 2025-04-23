@@ -77,15 +77,36 @@
 
     value = getFullValue();
   };
+
+  const getInputs = (): HTMLInputElement[] => {
+    const inputs = document.getElementsByClassName(`${id}-input`);
+    return Array.from(inputs) as HTMLInputElement[];
+  };
+
+  const onfocus = (event: FocusEvent): void => {
+    const target = event.target as HTMLInputElement;
+    requestAnimationFrame(() => {
+      target.setSelectionRange(target.value.length, target.value.length);
+    });
+    if (target.value !== '') return;
+    const inputs = getInputs();
+    const firstEmptyInput = inputs.find((input) => input.value === '');
+    if (!firstEmptyInput) return;
+    if (firstEmptyInput === target) return;
+    const index = getIndexFromId(firstEmptyInput.id);
+    if (index === length - 1) return;
+    inputs[index].focus();
+  };
 </script>
 
 <div class="flex gap-2">
   {#each Array.from({ length }, (_, i) => i) as index (index)}
     <input
       id="{id}-input-{index}"
-      class="focus:border-b-primary w-7 border-b-2 border-white text-center focus:outline-hidden"
+      class="{id}-input focus:border-b-primary w-7 border-b-2 border-white text-center focus:outline-hidden"
       autocomplete="off"
       inputmode={type === 'numeric' ? 'numeric' : 'text'}
+      {onfocus}
       {oninput}
       {onkeydown}
       {onpaste}

@@ -29,3 +29,6 @@ vite.config.ts.timestamp-*
 
 # Temporary files
 *~
+
+# Sitemap
+static/sitemap.xml
