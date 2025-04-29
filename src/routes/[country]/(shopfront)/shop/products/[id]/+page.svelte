@@ -70,8 +70,9 @@
       <ProductStatusBanner {bucketStock} {inCartQuantity} />
     </div>
     <Button
-      class="w-full font-bold"
+      class="font-bold"
       disabled={bucketStock === undefined || availableStock === undefined || availableStock <= 0}
+      fullWidth
       onclick={onAddToCartClick}>{shop.addToCartButtonLabel}</Button
     >
   </div>
