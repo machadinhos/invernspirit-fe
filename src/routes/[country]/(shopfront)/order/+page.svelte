@@ -42,8 +42,8 @@
         });
 
         retriesConfig = {
-          maxRetries: 3,
-          retryDelay: 1500,
+          maxRetries: 4,
+          retryDelay: 2500,
           shouldRetry: (response): boolean => response.status === 404,
         };
       }
