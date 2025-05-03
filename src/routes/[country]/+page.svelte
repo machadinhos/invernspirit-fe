@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, GrainyFilter, VerificationCodeInput } from '$components';
+  import { Button, GrainyFilter } from '$components';
   import { home } from '$content';
   import { imageLinks } from '$constants';
   import { page } from '$app/state';

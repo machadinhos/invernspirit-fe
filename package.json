@@ -23,24 +23,24 @@
   "dependencies": {
     "@axe-core/puppeteer": "^4.10.1",
     "@sveltejs/adapter-static": "^3.0.8",
-    "@sveltejs/kit": "^2.20.7",
+    "@sveltejs/kit": "^2.20.8",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
-    "@tailwindcss/postcss": "^4.1.4",
-    "@tailwindcss/vite": "^4.1.4",
-    "@types/bun": "^1.2.11",
+    "@tailwindcss/postcss": "^4.1.5",
+    "@tailwindcss/vite": "^4.1.5",
+    "@types/bun": "^1.2.12",
     "dompurify": "^3.2.5",
     "embla-carousel-svelte": "^8.6.0",
-    "puppeteer": "^24.7.2",
+    "puppeteer": "^24.8.0",
     "svelte": "^5.28.2",
     "svelte-icons-pack": "^3.1.3",
-    "tailwindcss": "^4.1.4",
-    "vite": "^6.3.3"
+    "tailwindcss": "^4.1.5",
+    "vite": "^6.3.5"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250429.0",
+    "@cloudflare/workers-types": "^4.20250505.0",
     "@types/cloudflare-turnstile": "^0.2.2",
     "@types/eslint": "^9.6.1",
-    "eslint": "^9.25.1",
+    "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-svelte": "^3.5.1",
@@ -50,8 +50,8 @@
     "prettier": "^3.5.3",
     "prettier-plugin-svelte": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "svelte-check": "^4.1.6",
+    "svelte-check": "^4.1.7",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.31.1"
+    "typescript-eslint": "^8.32.0"
   }
 }

@@ -14,7 +14,7 @@
   ];
 </script>
 
-<slvete:head><title>{faq.headTitle}</title></slvete:head>
+<svelte:head><title>{faq.headTitle}</title></svelte:head>
 
 <h1 class="mb-9 text-center text-5xl">{faq.title}</h1>
 
