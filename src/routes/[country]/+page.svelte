@@ -67,16 +67,15 @@
 
 <style>
   @keyframes pulsate {
-    0%,
-    100% {
+    from {
       filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
     }
-    50% {
+    to {
       filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0));
     }
   }
 
   .pulsating {
-    animation: pulsate 2s infinite ease-in-out;
+    animation: pulsate 2s infinite alternate;
   }
 </style>
