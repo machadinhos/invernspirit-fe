@@ -52,6 +52,7 @@
   <div class="flex h-full w-7 items-center justify-center">
     <input
       bind:this={inputElementRef}
+      name="quantity"
       class="w-7 text-center focus:outline-hidden"
       aria-label="quantity"
       disabled={disabled || (!canDecrementSelectedQuantity && !canIncrementSelectedQuantity)}

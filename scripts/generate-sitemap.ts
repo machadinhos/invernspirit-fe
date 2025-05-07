@@ -70,7 +70,12 @@ function getSitemapString(): string {
       str += langLink;
       str += `${template.url.xhtmlLink.hreflang.close} `;
       str += template.url.xhtmlLink.href.open;
-      str += domain + langLink + (page ? '/' : '') + page;
+      str +=
+        domain +
+        langLink +
+        (
+          (page ? '/' : '') + (/^([a-z]{2}\/.*|[a-z]{2})$/.test(page) ? page.replace(/^([^/]*\/|.{2})/, '') : page)
+        ).replace(/\/$/, '');
       str += template.url.xhtmlLink.href.close;
       str += template.url.xhtmlLink.close;
     }
