@@ -1,18 +1,13 @@
 <script lang="ts">
-  import { appleIcon, googleIcon } from '$components-svg-icons';
   import { auth } from '$content';
   import { bffClient } from '$service';
+  import { googleIcon } from '$components-svg-icons';
   import { page } from '$app/state';
   import type { Snippet } from 'svelte';
 
   const onContinueWithGoogleClick = async (): Promise<void> => {
     const { url } = await bffClient.user.oauth.google(page.params.country);
     window.location.assign(url);
-  };
-
-  const onContinueWithAppleClick = (): void => {
-    // TODO
-    alert('todo');
   };
 </script>
 
@@ -38,7 +33,6 @@
   </div>
   <div class="flex w-full flex-col items-center gap-3">
     {@render oAuthButton(googleIcon, auth.googleAriaLabel, auth.googleName, onContinueWithGoogleClick)}
-    {@render oAuthButton(appleIcon, auth.appleAriaLabel, auth.appleName, onContinueWithAppleClick)}
   </div>
 </div>
 
