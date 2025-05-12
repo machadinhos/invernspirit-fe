@@ -51,7 +51,7 @@
 {#if !shrinkOnClick}
   {@render button()}
 {:else}
-  <ShrinkOnClickWrapper {disabled} {fullWidth}>
+  <ShrinkOnClickWrapper>
     {@render button()}
   </ShrinkOnClickWrapper>
 {/if}

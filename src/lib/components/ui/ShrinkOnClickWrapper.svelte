@@ -1,30 +1,27 @@
 <script lang="ts">
   type Props = {
     children: import('svelte').Snippet;
-    fullWidth?: boolean;
     scaleConfig?: { scaleX: number; scaleY: number } | { scaleXY: number };
-    disabled?: boolean;
   };
 
-  let { children, fullWidth, scaleConfig = { scaleXY: 90 }, disabled = false }: Props = $props();
+  let { children, scaleConfig = { scaleXY: 90 } }: Props = $props();
 
   if ('scaleXY' in scaleConfig) scaleConfig = { scaleX: scaleConfig.scaleXY, scaleY: scaleConfig.scaleXY };
 </script>
 
 <div
   style={`--scale-x-value: ${scaleConfig.scaleX / 100}; --scale-y-value: ${scaleConfig.scaleY / 100}`}
-  class="shrinking-element transition-all {fullWidth ? 'w-full' : 'w-fit'}"
-  class:disabled
+  class="shrinking-element contents"
 >
   {@render children()}
 </div>
 
 <style>
-  .shrinking-element:active {
-    transform: scaleX(var(--scale-x-value)) scaleY(var(--scale-y-value));
+  :global(.shrinking-element > *) {
+    transition: transform 150ms ease-in-out;
   }
 
-  .shrinking-element.disabled:active {
-    transform: none;
+  :global(.shrinking-element > *:not(:disabled):active) {
+    transform: scaleX(var(--scale-x-value)) scaleY(var(--scale-y-value));
   }
 </style>
