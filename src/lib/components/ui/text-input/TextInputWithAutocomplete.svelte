@@ -13,7 +13,6 @@
   const id = $props.id();
 
   let isOpen = $state(false);
-  let selectedOption = $state(0);
   let heightFitOptions = $state(4);
   let placement: 'above' | 'below' = $state('below');
   let activeOptions = $derived(
@@ -21,6 +20,7 @@
       return options.filter((option) => option.toLowerCase().includes(field.value.toLowerCase()));
     })(),
   );
+  let selectedOption = $derived(options.indexOf(activeOptions[0]));
 
   let optionsElement: HTMLElement;
   let ignoreFocus = false;
@@ -80,12 +80,6 @@
     return true;
   };
 
-  const scrollSelectedOptionIntoView = (): void => {
-    const selectedOptionElement = optionsElement.querySelector(`#${id}-option-${selectedOption}`);
-    if (!selectedOptionElement) return;
-    selectedOptionElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  };
-
   field.additionalElementAttributes.onkeydown = (event: KeyboardEvent): void => {
     if (event.key === 'ArrowDown') {
       event.preventDefault();
@@ -94,7 +88,6 @@
       const nextOption = activeOptions.indexOf(options[selectedOption]) + 1;
       if (nextOption >= activeOptions.length) return;
       selectedOption = options.indexOf(activeOptions[nextOption]);
-      scrollSelectedOptionIntoView();
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
       if (trySelectFirstActiveOption()) return;
@@ -102,7 +95,6 @@
       const prevOption = activeOptions.indexOf(options[selectedOption]) - 1;
       if (prevOption <= -1) return;
       selectedOption = options.indexOf(activeOptions[prevOption]);
-      scrollSelectedOptionIntoView();
     } else if (event.key === 'Enter') {
       if (!isOpen) return;
       event.preventDefault();
@@ -145,7 +137,9 @@
   });
 
   $effect(() => {
-    selectedOption = options.indexOf(activeOptions[0]);
+    const selectedOptionElement = optionsElement.querySelector(`#${id}-option-${selectedOption}`);
+    if (!selectedOptionElement) return;
+    selectedOptionElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 
   $effect(() => {
