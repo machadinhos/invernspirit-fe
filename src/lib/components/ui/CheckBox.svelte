@@ -10,7 +10,7 @@
   let { checked = $bindable(), label, class: className }: Props = $props();
 </script>
 
-<label class="inline-flex cursor-pointer items-center gap-2 {className}">
+<label class="inline-flex w-max cursor-pointer items-center gap-2 {className}">
   <input class="absolute hidden cursor-pointer" type="checkbox" bind:checked />
   <div class="border-text-secondary flex h-5 w-5 items-center justify-center border-2">
     <div class="h-full w-full">

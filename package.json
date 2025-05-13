@@ -37,7 +37,7 @@
     "vite": "^6.3.5"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250510.0",
+    "@cloudflare/workers-types": "^4.20250513.0",
     "@types/cloudflare-turnstile": "^0.2.2",
     "@types/eslint": "^9.6.1",
     "eslint": "^9.26.0",
