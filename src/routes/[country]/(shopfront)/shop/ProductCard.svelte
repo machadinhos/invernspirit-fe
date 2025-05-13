@@ -45,7 +45,7 @@
   <div class="relative h-64">
     <ProductStatusBanner class="absolute top-2 left-2" {bucketStock} {inCartQuantity} />
     <a href="/{page.params.country}/shop/products/{product.id}">
-      <img alt={product.images[0].alt} src={product.images[0].url} />
+      <img alt={product.images[0].alt} height="256" src={product.images[0].url} width="256" />
     </a>
   </div>
   <div class="px-4 pt-1 pb-3">
