@@ -14,7 +14,7 @@
         "dompurify": "^3.2.5",
         "embla-carousel-svelte": "^8.6.0",
         "puppeteer": "^24.8.2",
-        "svelte": "^5.28.5",
+        "svelte": "^5.28.6",
         "svelte-icons-pack": "^3.1.3",
         "tailwindcss": "^4.1.6",
         "vite": "^6.3.5",
@@ -50,7 +50,7 @@
 
     "@babel/helper-validator-identifier": ["@babel/helper-validator-identifier@7.25.9", "", {}, "sha512-Ed61U6XJc3CVRfkERJWDz4dJwKe7iLmmJsbOGu9wSloNSFttHV0I8g6UAgb7qnK5ly5bGLPd4oXZlxCdANBOWQ=="],
 
-    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20250513.0", "", {}, "sha512-TXaQyWLqhxEmi/DHx+VSaHZ4DHF/uJCPVv/hRyC7M/eWBo/I7mBtAkUEsrhqcKKO9oCeeRUHUHoeRLh5Gd96Gg=="],
+    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20250514.0", "", {}, "sha512-zjyqRjoFnAzg7n+mxMxJAbIeOggUXLJTXA8WyT+xGDE+6MF9bSf1ypEULu4DXQQYLf6nDM6NwzLex/8ABTH+Lw=="],
 
     "@esbuild/aix-ppc64": ["@esbuild/aix-ppc64@0.25.0", "", { "os": "aix", "cpu": "ppc64" }, "sha512-O7vun9Sf8DFjH2UtqK8Ku3LkquL9SZL8OLY1T5NZkA34+wG3OQF7cl4Ql8vdNzM6fzBbYfLaiRLIOZ+2FOCgBQ=="],
 

@@ -1,15 +1,18 @@
 <script lang="ts">
   import { Button, TextInput } from '$components';
+  import { CaptchaElement, Form } from '$components-utils';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { auth } from '$content';
   import { bffClient } from '$service';
-  import { Form } from '$components-utils';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import { validateEmail } from '$lib/utils/input-validation';
 
   let processing = $state(false);
+  let resetToken: (() => void) | undefined = $state();
+
+  let captchaToken: string | undefined;
 
   const formFields = {
     email: new FormField({
@@ -25,12 +28,21 @@
   };
 
   const onsubmit = async (): Promise<void> => {
-    if (!validateFormFields(formFields)) return;
+    if (!validateFormFields(formFields) || !captchaToken) return;
 
-    const email = mapFormFieldsToValues(formFields).email;
-    await bffClient.user.forgotPassword.submitEmail(page.params.country, email);
+    const payload = { ...mapFormFieldsToValues(formFields), captchaToken };
 
-    goto(`/${page.params.country}/forgot-password?email=${encodeURIComponent(email)}`);
+    try {
+      await bffClient.user.forgotPassword.submitEmail(page.params.country, payload);
+      goto(`/${page.params.country}/forgot-password?email=${encodeURIComponent(payload.email)}`);
+    } catch {
+      captchaToken = undefined;
+      resetToken?.();
+    }
+  };
+
+  const captchaCallback = (token: string): void => {
+    captchaToken = token;
   };
 
   onMount(() => {
@@ -49,6 +61,9 @@
       {formFields.email.label}
     {/snippet}
   </TextInput>
+
+  <CaptchaElement action="ask-email-forgot-password" callback={captchaCallback} bind:resetToken />
+
   <Button class="mt-2.5" disabled={processing} fullWidth type="submit"
     >{auth.forgotPassword.emailPage.submitButton}</Button
   >

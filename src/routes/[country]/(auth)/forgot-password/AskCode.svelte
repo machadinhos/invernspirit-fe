@@ -27,23 +27,11 @@
 
     goto(`/${page.params.country}/forgot-password?email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`);
   };
-
-  const onSendAnotherCodeClick = async (): Promise<void> => {
-    await bffClient.user.forgotPassword.submitEmail(page.params.country, email);
-  };
 </script>
 
 <Form class="w-full" {onsubmit} bind:processing>
   <h1 class="mb-2.5 text-center text-3xl">{auth.forgotPassword.codePage.title}</h1>
   <p class="text-center">{auth.forgotPassword.codePage.description}</p>
-  <div class="mb-2.5 flex w-full justify-center">
-    <p>
-      {auth.forgotPassword.codePage.didntReceiveCode}
-      <button class="text-primary" onclick={onSendAnotherCodeClick} type="button"
-        >{auth.forgotPassword.codePage.resendEmailButton}</button
-      >
-    </p>
-  </div>
   <div class="flex w-full justify-center">
     <VerificationCodeInput length={8} type="numeric" bind:value={code} />
   </div>

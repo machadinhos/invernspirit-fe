@@ -157,13 +157,18 @@ export const prepareLogout: Endpoint<LogoutResponse> = (context) => {
   };
 };
 
-export const prepareForgotPasswordSubmitEmail: Endpoint<void, [string]> = (context) => {
-  return (countryCode, email) => {
-    return Client.create<never, { email: string }>()
+type ForgotPasswordSubmitEmailPayload = {
+  email: string;
+  captchaToken: string;
+};
+
+export const prepareForgotPasswordSubmitEmail: Endpoint<void, [ForgotPasswordSubmitEmailPayload]> = (context) => {
+  return (countryCode, payload) => {
+    return Client.create<never, ForgotPasswordSubmitEmailPayload>()
       .withHostContext(context)
       .withEndpoint(`/${countryCode}/${PATH}/forgot-password/submit-email`)
       .withMethod('POST')
-      .withBody({ email })
+      .withBody(payload)
       .call();
   };
 };

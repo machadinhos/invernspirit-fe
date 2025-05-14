@@ -1,6 +1,6 @@
-import { beClientProxy } from '@utils';
+import { beClientProxyWithCaptcha } from '@utils';
 import { Env } from '@types';
 
 export const onRequest: PagesFunction<Env> = ({ request, env }) => {
-  return beClientProxy(request, ['POST'], env);
+  return beClientProxyWithCaptcha(request, ['POST'], env);
 };
