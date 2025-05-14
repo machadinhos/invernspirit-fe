@@ -13,9 +13,10 @@
   type Props = {
     actionAfterAuthentication: () => void;
     showAuthSwitchMessage?: boolean;
+    actionAfterForgotPasswordClick?: () => void;
   };
 
-  let { actionAfterAuthentication, showAuthSwitchMessage = true }: Props = $props();
+  let { actionAfterAuthentication, showAuthSwitchMessage = true, actionAfterForgotPasswordClick }: Props = $props();
 
   let rememberMeInput = $state(true);
   let processing = $state(false);
@@ -92,7 +93,9 @@
 
   <div class="mb-4 flex justify-between">
     <CheckBox label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
-    <Anchor class="text-right" href={forgotPasswordUrl}>{auth.signIn.forgotPassword}</Anchor>
+    <Anchor class="text-right" href={forgotPasswordUrl} onclick={actionAfterForgotPasswordClick}
+      >{auth.signIn.forgotPassword}</Anchor
+    >
   </div>
 
   <CaptchaElement action="log-in" callback={captchaCallback} bind:resetToken />

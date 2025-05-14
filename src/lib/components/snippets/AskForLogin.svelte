@@ -61,6 +61,10 @@
   };
 
   const gotoChoicesState = (): string => (state = 'choosing');
+
+  const closeModal = (): void => {
+    modal.close();
+  };
 </script>
 
 {#snippet setStateButton(name: string, action: () => void, reverseColor: boolean = false)}
@@ -108,7 +112,11 @@
         )}
       </div>
     {:else if state === 'sign in'}
-      <SignIn actionAfterAuthentication={getFinalAction(modal, params.action)} showAuthSwitchMessage={false} />
+      <SignIn
+        actionAfterAuthentication={getFinalAction(modal, params.action)}
+        actionAfterForgotPasswordClick={closeModal}
+        showAuthSwitchMessage={false}
+      />
     {:else if state === 'sign up'}
       <SignUp actionAfterAuthentication={getFinalAction(modal, params.action)} showAuthSwitchMessage={false} />
     {/if}
