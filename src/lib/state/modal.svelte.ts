@@ -1,4 +1,3 @@
-import { generateUniqueId } from '$lib/utils/general';
 import type { Snippet } from 'svelte';
 
 type Element<T> = Snippet<[ModalInstance<T>, T]>;
@@ -7,10 +6,10 @@ class ModalInstance<T = void> {
   readonly element: Element<T>;
   readonly extraParams?: T;
   readonly close: () => void;
-  readonly id: string;
+  readonly id: symbol;
 
   constructor(element: Element<T>, extraParams?: T) {
-    this.id = generateUniqueId();
+    this.id = Symbol();
     this.element = element;
     this.extraParams = extraParams;
     this.close = modal.generateCloseFunction(this.id);
@@ -25,7 +24,7 @@ class Modal {
     if (this.queue.length > 0 && !this.value) this.value = this.queue.shift();
   };
 
-  generateCloseFunction = (id: string): (() => void) => {
+  generateCloseFunction = (id: symbol): (() => void) => {
     return (): void => {
       if (this.value?.id === id) {
         this.value = undefined;

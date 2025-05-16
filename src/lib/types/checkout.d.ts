@@ -1,4 +1,4 @@
-import type { Cart } from '$lib/types/cart';
+import type { Cart } from './cart';
 
 type StageName = 'address' | 'personal-details' | 'shipping' | 'review';
 

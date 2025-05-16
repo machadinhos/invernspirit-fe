@@ -1,4 +1,4 @@
-import type { LineItem } from '$lib/types/line-item';
+import type { LineItem } from './cart';
 import type { UserDetails } from './user';
 
 export type Config = {

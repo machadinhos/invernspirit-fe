@@ -1,5 +1,5 @@
 <script lang="ts">
-  import BaseTextInput from '$lib/components/ui/text-input/BaseTextInput.svelte';
+  import BaseTextInput from './BaseTextInput.svelte';
   import type { FocusEventHandler } from 'svelte/elements';
 
   type Props = {

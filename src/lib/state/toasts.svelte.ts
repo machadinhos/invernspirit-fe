@@ -1,4 +1,3 @@
-import { generateUniqueId } from '$lib/utils/general';
 import type { Snippet } from 'svelte';
 
 type DurationOptions =
@@ -32,10 +31,9 @@ class Toast<T = void> {
   declare readonly hasRemainingTimeLine: boolean;
   declare readonly element: Element<T>;
   declare readonly extraParams: T | undefined;
-  declare readonly id: string;
+  declare readonly id: symbol;
   declare readonly destroy: () => undefined;
   declare readonly type: 'normal' | 'error' | 'success';
-  declare readonly group: string | undefined;
   declare readonly singleton: boolean;
 
   constructor(
@@ -69,12 +67,11 @@ class Toast<T = void> {
     this.duration = duration;
     this.element = element;
     this.extraParams = extraParams;
-    this.id = generateUniqueId();
+    this.id = Symbol(group);
     this.destroy = (): undefined => {
       toasts.value = toasts.value.filter((toast) => toast.id !== this.id);
     };
     this.type = type;
-    this.group = group;
     this.singleton = singleton;
   }
 
@@ -143,13 +140,14 @@ export class Toasts {
   };
 
   filterOutGroup = (group: string): void => {
-    this.restOfToasts = this.restOfToasts.filter((toast) => toast.group !== group);
-    this.value = this.value.filter((toast) => toast.group !== group);
+    this.restOfToasts = this.restOfToasts.filter((toast) => toast.id.description !== group);
+    this.value = this.value.filter((toast) => toast.id.description !== group);
   };
 
   findToastByGroup = (group: string): Toast<unknown> | undefined => {
     return (
-      this.value.find((toast) => toast.group === group) ?? this.restOfToasts.find((toast) => toast.group === group)
+      this.value.find((toast) => toast.id.description === group) ??
+      this.restOfToasts.find((toast) => toast.id.description === group)
     );
   };
 }

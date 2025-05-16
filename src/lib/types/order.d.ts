@@ -1,6 +1,6 @@
-import type { ExtendedAddress, ShippingMethod } from '$lib/types/checkout';
-import type { LineItem } from '$lib/types/cart';
-import type { User } from '$lib/types/user';
+import type { ExtendedAddress, ShippingMethod } from './checkout';
+import type { LineItem } from './cart';
+import type { User } from './user';
 
 export type OrderStatus = 'processing_payment' | 'packaging' | 'shipping' | 'completed' | 'canceled' | 'error';
 

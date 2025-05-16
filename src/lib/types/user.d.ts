@@ -1,4 +1,4 @@
-import type { ExtendedAddress } from '$lib/types/checkout';
+import type { ExtendedAddress } from './checkout';
 
 type UserBaseInfo = {
   email: string;

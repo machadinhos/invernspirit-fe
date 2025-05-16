@@ -1,6 +1,6 @@
 <script lang="ts">
-  import UserDataPage from '$lib/components/ui/auth/UserDataPage.svelte';
-  import VerifyEmailPage from '$lib/components/ui/auth/VerifyEmailPage.svelte';
+  import UserDataPage from './UserDataPage.svelte';
+  import VerifyEmailPage from './VerifyEmailPage.svelte';
 
   type Props = {
     actionAfterAuthentication: () => void;

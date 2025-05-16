@@ -1,5 +1,5 @@
 import { Client } from '$lib/service/client';
-import type { Endpoint } from '$lib/service/endpoints/endpoint';
+import type { Endpoint } from './endpoint';
 
 const PATH = 'oauth';
 
