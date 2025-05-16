@@ -1,5 +1,5 @@
 <script lang="ts" module>
-  import AskForLogin from '$lib/components/snippets/AskForLogin.svelte';
+  import AskForLogin from './AskForLogin.svelte';
   import { type ModalInstance } from '$state';
 
   type Params = {

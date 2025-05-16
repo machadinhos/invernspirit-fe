@@ -1,21 +1,23 @@
-import type { Action } from 'svelte/action';
+import type { AttachmentGenerator } from './attachment-generator';
 import { on } from 'svelte/events';
 
 type Params = {
   callback: () => void;
   otherIncludedElements?: (HTMLElement | undefined)[];
   otherIncludedElementsIds?: string[];
-  isEnabled?: () => boolean;
+  isEnabled?: boolean;
 };
 
-export const onClickOutside: Action<HTMLElement, Params> = (
-  node: HTMLElement,
-  { callback, otherIncludedElements = [], otherIncludedElementsIds = [], isEnabled = (): boolean => true }: Params,
-) => {
-  $effect(() => {
-    const handleClick = (event: MouseEvent): void => {
-      if (!isEnabled()) return;
+export const onClickOutside: AttachmentGenerator<[Params]> = ({
+  callback,
+  otherIncludedElements = [],
+  otherIncludedElementsIds = [],
+  isEnabled = true,
+}) => {
+  return (node) => {
+    if (!isEnabled) return;
 
+    const handleClick = (event: MouseEvent): void => {
       const otherIncludedElementsById = otherIncludedElementsIds.map((id) => document.getElementById(id));
       const containsTarget = [...otherIncludedElementsById, ...otherIncludedElements, node].some((el) =>
         el?.contains(event.target as HTMLElement),
@@ -25,5 +27,5 @@ export const onClickOutside: Action<HTMLElement, Params> = (
     };
 
     return on(document, 'click', handleClick, { capture: true });
-  });
+  };
 };

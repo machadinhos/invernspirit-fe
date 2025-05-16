@@ -4,7 +4,7 @@
   import emblaCarouselSvelte from 'embla-carousel-svelte';
   import { Icon } from 'svelte-icons-pack';
   import type { Image } from '$types';
-  import Thumbnails from '$lib/components/ui/carousel/Thumbnails.svelte';
+  import Thumbnails from './Thumbnails.svelte';
 
   type Props = {
     images: Image[];

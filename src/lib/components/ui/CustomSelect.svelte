@@ -1,5 +1,5 @@
 <script generics="T" lang="ts">
-  import { onClickOutside } from '$components-actions';
+  import { onClickOutside } from '$components-attachments';
   import type { Snippet } from 'svelte';
 
   type Props = {
@@ -72,8 +72,6 @@
     }
   };
 
-  const isEnabled = (): boolean => isOpen;
-
   $effect(() => {
     if (isOpen) {
       focused = selected;
@@ -82,7 +80,7 @@
   });
 </script>
 
-<div class="relative" use:onClickOutside={{ callback: closeSelect, isEnabled }}>
+<div class="relative" {@attach onClickOutside({ callback: closeSelect, isEnabled: isOpen })}>
   <button
     bind:this={triggerElementRef}
     class="bg-background flex cursor-pointer items-center gap-1"

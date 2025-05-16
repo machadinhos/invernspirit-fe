@@ -1,7 +1,7 @@
 <script lang="ts">
   import { backIn, backOut } from 'svelte/easing';
   import type { HTMLAttributes } from 'svelte/elements';
-  import { onClickOutside } from '$components-actions';
+  import { onClickOutside } from '$components-attachments';
   import { slide } from 'svelte/transition';
   import type { Snippet } from 'svelte';
 
@@ -48,10 +48,6 @@
     isOpen = false;
   };
 
-  const onClickOutsideIsEnabled = (): boolean => {
-    return closeOnOutsideClick && isOpen;
-  };
-
   $effect(() => {
     if (!isOpen) onClose();
   });
@@ -63,11 +59,11 @@
     <div
       style={menuPositionStyle}
       class="bg-background z-20 shadow-2xl"
-      use:onClickOutside={{
+      {@attach onClickOutside({
         callback: onClickOutsideCallback,
-        isEnabled: onClickOutsideIsEnabled,
+        isEnabled: closeOnOutsideClick && isOpen,
         otherIncludedElements: [triggerElementRef],
-      }}
+      })}
       transition:slide={{ duration: 800, easing: isOpen ? backOut : backIn }}
     >
       <div class={className}>
