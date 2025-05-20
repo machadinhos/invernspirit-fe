@@ -1,6 +1,7 @@
 <script lang="ts">
   import { backIn, backOut } from 'svelte/easing';
   import type { HTMLAttributes } from 'svelte/elements';
+  import { on } from 'svelte/events';
   import { onClickOutside } from '$components-attachments';
   import { slide } from 'svelte/transition';
   import type { Snippet } from 'svelte';
@@ -51,19 +52,30 @@
   $effect(() => {
     if (!isOpen) onClose();
   });
+
+  $effect(() => {
+    if (!isOpen) return;
+    return on(document, 'keydown', (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        isOpen = false;
+      }
+    });
+  });
 </script>
 
-<div bind:this={triggerElementRef} class="relative">
+<div
+  bind:this={triggerElementRef}
+  class="relative"
+  {@attach onClickOutside({
+    callback: onClickOutsideCallback,
+    isEnabled: closeOnOutsideClick && isOpen,
+  })}
+>
   {@render triggerElement()}
   {#if isOpen}
     <div
       style={menuPositionStyle}
       class="bg-background z-20 shadow-2xl"
-      {@attach onClickOutside({
-        callback: onClickOutsideCallback,
-        isEnabled: closeOnOutsideClick && isOpen,
-        otherIncludedElements: [triggerElementRef],
-      })}
       transition:slide={{ duration: 800, easing: isOpen ? backOut : backIn }}
     >
       <div class={className}>

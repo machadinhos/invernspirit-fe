@@ -1,10 +1,9 @@
 <script lang="ts">
+  import { askForLoginModalSnippet, clientErrorToastSnippet } from '$snippets';
   import { cart as cartState, config, loading, modal, toasts, user } from '$state';
   import { Anchor } from '$components';
-  import { askForLoginModalSnippet } from '$lib/components/snippets';
   import { bffClient } from '$service';
   import { cart } from '$content';
-  import { clientErrorToastSnippet } from '$lib/components/snippets/ClientErrorToastSnippet.svelte';
   import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
   import LineItemCard from '../LineItemCard.svelte';

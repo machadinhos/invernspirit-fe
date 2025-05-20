@@ -3,6 +3,7 @@
   import { FaSolidXmark } from 'svelte-icons-pack/fa';
   import type { HTMLAttributes } from 'svelte/elements';
   import { Icon } from 'svelte-icons-pack';
+  import { on } from 'svelte/events';
   import { quintOut } from 'svelte/easing';
 
   type Props = {
@@ -19,12 +20,15 @@
     isOpen = false;
   };
 
-  const handleKeydown = (event: KeyboardEvent): void => {
-    if (event.key === 'Escape' && isOpen) closeDrawer();
-  };
+  $effect(() => {
+    if (!isOpen) return;
+    return on(document, 'keydown', (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        isOpen = false;
+      }
+    });
+  });
 </script>
-
-<svelte:window onkeydown={handleKeydown} />
 
 {#if isOpen}
   <div class="fixed inset-0 z-50 h-full w-full bg-black/50" transition:fade={{ duration: 500 }}></div>
@@ -36,6 +40,7 @@
     transition:fly={{
       duration: 500,
       easing: quintOut,
+      // eslint-disable-next-line svelte/no-top-level-browser-globals
       x: side === 'left' ? -window.innerWidth : window.innerWidth,
       opacity: 1,
     }}

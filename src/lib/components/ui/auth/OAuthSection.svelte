@@ -1,13 +1,58 @@
 <script lang="ts">
+  import { cart, toasts, user } from '$state';
   import { auth } from '$content';
   import { bffClient } from '$service';
   import { googleIcon } from '$components-svg-icons';
+  import { on } from 'svelte/events';
+  import { openingPopupErrorToastSnippet } from '$snippets';
   import { page } from '$app/state';
   import type { Snippet } from 'svelte';
 
+  type Props = {
+    actionAfterAuthentication: () => void;
+  };
+
+  let { actionAfterAuthentication }: Props = $props();
+
   const onContinueWithGoogleClick = async (): Promise<void> => {
-    const { url } = await bffClient.user.oauth.google(page.params.country);
-    window.location.assign(url);
+    const popup = window.open(`${window.location.origin}/oauth-loading.html`, 'google-oauth', 'width=500,height=600');
+    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+      toasts.push(openingPopupErrorToastSnippet, { type: 'error' });
+      return;
+    }
+
+    let cleanUpMessageListener: (() => void) | undefined;
+    try {
+      const { url } = await bffClient.user.oauth.google.getRedirectUrl(page.params.country);
+      popup.location.replace(url);
+
+      const checkPopupClosedInterval = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(checkPopupClosedInterval);
+          toasts.push(openingPopupErrorToastSnippet, { type: 'error' });
+        }
+      }, 500);
+
+      cleanUpMessageListener = on(window, 'message', async (event) => {
+        if (event.origin !== window.location.origin) return;
+        clearInterval(checkPopupClosedInterval);
+        popup.close();
+        cleanUpMessageListener?.();
+        const { href } = event.data as { href: string };
+        const url = new URL(href);
+        const { user: signedInUser, cart: signedInCart } = await bffClient.user.oauth.google.callback(
+          page.params.country,
+          url,
+        );
+        user.value = signedInUser;
+        cart.setCart(signedInCart);
+        actionAfterAuthentication();
+      });
+    } catch {
+      popup.close();
+      cleanUpMessageListener?.();
+      toasts.push(openingPopupErrorToastSnippet, { type: 'error' });
+    }
   };
 </script>
 

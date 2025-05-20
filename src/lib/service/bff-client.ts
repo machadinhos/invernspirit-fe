@@ -32,9 +32,9 @@ import {
   prepareRemoveCartItem,
   prepareUpdateCartItemQuantity,
 } from './endpoints/cart';
+import { prepareOauthGoogleCallback, prepareOauthGoogleGetRedirect } from '$lib/service/endpoints/oauth';
 import { prepareConfig } from '$lib/service/endpoints/config';
 import { prepareGetProductsBySearch } from '$lib/service/endpoints/products';
-import { prepareOauthGoogle } from '$lib/service/endpoints/oauth';
 import { PUBLIC_BFF_HOST } from '$env/static/public';
 import type { RequestHostContext } from './client';
 
@@ -80,7 +80,10 @@ export const bffClient = {
   products: { getBySearch: prepareGetProductsBySearch(context) },
   user: {
     oauth: {
-      google: prepareOauthGoogle(context),
+      google: {
+        getRedirectUrl: prepareOauthGoogleGetRedirect(context),
+        callback: prepareOauthGoogleCallback(context),
+      },
     },
     get: prepareGetLoggedInUser(context),
     update: {

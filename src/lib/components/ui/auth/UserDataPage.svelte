@@ -11,11 +11,12 @@
   import PasswordChecks from './PasswordChecks.svelte';
 
   type Props = {
+    actionAfterAuthentication: () => void;
     showAuthSwitchMessage?: boolean;
     email?: string;
   };
 
-  let { showAuthSwitchMessage = true, email = $bindable() }: Props = $props();
+  let { actionAfterAuthentication, showAuthSwitchMessage = true, email = $bindable() }: Props = $props();
 
   let captchaToken: string | undefined;
 
@@ -133,7 +134,7 @@
   <Button class="mt-5" disabled={processing} fullWidth type="submit">{auth.signUp.submitButton}</Button>
 </Form>
 
-<OAuthSection />
+<OAuthSection {actionAfterAuthentication} />
 
 {#if showAuthSwitchMessage}
   <AuthSwitchMessage
