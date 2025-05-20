@@ -51,7 +51,9 @@
         </a>
       </div>
       <div>
-        <h3 class="truncate text-2xl md:text-3xl">{product.name}</h3>
+        <a href="/{page.params.country}/shop/products/{product.id}">
+          <h3 class="truncate text-2xl md:text-3xl">{product.name}</h3>
+        </a>
         <h4 class="price text-xl md:text-2xl">
           {formatPrice(country.locale, country.currency.code, product.grossPrice)}
         </h4>

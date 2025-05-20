@@ -1,7 +1,7 @@
 <script lang="ts">
   import { checkout, order as orderContent } from '$content';
   import type { Country, Order, OrderStatus } from '$types';
-  import { copiedToClipboardToastSnippet } from '$lib/components/snippets/CopiedToClipboardToastSnippet.svelte';
+  import { copiedToClipboardToastSnippet } from '$snippets';
   import { FaCopy } from 'svelte-icons-pack/fa';
   import { formatDate } from '$lib/utils/date-formating';
   import { formatPrice } from '$lib/utils/currency-formating';

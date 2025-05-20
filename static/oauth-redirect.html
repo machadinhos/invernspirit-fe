@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OAuth Redirect</title>
+  </head>
+  <body>
+    <script>
+      const callbackUrl = window.location.href;
+
+      const targetOrigin = window.opener.location.origin;
+      window.opener.postMessage({ href: callbackUrl }, targetOrigin);
+
+      setTimeout(() => {
+        window.close();
+      }, 750);
+    </script>
+  </body>
+</html>

@@ -1,24 +1,23 @@
 import type { Snippet } from 'svelte';
 
-type DurationOptions =
-  | {
-      duration?: number;
-      pauseTimeOnHover?: boolean;
-      hasRemainingTimeLine?: boolean;
-    }
-  | { duration: null };
-
-type ToastOptions<T> = DurationOptions & {
-  hasCloseButton: boolean;
-  type: 'normal' | 'error' | 'success';
-  extraParams?: T;
+type BaseToastOptions = {
+  duration?: number;
+  pauseTimeOnHover?: boolean;
+  hasRemainingTimeLine?: boolean;
+  hasCloseButton?: boolean;
+  type?: 'normal' | 'error' | 'success';
   group?: string;
   singleton?: boolean;
 };
 
-type Element<T> = Snippet<[Toast<T>, T]>;
+type ToastOptions<T> = BaseToastOptions & {
+  extraParams: T;
+};
 
-class Toast<T = void> {
+type Element<T> = (toast: Toast<T>, extraParams: T) => ReturnType<Snippet>;
+type NoExtraParamsElement = (toast: Toast) => ReturnType<Snippet>;
+
+class Toast<T = never> {
   remainingTime = $state() as number | null;
   timeoutId: ReturnType<typeof setTimeout> | undefined = $state();
   lastTime: number | undefined = $state();
@@ -30,43 +29,33 @@ class Toast<T = void> {
   declare readonly pauseTimeOnHover: boolean;
   declare readonly hasRemainingTimeLine: boolean;
   declare readonly element: Element<T>;
-  declare readonly extraParams: T | undefined;
+  declare readonly extraParams: T extends never ? undefined : T;
   declare readonly id: symbol;
-  declare readonly destroy: () => undefined;
+  declare readonly destroy: () => void;
   declare readonly type: 'normal' | 'error' | 'success';
   declare readonly singleton: boolean;
 
   constructor(
     element: Element<T>,
     {
+      pauseTimeOnHover = true,
+      hasRemainingTimeLine = true,
       hasCloseButton = true,
       duration = 4000,
       type = 'normal',
-      extraParams,
       group,
       singleton = false,
       ...rest
-    }: Partial<ToastOptions<T>>,
+    }: T extends never ? BaseToastOptions : ToastOptions<T>,
   ) {
+    this.extraParams = ('extraParams' in rest ? rest.extraParams : undefined) as T extends never ? undefined : T;
     this.remainingTime = duration;
 
-    let pauseTimeOnHover = true;
-    let hasRemainingTimeLine = true;
-    if (
-      'pauseTimeOnHover' in rest &&
-      'hasRemainingTimeLine' in rest &&
-      rest.pauseTimeOnHover !== undefined &&
-      rest.hasRemainingTimeLine !== undefined
-    ) {
-      pauseTimeOnHover = rest.pauseTimeOnHover;
-      hasRemainingTimeLine = rest.hasRemainingTimeLine;
-    }
     this.pauseTimeOnHover = pauseTimeOnHover;
     this.hasRemainingTimeLine = hasRemainingTimeLine;
     this.hasCloseButton = hasCloseButton;
     this.duration = duration;
     this.element = element;
-    this.extraParams = extraParams;
     this.id = Symbol(group);
     this.destroy = (): undefined => {
       toasts.value = toasts.value.filter((toast) => toast.id !== this.id);
@@ -122,22 +111,28 @@ export class Toasts {
     });
   }
 
-  push = <T = void>(element: Element<T>, options?: Partial<ToastOptions<T>>): Toast<T> => {
+  push(element: NoExtraParamsElement, options?: BaseToastOptions): Toast<undefined>;
+  push<T>(element: Element<T>, options: ToastOptions<T>): Toast<T>;
+  push<T>(
+    element: NoExtraParamsElement | Element<T>,
+    options: BaseToastOptions | ToastOptions<T> = {},
+  ): Toast<T | undefined> {
     if (options?.singleton && options.group !== undefined) {
       const existingToast = this.findToastByGroup(options.group);
       if (existingToast) {
         existingToast.resetTimer();
-        return existingToast as Toast<T>;
+        return existingToast as Toast<T | undefined>;
       }
     }
-    const newToast = new Toast<T>(element, options ?? {});
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const newToast = new Toast<any>(element as Element<any>, options);
     if (this.value.length < this.maxToasts) {
       this.value.unshift(newToast as Toast<unknown>);
     } else {
       this.restOfToasts.unshift(newToast as Toast<unknown>);
     }
     return newToast;
-  };
+  }
 
   filterOutGroup = (group: string): void => {
     this.restOfToasts = this.restOfToasts.filter((toast) => toast.id.description !== group);

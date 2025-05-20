@@ -49,7 +49,9 @@
     </a>
   </div>
   <div class="px-4 pt-1 pb-3">
-    <h2 class="truncate text-center text-3xl">{product.name}</h2>
+    <a href="/{page.params.country}/shop/products/{product.id}">
+      <h2 class="truncate text-center text-3xl">{product.name}</h2>
+    </a>
     <div class="mt-2 flex items-center justify-between">
       <span class="price text-2xl">{formatPrice(country.locale, country.currency.code, product.grossPrice)}</span>
       <Button class="font-bold" disabled={bucketStock === undefined || availableStock <= 0} onclick={onAddToCartClick}

@@ -60,6 +60,7 @@ export default ts.config(
       'svelte/no-at-debug-tags': 'error',
       'svelte/button-has-type': 'error',
       'svelte/sort-attributes': 'error',
+      'svelte/no-top-level-browser-globals': 'error',
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
     },

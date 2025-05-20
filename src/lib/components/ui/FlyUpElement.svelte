@@ -16,7 +16,7 @@
     class="w-fit {classNames}"
     transition:fly|global={{
       duration: duration,
-      y: window.innerHeight,
+      y: 50,
       easing: quintInOut,
     }}
   >

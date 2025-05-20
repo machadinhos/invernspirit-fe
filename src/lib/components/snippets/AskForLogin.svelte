@@ -34,7 +34,6 @@
   type choice = {
     name: string;
     getAction: (modal: ModalInstance<Params>, action: () => Promise<void>) => () => Promise<void> | void;
-    reverseColor?: boolean;
   };
 
   const choices: Record<'guest' | 'signIn' | 'signUp', choice> = {
@@ -45,17 +44,13 @@
     signIn: {
       name: 'sign in',
       getAction: () => () => {
-        setTimeout(() => {
-          state = 'sign in';
-        }, 0);
+        state = 'sign in';
       },
     },
     signUp: {
       name: 'sign up',
       getAction: () => () => {
-        setTimeout(() => {
-          state = 'sign up';
-        }, 0);
+        state = 'sign up';
       },
     },
   };
@@ -67,9 +62,8 @@
   };
 </script>
 
-{#snippet setStateButton(name: string, action: () => void, reverseColor: boolean = false)}
-  <Button class="font-bold" fullWidth onclick={action} reverseColors={reverseColor} shrinkOnClick={false}>{name}</Button
-  >
+{#snippet setStateButton(name: string, action: () => void)}
+  <Button class="font-bold" fullWidth onclick={action} shrinkOnClick={false}>{name}</Button>
 {/snippet}
 
 <div class="flex h-full w-full items-center justify-center" in:scale|global>
@@ -94,22 +88,11 @@
     {#if state === 'choosing'}
       <div class="flex w-full flex-col gap-4 pt-8">
         {#if params.allowGuest}
-          {@render setStateButton(
-            choices.guest.name,
-            choices.guest.getAction(modal, params.action),
-            choices.guest.reverseColor,
-          )}
+          {@render setStateButton(choices.guest.name, choices.guest.getAction(modal, params.action))}
         {/if}
-        {@render setStateButton(
-          choices.signIn.name,
-          choices.signIn.getAction(modal, params.action),
-          choices.signIn.reverseColor,
-        )}
-        {@render setStateButton(
-          choices.signUp.name,
-          choices.signUp.getAction(modal, params.action),
-          choices.signUp.reverseColor,
-        )}
+        {#each [choices.signIn, choices.signUp] as choice (choice)}
+          {@render setStateButton(choice.name, choice.getAction(modal, params.action))}
+        {/each}
       </div>
     {:else if state === 'sign in'}
       <SignIn

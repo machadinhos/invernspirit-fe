@@ -14,7 +14,7 @@
 </script>
 
 {#if email === undefined}
-  <UserDataPage {showAuthSwitchMessage} bind:email />
+  <UserDataPage {actionAfterAuthentication} {showAuthSwitchMessage} bind:email />
 {:else}
   <VerifyEmailPage {actionAfterAuthentication} {email} />
 {/if}

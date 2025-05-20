@@ -1,7 +1,7 @@
 import type { Cart as CartType, LineItem, Product } from '$types';
 import { AsyncTaskQueue } from '$lib/utils/async-task-queue';
 import { bffClient } from '$service';
-import { itemAddedToCartToastSnippet } from '$lib/components/snippets';
+import { itemAddedToCartToastSnippet } from '$snippets';
 import { page } from '$app/state';
 import { toasts } from '$state';
 
