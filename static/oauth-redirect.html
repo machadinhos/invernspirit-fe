@@ -3,17 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <title>OAuth Redirect</title>
+    <meta name="robots" content="noindex, nofollow" />
   </head>
   <body>
+    <noscript>You need to enable JavaScript to continue.</noscript>
+
     <script>
-      const callbackUrl = window.location.href;
+      if (!window.opener) {
+        document.body.innerHTML = `<p>You should not be here.</p>`;
+        throw new Error('You should not be here');
+      }
 
-      const targetOrigin = window.opener.location.origin;
-      window.opener.postMessage({ href: callbackUrl }, targetOrigin);
+      const handleError = () => {
+        document.body.innerHTML = `<p>Something went wrong</p>`;
+      };
 
-      setTimeout(() => {
-        window.close();
-      }, 750);
+      try {
+        const callbackUrl = window.location.href;
+
+        const targetOrigin = window.opener.location.origin;
+
+        if (targetOrigin !== window.location.origin) throw new Error('Invalid origin');
+
+        window.opener.postMessage({ href: callbackUrl }, targetOrigin);
+
+        setTimeout(() => {
+          window.close();
+        }, 400);
+      } catch (error) {
+        handleError();
+        throw error;
+      }
     </script>
   </body>
 </html>

@@ -104,6 +104,7 @@
     <input
       id="{id}-input-{index}"
       class="{id}-input focus:border-b-primary w-7 border-b-2 border-white text-center focus:outline-hidden"
+      aria-label="code digit {index + 1}"
       autocomplete="off"
       inputmode={type === 'numeric' ? 'numeric' : 'text'}
       {onfocus}

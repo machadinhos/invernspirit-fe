@@ -5,7 +5,15 @@ import puppeteer from 'puppeteer';
 import type { Result } from 'axe-core';
 
 const host = 'http://localhost:5173';
-const pagesToTest = findPages();
+try {
+  await fetch(host);
+} catch {
+  console.error(`❌ Failed to connect to ${host}`);
+  console.error('Make sure the app is running locally.');
+  process.exit(1);
+}
+
+const pagesToTest = findPages({ exclude: ['oauth-loading', 'oauth-redirect'] });
 
 const browser = await puppeteer.launch();
 

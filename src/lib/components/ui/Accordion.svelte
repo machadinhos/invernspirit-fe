@@ -48,8 +48,8 @@
         type="button"
       >
         <div
-          style="transform: rotate({isOpened ? 180 : 0}deg)"
           class="absolute top-1/2 right-2 h-fit w-fit -translate-y-1/2 transition-all duration-200"
+          class:rotate-180={isOpened}
         >
           <Icon src={FaSolidChevronDown} />
         </div>

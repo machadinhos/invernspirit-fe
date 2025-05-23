@@ -1,6 +1,6 @@
 <script lang="ts">
   import { FaSolidArrowLeft, FaSolidXmark } from 'svelte-icons-pack/fa';
-  import type { AttachmentGenerator } from '$lib/components/attachments/attachment-generator';
+  import type { Attachment } from 'svelte/attachments';
   import { Button } from '$components';
   import { Icon } from 'svelte-icons-pack';
   import type { ModalInstance } from '$state';
@@ -63,14 +63,12 @@
     modal.close();
   };
 
-  const closeModalOnEscape: AttachmentGenerator<[ModalInstance<Params>]> = (modal) => {
-    return () => {
-      const keydownHandler = (e: KeyboardEvent): void => {
-        if (e.key === 'Escape') modal.close();
-      };
-
-      return on(document, 'keydown', keydownHandler);
+  const closeModalOnEscape: Attachment = () => {
+    const keydownHandler = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') modal.close();
     };
+
+    return on(document, 'keydown', keydownHandler);
   };
 </script>
 
@@ -82,7 +80,7 @@
   <div
     class="bg-background-dark relative flex max-h-[80%] min-h-[35%] w-[90%] max-w-[500px] flex-col items-center overflow-y-auto p-4 pb-8 lg:px-8"
     class:justify-center={state === 'choosing'}
-    {@attach closeModalOnEscape(modal)}
+    {@attach closeModalOnEscape}
     {@attach onClickOutside({ callback: modal.close })}
   >
     <button

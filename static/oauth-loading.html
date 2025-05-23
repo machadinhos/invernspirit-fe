@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Loading OAuth Page</title>
     <meta name="color-scheme" content="dark" />
+    <meta name="robots" content="noindex, nofollow" />
     <style>
       body {
         margin: 0;
@@ -43,10 +44,15 @@
     </style>
   </head>
   <body>
-    <div class="spinner"></div>
-    <div class="loading-text" id="loadingText">Loading.</div>
+    <div class="spinner" role="status" aria-live="polite" aria-label="Loading…"></div>
+    <div class="loading-text" id="loadingText" aria-live="polite">Loading.</div>
 
     <script>
+      if (!window.opener) {
+        document.body.innerHTML = `<p>You should not be here.</p>`;
+        throw new Error('You should not be here');
+      }
+
       const loadingText = document.getElementById('loadingText');
       const dots = ['.', '..', '...'];
       let i = 0;
