@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { askForLoginModalSnippet, clientErrorToastSnippet } from '$snippets';
   import { cart as cartState, config, loading, modal, toasts, user } from '$state';
   import { Anchor } from '$components';
+  import { AskForLoginModalComponent } from '$components-modals';
   import { bffClient } from '$service';
   import { cart } from '$content';
+  import { ClientErrorToastComponent } from '$components-toasts';
   import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
   import LineItemCard from '../LineItemCard.svelte';
@@ -23,7 +24,7 @@
     if (user.isLoggedIn) {
       goToCheckout();
     } else {
-      modal.open(askForLoginModalSnippet, {
+      modal.open(AskForLoginModalComponent, {
         action: goToCheckout,
         allowGuest: true,
       });
@@ -37,7 +38,7 @@
         cartState.setCart(newCart);
         if (newCart.issues) {
           for (const issue of newCart.issues) {
-            toasts.push(clientErrorToastSnippet, { extraParams: issue, type: 'error' });
+            toasts.push(ClientErrorToastComponent, { extraParams: { error: issue }, type: 'error' });
           }
         }
       });

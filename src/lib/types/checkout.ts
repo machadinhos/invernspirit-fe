@@ -1,6 +1,7 @@
 import type { Cart } from './cart';
+import type { User } from './user';
 
-type StageName = 'address' | 'personal-details' | 'shipping' | 'review';
+export type StageName = 'address' | 'personal-details' | 'shipping' | 'review';
 
 export type CheckoutStage = {
   name: StageName;
@@ -37,7 +38,7 @@ type ReviewSection = { isEditable: boolean };
 
 export type Review = {
   shippingMethod: ShippingMethod & ReviewSection;
-  personalDetails: PersonalDetails & ReviewSection;
+  personalDetails: User & ReviewSection;
   address: Address & ReviewSection;
   cart: Cart;
   totalPrice: number;

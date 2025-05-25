@@ -1,7 +1,7 @@
 import { getAccessToken, setAccessToken } from './access-token';
 import { browser } from '$app/environment';
 import { ClientError } from '$service';
-import { clientErrorToastSnippet } from '$snippets';
+import { ClientErrorToastComponent } from '$components-toasts';
 import { toasts } from '$state';
 
 export type RetriesConfig = {
@@ -146,7 +146,7 @@ export class Client<T, K = void> {
       console.error(error);
 
       const errorString = 'Unable to connect to server';
-      if (browser) toasts.push(clientErrorToastSnippet, { extraParams: errorString, type: 'error' });
+      if (browser) toasts.push(ClientErrorToastComponent, { extraParams: { error: errorString }, type: 'error' });
       throw new Error(`${errorString} ${this.context.method} ${this.url}`);
     }
 
@@ -203,7 +203,7 @@ class ClientWithBody<T, K> extends Client<T, K> {
 const pushIssuesToToasts = (issues: string[]): void => {
   if (browser) {
     for (const issue of issues) {
-      toasts.push(clientErrorToastSnippet, { extraParams: issue, type: 'error', duration: 8000 });
+      toasts.push(ClientErrorToastComponent, { extraParams: { error: issue }, type: 'error', duration: 8000 });
     }
   }
 };

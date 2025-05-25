@@ -1,7 +1,7 @@
 import type { Cart as CartType, LineItem, Product } from '$types';
 import { AsyncTaskQueue } from '$lib/utils/async-task-queue';
 import { bffClient } from '$service';
-import { itemAddedToCartToastSnippet } from '$snippets';
+import { ItemAddedToCartToastComponent } from '$components-toasts';
 import { page } from '$app/state';
 import { toasts } from '$state';
 
@@ -26,7 +26,7 @@ class Cart {
       const cart = await bffClient.cart.updateItemQuantity(page.params.country, product.id, newQuantity);
       this.setCart(cart);
       if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
-      toasts.push(itemAddedToCartToastSnippet, { group: 'cart-update', singleton: true });
+      toasts.push(ItemAddedToCartToastComponent, { group: 'cart-update', singleton: true });
     });
   };
 
@@ -39,7 +39,7 @@ class Cart {
       const cart = await bffClient.cart.patchItemQuantity(page.params.country, product.id, quantityDifference);
       this.setCart(cart);
       if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
-      toasts.push(itemAddedToCartToastSnippet, { group: 'cart-update', singleton: true });
+      toasts.push(ItemAddedToCartToastComponent, { group: 'cart-update', singleton: true });
     });
   };
 

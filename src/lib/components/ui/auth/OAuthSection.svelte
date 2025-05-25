@@ -4,7 +4,7 @@
   import { bffClient } from '$service';
   import { googleIcon } from '$components-svg-icons';
   import { on } from 'svelte/events';
-  import { openingPopupErrorToastSnippet } from '$snippets';
+  import { OpeningPopupErrorToastComponent } from '$components-toasts';
   import { page } from '$app/state';
   import type { Snippet } from 'svelte';
 
@@ -17,7 +17,7 @@
   const onContinueWithGoogleClick = async (): Promise<void> => {
     const popup = window.open(`${window.location.origin}/oauth-loading.html`, 'google-oauth', 'width=500,height=600');
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-      toasts.push(openingPopupErrorToastSnippet, { type: 'error' });
+      toasts.push(OpeningPopupErrorToastComponent, { type: 'error' });
       return;
     }
 
@@ -29,7 +29,7 @@
       const checkPopupClosedInterval = setInterval(() => {
         if (popup.closed) {
           clearInterval(checkPopupClosedInterval);
-          toasts.push(openingPopupErrorToastSnippet, { type: 'error' });
+          toasts.push(OpeningPopupErrorToastComponent, { type: 'error' });
         }
       }, 500);
 
@@ -51,7 +51,7 @@
     } catch {
       popup.close();
       cleanUpMessageListener?.();
-      toasts.push(openingPopupErrorToastSnippet, { type: 'error' });
+      toasts.push(OpeningPopupErrorToastComponent, { type: 'error' });
     }
   };
 </script>

@@ -17,10 +17,9 @@
 
   type Props = {
     modal: ModalInstance<Params>;
-    params: Params;
-  };
+  } & Params;
 
-  let { modal, params }: Props = $props();
+  let { modal, action, allowGuest }: Props = $props();
 
   let state: 'choosing' | 'sign in' | 'sign up' = $state('choosing');
 
@@ -98,21 +97,21 @@
     </button>
     {#if state === 'choosing'}
       <div class="flex w-full flex-col gap-4 pt-8">
-        {#if params.allowGuest}
-          {@render setStateButton(choices.guest.name, choices.guest.getAction(modal, params.action))}
+        {#if allowGuest}
+          {@render setStateButton(choices.guest.name, choices.guest.getAction(modal, action))}
         {/if}
         {#each [choices.signIn, choices.signUp] as choice (choice)}
-          {@render setStateButton(choice.name, choice.getAction(modal, params.action))}
+          {@render setStateButton(choice.name, choice.getAction(modal, action))}
         {/each}
       </div>
     {:else if state === 'sign in'}
       <SignIn
-        actionAfterAuthentication={getFinalAction(modal, params.action)}
+        actionAfterAuthentication={getFinalAction(modal, action)}
         actionAfterForgotPasswordClick={closeModal}
         showAuthSwitchMessage={false}
       />
     {:else if state === 'sign up'}
-      <SignUp actionAfterAuthentication={getFinalAction(modal, params.action)} showAuthSwitchMessage={false} />
+      <SignUp actionAfterAuthentication={getFinalAction(modal, action)} showAuthSwitchMessage={false} />
     {/if}
   </div>
 </div>

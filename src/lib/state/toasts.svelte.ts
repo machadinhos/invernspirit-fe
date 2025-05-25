@@ -1,4 +1,4 @@
-import type { Snippet } from 'svelte';
+import type { Component } from 'svelte';
 
 type BaseToastOptions = {
   duration?: number;
@@ -14,10 +14,14 @@ type ToastOptions<T> = BaseToastOptions & {
   extraParams: T;
 };
 
-type Element<T> = (toast: Toast<T>, extraParams: T) => ReturnType<Snippet>;
-type NoExtraParamsElement = (toast: Toast) => ReturnType<Snippet>;
+type Element<Params extends Record<string, unknown>> =
+  | Component<Params & { toast: Toast<Params> }, Record<never, never>>
+  | Component<Params, Record<never, never>>;
+type NoExtraParamsElement =
+  | Component<{ toast: Toast }, Record<never, never>>
+  | Component<Record<never, never>, Record<never, never>>;
 
-class Toast<T = never> {
+class Toast<Params extends Record<string, unknown> | undefined = undefined> {
   remainingTime = $state() as number | null;
   timeoutId: ReturnType<typeof setTimeout> | undefined = $state();
   lastTime: number | undefined = $state();
@@ -28,15 +32,15 @@ class Toast<T = never> {
   declare readonly duration: number | null;
   declare readonly pauseTimeOnHover: boolean;
   declare readonly hasRemainingTimeLine: boolean;
-  declare readonly element: Element<T>;
-  declare readonly extraParams: T extends never ? undefined : T;
+  declare readonly element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement;
+  declare readonly extraParams: Params;
   declare readonly id: symbol;
   declare readonly destroy: () => void;
   declare readonly type: 'normal' | 'error' | 'success';
   declare readonly singleton: boolean;
 
   constructor(
-    element: Element<T>,
+    element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
     {
       pauseTimeOnHover = true,
       hasRemainingTimeLine = true,
@@ -46,11 +50,10 @@ class Toast<T = never> {
       group,
       singleton = false,
       ...rest
-    }: T extends never ? BaseToastOptions : ToastOptions<T>,
+    }: Params extends never ? BaseToastOptions : ToastOptions<Params>,
   ) {
-    this.extraParams = ('extraParams' in rest ? rest.extraParams : undefined) as T extends never ? undefined : T;
+    this.extraParams = ('extraParams' in rest ? rest.extraParams : undefined) as Params;
     this.remainingTime = duration;
-
     this.pauseTimeOnHover = pauseTimeOnHover;
     this.hasRemainingTimeLine = hasRemainingTimeLine;
     this.hasCloseButton = hasCloseButton;
@@ -91,8 +94,10 @@ class Toast<T = never> {
 }
 
 export class Toasts {
-  value: Toast<unknown>[] = $state([]);
-  private restOfToasts: Toast<unknown>[] = [];
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  value: Toast<any>[] = $state([]);
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  private restOfToasts: Toast<any>[] = [];
   private readonly maxToasts = 5;
 
   constructor() {
@@ -111,25 +116,27 @@ export class Toasts {
     });
   }
 
-  push(element: NoExtraParamsElement, options?: BaseToastOptions): Toast<undefined>;
-  push<T>(element: Element<T>, options: ToastOptions<T>): Toast<T>;
-  push<T>(
-    element: NoExtraParamsElement | Element<T>,
-    options: BaseToastOptions | ToastOptions<T> = {},
-  ): Toast<T | undefined> {
+  push(element: NoExtraParamsElement, options?: BaseToastOptions): Toast;
+  push<Params extends Record<string, unknown>>(element: Element<Params>, options: ToastOptions<Params>): Toast<Params>;
+  push<Params extends Record<string, unknown> | undefined>(
+    element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
+    options: BaseToastOptions | ToastOptions<Params> = {},
+  ): Toast<Params | undefined> {
     if (options?.singleton && options.group !== undefined) {
       const existingToast = this.findToastByGroup(options.group);
       if (existingToast) {
         existingToast.resetTimer();
-        return existingToast as Toast<T | undefined>;
+        return existingToast as Toast<Params | undefined>;
       }
     }
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const newToast = new Toast<any>(element as Element<any>, options);
     if (this.value.length < this.maxToasts) {
-      this.value.unshift(newToast as Toast<unknown>);
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+      this.value.unshift(newToast as Toast<any>);
     } else {
-      this.restOfToasts.unshift(newToast as Toast<unknown>);
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+      this.restOfToasts.unshift(newToast as Toast<any>);
     }
     return newToast;
   }
@@ -139,7 +146,8 @@ export class Toasts {
     this.value = this.value.filter((toast) => toast.id.description !== group);
   };
 
-  findToastByGroup = (group: string): Toast<unknown> | undefined => {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  findToastByGroup = (group: string): Toast<any> | undefined => {
     return (
       this.value.find((toast) => toast.id.description === group) ??
       this.restOfToasts.find((toast) => toast.id.description === group)

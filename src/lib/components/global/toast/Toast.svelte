@@ -1,16 +1,18 @@
-<script lang="ts">
+<script generics="T extends Record<string, unknown> | undefined" lang="ts">
+  import { type Component, onMount } from 'svelte';
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   import { fade, fly } from 'svelte/transition';
   import { FaSolidXmark } from 'svelte-icons-pack/fa';
   import { Icon } from 'svelte-icons-pack';
-  import { onMount } from 'svelte';
   import { type Toast } from '$state';
 
   type Props = {
-    toast: Toast<unknown>;
+    toast: Toast<T>;
   };
 
   let { toast }: Props = $props();
+
+  const Element = toast.element as Component<T & { toast: Toast<T> }, Record<never, never>>;
 
   const updateProgress = (): void => {
     if (toast.remainingTime === null) return;
@@ -56,7 +58,7 @@
     >
   {/if}
   <div class="pr-6 pl-6">
-    {@render toast.element(toast, toast.extraParams)}
+    <Element {...toast.extraParams} {toast} />
   </div>
   {#if toast.hasRemainingTimeLine && toast.duration !== null}
     <div class="mx-2 mt-2.5 h-1">

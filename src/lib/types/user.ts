@@ -1,6 +1,6 @@
 import type { ExtendedAddress } from './checkout';
 
-type UserBaseInfo = {
+export type UserBaseInfo = {
   email: string;
 };
 
@@ -11,4 +11,4 @@ export type UserPersonalInformation = {
 
 export type User = UserPersonalInformation & UserBaseInfo;
 
-type UserDetails = { address?: ExtendedAddress; isValidated: boolean } & User;
+export type UserDetails = { address?: ExtendedAddress; isValidated: boolean } & User;

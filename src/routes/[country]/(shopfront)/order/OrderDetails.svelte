@@ -1,7 +1,7 @@
 <script lang="ts">
   import { checkout, order as orderContent } from '$content';
   import type { Country, Order, OrderStatus } from '$types';
-  import { copiedToClipboardToastSnippet } from '$snippets';
+  import { CopiedToClipboardToastComponent } from '$components-toasts';
   import { FaCopy } from 'svelte-icons-pack/fa';
   import { formatDate } from '$lib/utils/date-formating';
   import { formatPrice } from '$lib/utils/currency-formating';
@@ -21,7 +21,7 @@
   const onOrderIdClick = (): void => {
     if (!order) return;
     navigator.clipboard.writeText(order.id);
-    toasts.push(copiedToClipboardToastSnippet, { group: 'clipboard', singleton: true });
+    toasts.push(CopiedToClipboardToastComponent, { group: 'clipboard', singleton: true });
   };
 
   const mapStatusToText = (status: OrderStatus): string => {
@@ -70,36 +70,28 @@
     </div>
     <p>{orderContent.dateOfPurchase}: {formatDate(country, order.createdAt)}</p>
     {#if order.payment.paymentMethod}
-      {#if order.payment.paymentMethod.type === 'card'}
-        {#if order.payment.paymentMethod.brand && order.payment.paymentMethod.last4}
-          <p class="flex gap-1">
-            {orderContent.paymentMethod}:
+      <p class="flex gap-1">
+        {orderContent.paymentMethod}:
+        {#if order.payment.paymentMethod.type === 'card'}
+          {#if order.payment.paymentMethod.brand && order.payment.paymentMethod.last4}
             {#if mapCardBrandToLogo(order.payment.paymentMethod.brand ?? '')}
               <img
                 class="h-[22px] w-[34px]"
-                alt="card logo"
+                alt="{order.payment.paymentMethod.brand} logo"
                 src="/payment-logos/{mapCardBrandToLogo(order.payment.paymentMethod.brand ?? '')}"
               />
             {/if}
-            {order.payment.paymentMethod.brand}
             {orderContent.cardEndingIn}
             {order.payment.paymentMethod.last4}
-          </p>
+          {:else}
+            {orderContent.card}
+          {/if}
+        {:else if order.payment.paymentMethod.type === 'paypal'}
+          <img class="h-[22px] w-[34px]" alt="paypal logo" src="/payment-logos/{paymentLogos.paypal}" />
         {:else}
-          <p>{orderContent.paymentMethod}: {orderContent.card}</p>
-        {/if}
-      {:else if order.payment.paymentMethod.type === 'paypal'}
-        <p class="flex gap-1">
-          {orderContent.paymentMethod}:
-          <img alt="paypal logo" src="/payment-logos/{paymentLogos.paypal}" />
-          paypal
-        </p>
-      {:else}
-        <p class="flex gap-1">
-          {orderContent.paymentMethod}:
           {order.payment.paymentMethod.type}
-        </p>
-      {/if}
+        {/if}
+      </p>
     {/if}
     <p>
       {orderContent.statusLabel}:
