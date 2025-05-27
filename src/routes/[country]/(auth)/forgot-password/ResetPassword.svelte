@@ -3,6 +3,7 @@
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { auth } from '$content';
   import { bffClient } from '$service';
+  import { config } from '$state';
   import { Form } from '$components-utils';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
@@ -54,16 +55,18 @@
     pageState = 'success';
   };
 
-  onMount(async () => {
+  onMount(() => {
     if (page.url.searchParams.get('validate-code') === 'true') {
       page.url.searchParams.delete('validate-code');
       goto(page.url);
-      try {
-        await bffClient.user.forgotPassword.validCode(page.params.country, email, code);
-        validated = true;
-      } catch {
-        validated = false;
-      }
+      config.afterInitialization(async () => {
+        try {
+          await bffClient.user.forgotPassword.validCode(page.params.country, email, code);
+          validated = true;
+        } catch {
+          validated = false;
+        }
+      });
     } else {
       validated = true;
     }
