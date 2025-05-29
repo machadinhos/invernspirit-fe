@@ -16,7 +16,7 @@
 
 <svelte:head><title>{faq.headTitle}</title></svelte:head>
 
-<h1 class="mb-9 text-center text-5xl">{faq.title}</h1>
+<h1 class="mx-[5%] mb-9 text-center text-5xl">{faq.title}</h1>
 
 <div class="flex w-full justify-center">
   <div class="w-[90%] max-w-[750px]">
