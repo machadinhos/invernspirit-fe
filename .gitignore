@@ -27,8 +27,5 @@ vite.config.ts.timestamp-*
 # Wrangler
 .wrangler
 
-# Temporary files
-*~
-
 # Sitemap
 static/sitemap.xml
