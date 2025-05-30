@@ -2,7 +2,7 @@
   import { cart, config } from '$state';
   import type { Country, Product } from '$types';
   import { Button } from '$components';
-  import { formatPrice } from '$lib/utils/currency-formating';
+  import { formatPrice } from '$lib/utils/currency-formatting';
   import { getStockFromBucket } from '$service';
   import { onMount } from 'svelte';
   import { page } from '$app/state';

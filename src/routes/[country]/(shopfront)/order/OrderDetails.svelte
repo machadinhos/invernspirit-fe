@@ -3,8 +3,8 @@
   import type { Country, Order, OrderStatus } from '$types';
   import { CopiedToClipboardToastComponent } from '$components-toasts';
   import { FaCopy } from 'svelte-icons-pack/fa';
-  import { formatDate } from '$lib/utils/date-formating';
-  import { formatPrice } from '$lib/utils/currency-formating';
+  import { formatDate } from '$lib/utils/date-formatting';
+  import { formatPrice } from '$lib/utils/currency-formatting';
   import { Icon } from 'svelte-icons-pack';
   import LineItemCard from '../LineItemCard.svelte';
   import OrderInfoCard from './OrderInfoCard.svelte';

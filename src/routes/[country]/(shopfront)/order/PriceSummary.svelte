@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formatPrice } from '$lib/utils/currency-formating';
+  import { formatPrice } from '$lib/utils/currency-formatting';
   import type { Order } from '$types';
   import { order as orderContent } from '$content';
 

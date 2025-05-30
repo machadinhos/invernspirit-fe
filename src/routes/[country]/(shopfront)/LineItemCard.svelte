@@ -2,7 +2,7 @@
   import { BiTrash } from 'svelte-icons-pack/bi';
   import { cart } from '$content';
   import { cart as cartState } from '$state';
-  import { formatPrice } from '$lib/utils/currency-formating';
+  import { formatPrice } from '$lib/utils/currency-formatting';
   import { Icon } from 'svelte-icons-pack';
   import type { LineItem } from '$types';
   import { page } from '$app/state';

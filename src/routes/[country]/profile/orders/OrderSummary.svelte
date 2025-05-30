@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Country, Order } from '$types';
   import { Anchor } from '$components';
-  import { formatPrice } from '$lib/utils/currency-formating';
+  import { formatPrice } from '$lib/utils/currency-formatting';
   import LineItemCard from '../../(shopfront)/LineItemCard.svelte';
   import { page } from '$app/state';
   import { profile } from '$content';

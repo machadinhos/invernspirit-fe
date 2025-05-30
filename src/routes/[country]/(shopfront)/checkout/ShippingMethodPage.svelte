@@ -2,7 +2,7 @@
   import type { CheckoutStage, Country, ShippingMethod } from '$types';
   import { bffClient } from '$service';
   import { checkout } from '$content';
-  import { formatPrice } from '$lib/utils/currency-formating';
+  import { formatPrice } from '$lib/utils/currency-formatting';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
 

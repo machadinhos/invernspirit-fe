@@ -2,7 +2,7 @@
   import type { Country, Review, StageName } from '$types';
   import { bffClient } from '$service';
   import { checkout } from '$content';
-  import { formatPrice } from '$lib/utils/currency-formating';
+  import { formatPrice } from '$lib/utils/currency-formatting';
   import { goto } from '$app/navigation';
   import LineItemCard from '../LineItemCard.svelte';
   import { loading } from '$state';

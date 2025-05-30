@@ -3,7 +3,7 @@
   import { Button } from '$components';
   import { cart } from '$content';
   import type { Country } from '$types';
-  import { formatPrice } from '$lib/utils/currency-formating';
+  import { formatPrice } from '$lib/utils/currency-formatting';
 
   type Props = {
     country: Country;
