@@ -5,5 +5,6 @@ export type * from './collection';
 export type * from './country';
 export type * from './config';
 export type * from './order';
+export type * from './pages';
 export type * from './product';
 export type * from './user';
