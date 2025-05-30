@@ -3,7 +3,7 @@ const currencyFormatTer = new Map<string, Intl.NumberFormat>();
 const getCurrencyFormatter = (locale: string, currencyCode: string): Intl.NumberFormat => {
   const key = `${locale}-${currencyCode}`;
   if (!currencyFormatTer.has(key)) currencyFormatTer.set(key, createFormatter(locale, currencyCode));
-  return currencyFormatTer.get(`${locale}-${currencyCode}`) ?? createFormatter(locale, currencyCode);
+  return currencyFormatTer.get(key) ?? createFormatter(locale, currencyCode);
 };
 
 const createFormatter = (locale: string, currencyCode: string): Intl.NumberFormat => {
