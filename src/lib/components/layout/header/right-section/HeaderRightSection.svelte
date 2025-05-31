@@ -21,7 +21,7 @@
   </div>
   <UserButton />
   <HeaderIcon
-    aria-label={common.header.rightSection.areaLabels.cart}
+    aria-label={common.header.rightSection.ariaLabels.cart}
     badge={cart.size > 0 ? `${cart.size}` : ''}
     href="/{page.params.country}/cart"
     src={BiSolidCart}

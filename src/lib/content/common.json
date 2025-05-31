@@ -7,7 +7,7 @@
         "invalidText": "Please enter a valid email address."
       },
       "subscribe": "Subscribe",
-      "areaLabels": {
+      "ariaLabels": {
         "instagram": "instagram link",
         "pinterest": "pinterest link",
         "youtube": "youtube link",
@@ -25,7 +25,7 @@
       "faq": "faq"
     },
     "rightSection": {
-      "areaLabels": {
+      "ariaLabels": {
         "countrySelect": "select country",
         "user": "user",
         "cart": "cart link"

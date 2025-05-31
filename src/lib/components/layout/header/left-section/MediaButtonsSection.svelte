@@ -12,6 +12,6 @@
   </a>
 {/snippet}
 
-{@render mediaButton(FaBrandsInstagram, socialMediaLinks.instagram, common.header.leftSection.areaLabels.instagram)}
-{@render mediaButton(FaBrandsPinterestP, socialMediaLinks.pinterestP, common.header.leftSection.areaLabels.pinterest)}
-{@render mediaButton(FaBrandsYoutube, socialMediaLinks.youtube, common.header.leftSection.areaLabels.youtube)}
+{@render mediaButton(FaBrandsInstagram, socialMediaLinks.instagram, common.header.leftSection.ariaLabels.instagram)}
+{@render mediaButton(FaBrandsPinterestP, socialMediaLinks.pinterestP, common.header.leftSection.ariaLabels.pinterest)}
+{@render mediaButton(FaBrandsYoutube, socialMediaLinks.youtube, common.header.leftSection.ariaLabels.youtube)}

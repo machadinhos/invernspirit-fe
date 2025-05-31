@@ -44,7 +44,7 @@
   <DropdownMenu class="w-80" onClose={clearState} position="left" bind:isOpen>
     {#snippet triggerElement()}
       <HeaderIcon
-        aria-label={common.header.leftSection.areaLabels.newsletter}
+        aria-label={common.header.leftSection.ariaLabels.newsletter}
         onclick={handleIconClick}
         src={FaNewspaper}
         type="button"

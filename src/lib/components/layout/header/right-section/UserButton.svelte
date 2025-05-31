@@ -33,14 +33,14 @@
     {#snippet triggerElement()}
       {#if !user.value}
         <HeaderIcon
-          aria-label={common.header.rightSection.areaLabels.user}
+          aria-label={common.header.rightSection.ariaLabels.user}
           href="/{page.params.country}/sign-in"
           src={FaSolidUser}
           type="anchor"
         />
       {:else}
         <HeaderIcon
-          aria-label={common.header.rightSection.areaLabels.user}
+          aria-label={common.header.rightSection.ariaLabels.user}
           onclick={handleUserButtonClick}
           src={FaSolidUser}
           type="button"
