@@ -1,6 +1,6 @@
 # InvernSpirit Frontend
 
-The frontend for the [InvernSpirit](https://www.invernspirit.com/) e-commerce website, built with SvelteKit.
+The frontend for the [Invern Spirit](https://www.invernspirit.com/) e-commerce website, built with SvelteKit.
 
 ## Prerequisites
 
