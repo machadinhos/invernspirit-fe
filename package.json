@@ -4,7 +4,7 @@
   "private": true,
   "repository": "https://github.com/machadinhos/invernspirit-fe.git",
   "type": "module",
-  "packageManager": "bun@^1.2.14",
+  "packageManager": "bun@^1.2.15",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
