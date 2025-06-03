@@ -66,14 +66,15 @@
 {/snippet}
 
 <div
-  class="bg-background-dark relative flex max-h-[80%] min-h-[35%] w-[90%] max-w-[500px] flex-col items-center overflow-y-auto p-4 pb-8 lg:px-8"
-  class:justify-center={state === 'choosing'}
+  class={[
+    'bg-background-dark relative flex max-h-[80%] min-h-[35%] w-[90%] max-w-[500px] flex-col items-center overflow-y-auto p-4 pb-8 lg:px-8',
+    state === 'choosing' && 'justify-center',
+  ]}
   {@attach onClickOutside({ callback: modal.close })}
   in:scale|global
 >
   <button
-    class="absolute top-4 left-4"
-    class:brightness-50={state === 'choosing'}
+    class={['absolute top-4 left-4', state === 'choosing' && 'brightness-50']}
     aria-label="go back"
     disabled={state === 'choosing'}
     onclick={gotoChoicesState}

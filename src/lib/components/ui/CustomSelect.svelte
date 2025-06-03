@@ -83,8 +83,7 @@
 <div class="relative" {@attach onClickOutside({ callback: closeSelect, isEnabled: isOpen })}>
   <button
     bind:this={triggerElementRef}
-    class="bg-background flex cursor-pointer items-center gap-1"
-    class:open={isOpen}
+    class={['bg-background flex cursor-pointer items-center gap-1', isOpen && 'open']}
     aria-controls={`${id}-listbox`}
     aria-expanded={isOpen}
     aria-haspopup="listbox"

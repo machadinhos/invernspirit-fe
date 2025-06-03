@@ -1,6 +1,6 @@
 <script lang="ts">
   import { backIn, backOut } from 'svelte/easing';
-  import type { HTMLAttributes } from 'svelte/elements';
+  import type { ClassValue } from 'svelte/elements';
   import { on } from 'svelte/events';
   import { onClickOutside } from '$components-attachments';
   import { slide } from 'svelte/transition';
@@ -9,7 +9,7 @@
   type PositionOrFullWidthType = { position: 'left' | 'right' } | { isFullWidth: boolean };
 
   type Props = PositionOrFullWidthType & {
-    class?: HTMLAttributes<HTMLElement>['class'];
+    class?: ClassValue;
     isOpen: boolean;
     onClose?: () => void;
     triggerElement: Snippet;

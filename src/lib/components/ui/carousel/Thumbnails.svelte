@@ -26,11 +26,10 @@
 
 <div class="embla select-none">
   <div class="embla__viewport" onemblaInit={onInit} use:emblaCarouselSvelte={{ plugins: [], options }}>
-    <div class="embla__container" class:axisX={axis === 'x'} class:axisY={axis === 'y'}>
+    <div class={['embla__container', axis === 'x' && 'axisX', axis === 'y' && 'axisY']}>
       {#each images as { url, alt }, index (index)}
         <button
-          class="embla__slide transition-all"
-          class:brightness-50={index !== selectedSlide}
+          class={['embla__slide transition-all', index !== selectedSlide && 'brightness-50']}
           onclick={generateOnclickCallback(index)}
           type="button"
         >

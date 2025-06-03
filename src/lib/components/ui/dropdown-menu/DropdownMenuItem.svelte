@@ -1,9 +1,10 @@
 <script lang="ts">
+  import type { ClassValue } from 'svelte/elements';
   import FlyUpElement from '../FlyUpElement.svelte';
 
   type Props = {
     children: import('svelte').Snippet;
-    class?: HTMLElement['className'];
+    class?: ClassValue;
   };
 
   let { class: className, children }: Props = $props();

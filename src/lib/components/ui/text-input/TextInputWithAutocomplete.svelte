@@ -157,7 +157,7 @@
     bind:this={optionsElement}
     id="suggestions-{id}"
     style="max-height: {height * heightFitOptions}px; {placement === 'below' ? 'top: 100%;' : 'bottom: 100%;'}"
-    class="bg-background-dark absolute z-10 w-full flex-col overflow-y-auto {isOpen ? 'flex' : 'hidden'}"
+    class={['bg-background-dark absolute z-10 w-full flex-col overflow-y-auto', isOpen ? 'flex' : 'hidden']}
     role="listbox"
   >
     {#each activeOptions as option, index (`${option}-${index}`)}
@@ -165,8 +165,7 @@
       <li
         id={`${id}-option-${options.indexOf(activeOptions[index])}`}
         style="height: {height}px;"
-        class="autocomplete-option w-full flex-none"
-        class:bg-background={selected}
+        class={['autocomplete-option w-full flex-none', selected && 'bg-background']}
         aria-selected={selected}
         onclick={generateButtonOnClick(option)}
         onfocus={generateOnMouseOver(index)}

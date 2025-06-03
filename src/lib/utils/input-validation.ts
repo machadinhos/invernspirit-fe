@@ -15,7 +15,7 @@ export const validateNotRequiredInput = (value: string): boolean => {
 export const validateEmail = (email: string): boolean => {
   if (!validateRequiredInput(email)) return false;
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return email !== '' ? regex.test(email) : false;
+  return email !== '' && regex.test(email);
 };
 
 export class PasswordErrors {

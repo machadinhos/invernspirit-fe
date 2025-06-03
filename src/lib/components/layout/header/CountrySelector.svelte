@@ -42,15 +42,17 @@
           width="13"
         />
       </div>
-      <div class="transition-transform duration-300" class:rotate-180={isOpen}>
+      <div class={['transition-transform duration-300', isOpen && 'rotate-180']}>
         <Icon size={10} src={FaSolidChevronDown} />
       </div>
     </div>
   {/snippet}
   {#snippet optionSnippet(text: string, index: number)}
     <div
-      class="bg-background hover:bg-primary flex w-14 items-center justify-center gap-1"
-      class:bg-primary={index === focused}
+      class={[
+        'bg-background hover:bg-primary flex w-14 items-center justify-center gap-1',
+        index === focused && 'bg-primary',
+      ]}
     >
       <span>{text}</span>
       <img alt="{text} flag" height="3" src="/flags/{text.toLowerCase()}.svg" width="13" />

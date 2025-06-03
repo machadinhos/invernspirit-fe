@@ -1,8 +1,8 @@
 <script lang="ts">
   import { FaEye, FaEyeSlash } from 'svelte-icons-pack/fa';
   import BaseInput from './BaseTextInput.svelte';
+  import type { ClassValue } from 'svelte/elements';
   import { common } from '$content';
-  import type { HTMLInputAttributes } from 'svelte/elements';
   import { Icon } from 'svelte-icons-pack';
   import type { Snippet } from 'svelte';
 
@@ -10,7 +10,7 @@
     field: import('$lib/utils/form-fields.svelte').GenericFormField;
     label?: Snippet;
     trailingIcon?: Snippet;
-    class?: HTMLInputAttributes['class'];
+    class?: ClassValue;
   };
 
   let props: Props = $props();

@@ -1,10 +1,11 @@
 <script lang="ts">
   import { fly, type FlyParams } from 'svelte/transition';
+  import type { ClassValue } from 'svelte/elements';
   import { quintInOut } from 'svelte/easing';
 
   type Props = {
     children: import('svelte').Snippet;
-    class?: string;
+    class?: ClassValue;
     duration: FlyParams['duration'];
   };
 
@@ -13,7 +14,7 @@
 
 <div class="overflow-hidden">
   <div
-    class="w-fit {classNames}"
+    class={['w-fit', classNames]}
     transition:fly|global={{
       duration: duration,
       y: 50,

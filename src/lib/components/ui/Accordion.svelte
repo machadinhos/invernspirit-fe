@@ -48,8 +48,10 @@
         type="button"
       >
         <div
-          class="absolute top-1/2 right-2 h-fit w-fit -translate-y-1/2 transition-all duration-200"
-          class:rotate-180={isOpened}
+          class={[
+            'absolute top-1/2 right-2 h-fit w-fit -translate-y-1/2 transition-all duration-200',
+            isOpened && 'rotate-180',
+          ]}
         >
           <Icon src={FaSolidChevronDown} />
         </div>
@@ -58,8 +60,7 @@
       <div
         id="{id}-accordion-content-{index}"
         style={isOpened ? `height: ${calculateContentHeight(index)}px` : 'height: 0px'}
-        class="relative w-full overflow-hidden transition-all duration-200"
-        class:pb-2={isOpened}
+        class={['relative w-full overflow-hidden transition-all duration-200', isOpened && 'pb-2']}
       >
         <div class="absolute top-0 left-0 w-full px-2 pt-3.5 pb-2">
           {@render accordionContent(item.content)}

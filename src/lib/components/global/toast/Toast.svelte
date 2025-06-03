@@ -36,11 +36,10 @@
 </script>
 
 <div
-  class="toast relative pt-2 pr-2 pb-2 {toast.type === 'normal'
-    ? 'bg-background'
-    : toast.type === 'error'
-      ? 'bg-error'
-      : 'bg-success'}"
+  class={[
+    'toast relative pt-2 pr-2 pb-2',
+    toast.type === 'normal' ? 'bg-background' : toast.type === 'error' ? 'bg-error' : 'bg-success',
+  ]}
   aria-live={toast.type === 'error' ? 'assertive' : 'polite'}
   onblur={toast.startTimer}
   onfocus={toast.pauseTimer}

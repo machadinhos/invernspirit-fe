@@ -49,7 +49,7 @@
 </script>
 
 {#snippet priceLine(text: string, price: number, textSize: 'text-2xl' | 'text-4xl')}
-  <div class="flex place-content-between {textSize}">
+  <div class={['flex place-content-between', textSize]}>
     <span>{text}:</span>
     <span class="price">
       {#if config.isInitialized}

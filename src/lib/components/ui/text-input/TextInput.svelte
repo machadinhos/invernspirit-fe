@@ -1,6 +1,6 @@
 <script lang="ts">
   import BaseTextInput from './BaseTextInput.svelte';
-  import type { HTMLInputAttributes } from 'svelte/elements';
+  import type { ClassValue } from 'svelte/elements';
   import PasswordTextInput from './PasswordTextInput.svelte';
   import type { Snippet } from 'svelte';
 
@@ -8,7 +8,7 @@
     field: import('$lib/utils/form-fields.svelte').GenericFormField;
     label?: Snippet;
     trailingIcon?: Snippet;
-    class?: HTMLInputAttributes['class'];
+    class?: ClassValue;
   };
 
   let props: Props = $props();

@@ -36,9 +36,10 @@
     <div>
       <div
         style="background-image: url({image})"
-        class="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat brightness-[65%] transition-opacity duration-[2s]"
-        class:opacity-0={index !== currentImageIndex}
-        class:opacity-60={index === currentImageIndex}
+        class={[
+          'absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat brightness-[65%] transition-opacity duration-[2s]',
+          index === currentImageIndex ? 'opacity-60' : 'opacity-0',
+        ]}
       ></div>
     </div>
   {/each}

@@ -1,11 +1,12 @@
 <script lang="ts">
+  import type { ClassValue } from 'svelte/elements';
   import { page } from '$app/state';
   import { shop } from '$content';
 
   type Props = {
     bucketStock: number | undefined;
     inCartQuantity: number | undefined;
-    class?: HTMLElement['className'];
+    class?: ClassValue;
   };
 
   let { bucketStock, inCartQuantity, class: className }: Props = $props();
@@ -55,11 +56,11 @@
 
 {#if banner}
   {#if banner.linkToCart}
-    <a class="inline-block px-2 {banner.bgColor} {className}" href="/{page.params.country}/cart"
+    <a class={['inline-block px-2', banner.bgColor, className]} href="/{page.params.country}/cart"
       >{@render text(banner)}</a
     >
   {:else}
-    <div class="pointer-events-none inline-block px-2 select-none {banner.bgColor} {className}">
+    <div class={['pointer-events-none inline-block px-2 select-none', banner.bgColor, className]}>
       {@render text(banner)}
     </div>
   {/if}

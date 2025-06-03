@@ -42,9 +42,10 @@
   {@const id = `shipping-method-${shippingMethod.id}`}
   <input {id} class="hidden" type="radio" value={shippingMethod.id} bind:group={selectedShippingMethodId} />
   <label
-    class="w-44 cursor-pointer border-2 p-4 transition-all {selectedShippingMethodId === shippingMethod.id
-      ? 'border-primary'
-      : 'border-white'}"
+    class={[
+      'w-44 cursor-pointer border-2 p-4 transition-all',
+      selectedShippingMethodId === shippingMethod.id ? 'border-primary' : 'border-white',
+    ]}
     for={id}
   >
     <h2 class="truncate">{shippingMethod.name}</h2>

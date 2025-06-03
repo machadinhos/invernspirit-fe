@@ -95,8 +95,7 @@
           {#snippet breadCrumbSnippet(stage: CheckoutStage)}
             {#if stage.isEnabled}
               <a
-                class="text-primary"
-                class:underline={stage.isEnabled && stage.name === selectedStageName}
+                class={['text-primary', stage.isEnabled && stage.name === selectedStageName && 'underline']}
                 href="/{page.params.country}/checkout?stage={stage.name}">{stage.title}</a
               >
             {:else}

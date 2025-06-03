@@ -21,7 +21,7 @@
 {#snippet pageListItem(href: 'sign-in' | 'sign-up')}
   <li style="font-size: 2.5rem" class="w-1/2 text-center">
     <a
-      class="block w-full pt-4 transition-opacity duration-500 {selected === href ? 'opacity-100' : 'opacity-50'}"
+      class={['block w-full pt-4 transition-opacity duration-500', selected === href ? 'opacity-100' : 'opacity-50']}
       href={`/${page.params.country}/${href}`}
     >
       {#if href === 'sign-in'}

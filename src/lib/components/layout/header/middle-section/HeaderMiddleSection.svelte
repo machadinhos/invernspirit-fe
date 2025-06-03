@@ -34,7 +34,7 @@
         {#snippet triggerElement()}
           <button class="flex items-center gap-1.5" onclick={toggleDropdown} type="button">
             {common.header.pages.shop.title}
-            <div class="transition-transform duration-300" class:rotate-180={isOpen}>
+            <div class={['transition-transform duration-300', isOpen && 'rotate-180']}>
               <Icon size={10} src={FaSolidChevronDown} />
             </div>
           </button>

@@ -1,9 +1,10 @@
 <script lang="ts">
+  import type { ClassValue } from 'svelte/elements';
   import { fade } from 'svelte/transition';
 
   type Props = {
     children: import('svelte').Snippet;
-    class?: HTMLDivElement['className'];
+    class?: ClassValue;
     fadeIn?: boolean;
   };
 
@@ -11,11 +12,11 @@
 </script>
 
 {#if fadeIn}
-  <div class="background backdrop-blur-sm {className}" in:fade|global>
+  <div class={['background backdrop-blur-sm', className]} in:fade|global>
     {@render children()}
   </div>
 {:else}
-  <div class="background backdrop-blur-sm {className}">
+  <div class={['background backdrop-blur-sm', className]}>
     {@render children()}
   </div>
 {/if}

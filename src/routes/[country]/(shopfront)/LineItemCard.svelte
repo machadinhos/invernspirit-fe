@@ -42,7 +42,7 @@
   };
 </script>
 
-<div class="flex w-full flex-col gap-1.5 overflow-x-hidden p-3 {background ? 'bg-background shadow-2xl' : ''}">
+<div class={['flex w-full flex-col gap-1.5 overflow-x-hidden p-3', background && 'bg-background shadow-2xl']}>
   <div class="relative flex w-full items-center justify-between">
     <div class="flex gap-4">
       <div class="h-[100px] w-[100px]">
