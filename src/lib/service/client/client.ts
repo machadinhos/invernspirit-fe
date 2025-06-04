@@ -96,7 +96,6 @@ export class Client<T, K = void> {
       this._headers = {
         ...this.context.headers,
         ...(accessToken && { authorization: `Bearer ${accessToken}` }),
-        ...(this.context.body && { 'Content-Type': 'application/json' }),
       };
     }
 
