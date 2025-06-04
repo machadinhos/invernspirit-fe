@@ -30,7 +30,7 @@ export const prepareGetProductsBySearch: Endpoint<Product[], [string]> = (contex
       .withHostContext(context)
       .withEndpoint(`/${countryCode}/${PATH}`)
       .withMethod('GET')
-      .withQueryParams({ search })
+      .withSearchParams({ search })
       .call();
   };
 };

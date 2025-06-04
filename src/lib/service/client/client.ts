@@ -18,20 +18,18 @@ export type RequestHostContext = {
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 type RequestBaseContext = {
-  endpoint: string;
+  endpoint: `/${string}`;
   method: HttpMethod;
 } & RequestHostContext;
 
 type RequestContext<Body = void> = {
-  queryParams?: Record<string, string>;
+  searchParams?: Record<string, string>;
   body?: Body;
   retriesConfig?: RetriesConfig;
 } & RequestBaseContext;
 
 export class Client<ResponseBody, PayloadBody = void> {
   protected readonly context: RequestContext<PayloadBody>;
-  private _url: string | null = null;
-  private _headers: Record<string, string> | null = null;
 
   protected constructor(context: RequestBaseContext) {
     this.context = context;
@@ -77,29 +75,22 @@ export class Client<ResponseBody, PayloadBody = void> {
   };
 
   private get url(): string {
-    if (this._url === null) {
-      const { host, endpoint, queryParams } = this.context;
-      const query = queryParams
-        ? `?${Object.entries(queryParams)
-            .map(([key, value]) => `${key}=${value}`)
-            .join('&')}`
-        : '';
-      this._url = `${host}${endpoint}${query}`;
+    const { host, endpoint, searchParams } = this.context;
+    let url = `${host}${endpoint}`;
+
+    if (searchParams) {
+      url += `?${new URLSearchParams(searchParams)}`;
     }
 
-    return this._url;
+    return url;
   }
 
   private get headers(): Record<string, string> {
-    if (this._headers === null) {
-      const accessToken = getAccessToken();
-      this._headers = {
-        ...this.context.headers,
-        ...(accessToken && { authorization: `Bearer ${accessToken}` }),
-      };
-    }
-
-    return this._headers;
+    const accessToken = getAccessToken();
+    return {
+      ...this.context.headers,
+      ...(accessToken && { authorization: `Bearer ${accessToken}` }),
+    };
   }
 
   withHeaders = (headers: RequestContext['headers']): this => {
@@ -107,8 +98,8 @@ export class Client<ResponseBody, PayloadBody = void> {
     return this;
   };
 
-  withQueryParams = (queryParams: RequestContext['queryParams']): this => {
-    this.context.queryParams = queryParams;
+  withSearchParams = (searchParams: RequestContext['searchParams']): this => {
+    this.context.searchParams = searchParams;
     return this;
   };
 
