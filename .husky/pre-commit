@@ -1,20 +1,14 @@
 #!/bin/bash
 set -eo pipefail
 
-lint_and_format() {
-  local file="$1"
-  bun run format "$file"
-  bun run lint "$file"
-}
-
-branch=$(git symbolic-ref --short HEAD)
+branch=$(git branch --show-current)
 if [ "$branch" = "main" ] || [ "$branch" = "preview" ]; then
   echo "ERROR: Direct commits to $branch branch are not allowed."
   echo "Create a feature branch instead."
   exit 1
 fi
 
-files=$(git diff --name-only --cached --diff-filter=d | grep -E '\.(ts|js|svelte)$' || true)
+files=$(git diff --name-only --cached --diff-filter=d | grep -E '\.(ts|js|svelte|css|html)$' || true)
 if [ -z "$files" ]; then
   exit 0
 fi

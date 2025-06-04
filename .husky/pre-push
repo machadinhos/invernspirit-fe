@@ -1,10 +1,10 @@
 #!/bin/bash
 set -eo pipefail
 
-branch=$(git symbolic-ref --short HEAD)
+branch=$(git branch --show-current)
 if [ "$branch" = "main" ] || [ "$branch" = "preview" ]; then
   echo "ERROR: Direct commits to $branch branch are not allowed."
-  echo "Please create a feature branch instead."
+  echo "Create a feature branch instead."
   exit 1
 fi
 
@@ -19,4 +19,3 @@ wait $build_pid || exit_status=$?
 if [ -n "$exit_status" ]; then
   exit 1
 fi
-
