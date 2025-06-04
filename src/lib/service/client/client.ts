@@ -22,14 +22,14 @@ type RequestBaseContext = {
   method: HttpMethod;
 } & RequestHostContext;
 
-type RequestContext<T = void> = {
+type RequestContext<Body = void> = {
   queryParams?: Record<string, string>;
-  body?: T;
+  body?: Body;
   retriesConfig?: RetriesConfig;
 } & RequestBaseContext;
 
-export class Client<T, K = void> {
-  protected readonly context: RequestContext<K>;
+export class Client<ResponseBody, PayloadBody = void> {
+  protected readonly context: RequestContext<PayloadBody>;
   private _url: string | null = null;
   private _headers: Record<string, string> | null = null;
 
@@ -38,41 +38,41 @@ export class Client<T, K = void> {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  static create = <T, K = void>() => {
+  static create = <ResponseBody, PayloadBody = void>() => {
     return {
-      withHostContext: Client.withHostContext<T, K>,
+      withHostContext: Client.withHostContext<ResponseBody, PayloadBody>,
     };
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  private static withHostContext = <T, K = void>(context: RequestHostContext) => {
+  private static withHostContext = <ResponseBody, PayloadBody>(context: RequestHostContext) => {
     return {
-      withEndpoint: Client.prepareWithEndpoint<T, K>(context),
+      withEndpoint: Client.prepareWithEndpoint<ResponseBody, PayloadBody>(context),
     };
   };
 
-  private static prepareWithEndpoint = <T, K = void>(context: RequestHostContext) => {
+  private static prepareWithEndpoint = <ResponseBody, PayloadBody>(context: RequestHostContext) => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     return (endpoint: RequestBaseContext['endpoint']) => {
       return {
-        withMethod: Client.prepareWithMethod<T, K>(context, endpoint),
+        withMethod: Client.prepareWithMethod<ResponseBody, PayloadBody>(context, endpoint),
       };
     };
   };
 
-  private static prepareWithMethod = <T, K = void>(
+  private static prepareWithMethod = <ResponseBody, PayloadBody>(
     context: RequestHostContext,
     endpoint: RequestBaseContext['endpoint'],
   ) => {
     return <Method extends RequestBaseContext['method']>(
       method: Method,
-    ): Method extends 'GET' ? Client<T, K> : ClientWithBody<T, K> => {
+    ): Method extends 'GET' ? Client<ResponseBody, PayloadBody> : ClientWithBody<ResponseBody, PayloadBody> => {
       if (method === 'GET') {
-        return new Client<T, K>({ ...context, endpoint, method }) as Method extends 'GET'
-          ? Client<T, K>
-          : ClientWithBody<T, K>;
+        return new Client<ResponseBody, PayloadBody>({ ...context, endpoint, method }) as Method extends 'GET'
+          ? Client<ResponseBody, PayloadBody>
+          : ClientWithBody<ResponseBody, PayloadBody>;
       }
-      return new ClientWithBody<T, K>({ ...context, endpoint, method });
+      return new ClientWithBody<ResponseBody, PayloadBody>({ ...context, endpoint, method });
     };
   };
 
@@ -125,7 +125,7 @@ export class Client<T, K = void> {
     });
   };
 
-  call = async (shouldPushIssuesToToasts = true): Promise<T> => {
+  call = async (shouldPushIssuesToToasts = true): Promise<ResponseBody> => {
     let response: Response;
 
     try {
@@ -192,8 +192,8 @@ export class Client<T, K = void> {
   };
 }
 
-class ClientWithBody<T, K> extends Client<T, K> {
-  withBody = (body: K): this => {
+class ClientWithBody<ResponseBody, PayloadBody> extends Client<ResponseBody, PayloadBody> {
+  withBody = (body: PayloadBody): this => {
     this.context.body = body;
     return this;
   };

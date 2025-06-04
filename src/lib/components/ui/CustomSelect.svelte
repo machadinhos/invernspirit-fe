@@ -1,11 +1,11 @@
-<script generics="T" lang="ts">
+<script generics="Option" lang="ts">
   import { onClickOutside } from '$components-attachments';
   import type { Snippet } from 'svelte';
 
   type Props = {
     triggerElement: Snippet;
-    optionSnippet: Snippet<[T, number]>;
-    options: T[];
+    optionSnippet: Snippet<[Option, number]>;
+    options: Option[];
     selected: number;
     focused: number;
     isOpen: boolean;

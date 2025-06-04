@@ -101,18 +101,20 @@ export const generateFormFieldOninputCallback = (formField: GenericFormField) =>
   };
 };
 
-type FormFieldValues<T extends FormFields> = {
-  [K in keyof T as T[K]['includeInMapping'] extends true ? K : never]: T[K]['filterFunction'] extends null
-    ? ReturnType<T[K]['mappingFunction']>
-    : ReturnType<T[K]['mappingFunction']> | undefined;
+type FormFieldValues<Fields extends FormFields> = {
+  [K in keyof Fields as Fields[K]['includeInMapping'] extends true
+    ? K
+    : never]: Fields[K]['filterFunction'] extends null
+    ? ReturnType<Fields[K]['mappingFunction']>
+    : ReturnType<Fields[K]['mappingFunction']> | undefined;
 };
 
-export const mapFormFieldsToValues = <T extends FormFields>(formFields: T): FormFieldValues<T> => {
+export const mapFormFieldsToValues = <Fields extends FormFields>(formFields: Fields): FormFieldValues<Fields> => {
   return Object.fromEntries(
     Object.entries(formFields)
       .filter(([, field]) => field.includeInMapping && (field.filterFunction?.(field.value) ?? true))
       .map(([key, field]) => [key, field.mappingFunction(field.value)]),
-  ) as FormFieldValues<T>;
+  ) as FormFieldValues<Fields>;
 };
 
 export const populateFormFields = (

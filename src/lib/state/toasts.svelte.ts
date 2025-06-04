@@ -10,8 +10,8 @@ type BaseToastOptions = {
   singleton?: boolean;
 };
 
-type ToastOptions<T> = BaseToastOptions & {
-  extraParams: T;
+type ToastOptions<ExtraParams> = BaseToastOptions & {
+  extraParams: ExtraParams;
 };
 
 type Element<Params extends Record<string, unknown>> =

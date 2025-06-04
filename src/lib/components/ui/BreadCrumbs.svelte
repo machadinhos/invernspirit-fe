@@ -1,10 +1,10 @@
-<script generics="T" lang="ts">
+<script generics="BreadCrumb" lang="ts">
   import { type Snippet } from 'svelte';
 
   type Props = {
     separator: Snippet;
-    breadCrumbSnippet: Snippet<[T]>;
-    breadCrumbs: T[];
+    breadCrumbSnippet: Snippet<[BreadCrumb]>;
+    breadCrumbs: BreadCrumb[];
     'aria-label': string;
   };
 

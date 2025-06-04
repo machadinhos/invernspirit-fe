@@ -2,7 +2,10 @@ export class AsyncTaskQueue {
   private queue: (() => Promise<void>)[] = [];
   private isProcessing = false;
 
-  enqueue = <T, Args extends unknown[] = []>(asyncFunc: (...args: Args) => Promise<T>, ...args: Args): Promise<T> => {
+  enqueue = <Result, Args extends unknown[] = []>(
+    asyncFunc: (...args: Args) => Promise<Result>,
+    ...args: Args
+  ): Promise<Result> => {
     return new Promise((resolve, reject) => {
       const task = async (): Promise<void> => {
         try {

@@ -1,4 +1,4 @@
-<script generics="T extends Record<string, unknown> | undefined" lang="ts">
+<script generics="ToastParams extends Record<string, unknown> | undefined" lang="ts">
   import { type Component, onMount } from 'svelte';
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   import { fade, fly } from 'svelte/transition';
@@ -7,12 +7,12 @@
   import { type Toast } from '$state';
 
   type Props = {
-    toast: Toast<T>;
+    toast: Toast<ToastParams>;
   };
 
   let { toast }: Props = $props();
 
-  const Element = toast.element as Component<T & { toast: Toast<T> }, Record<never, never>>;
+  const Element = toast.element as Component<ToastParams & { toast: Toast<ToastParams> }, Record<never, never>>;
 
   const updateProgress = (): void => {
     if (toast.remainingTime === null) return;

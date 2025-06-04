@@ -23,7 +23,7 @@ class Config {
     this.isInitialized = true;
   };
 
-  afterInitialization = async <T>(callback: () => T): Promise<T> => {
+  afterInitialization = async <Result>(callback: () => Result): Promise<Result> => {
     await this.initializationPromise;
     return callback();
   };

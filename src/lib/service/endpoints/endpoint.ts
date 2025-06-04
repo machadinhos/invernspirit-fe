@@ -1,5 +1,5 @@
 import type { RequestHostContext } from '../client';
 
-export type Endpoint<T, Args extends unknown[] = []> = (
+export type Endpoint<Result, Args extends unknown[] = []> = (
   context: RequestHostContext,
-) => (countryCode: string, ...args: Args) => Promise<T>;
+) => (countryCode: string, ...args: Args) => Promise<Result>;

@@ -1,12 +1,12 @@
-<script generics="T extends { trigger: unknown; content: unknown }" lang="ts">
+<script generics="Item extends { trigger: unknown; content: unknown }" lang="ts">
   import { FaSolidChevronDown } from 'svelte-icons-pack/fa';
   import { Icon } from 'svelte-icons-pack';
   import type { Snippet } from 'svelte';
 
   type Props = {
-    accordionTrigger: Snippet<[T['trigger']]>;
-    accordionContent: Snippet<[T['content']]>;
-    items: T[];
+    accordionTrigger: Snippet<[Item['trigger']]>;
+    accordionContent: Snippet<[Item['content']]>;
+    items: Item[];
     allowMultipleOpen?: boolean;
   };
 
