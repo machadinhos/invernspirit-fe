@@ -10,12 +10,12 @@ export type RetriesConfig = {
   shouldRetry: (response: Response) => Promise<boolean> | boolean;
 };
 
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
 export type RequestHostContext = {
   host: string;
   headers?: Record<string, string>;
 };
-
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 type RequestBaseContext = {
   endpoint: `/${string}`;
@@ -36,32 +36,32 @@ export class Client<ResponseBody, PayloadBody = void> {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  static create = <ResponseBody, PayloadBody = void>() => {
+  static create<ResponseBody, PayloadBody = void>() {
     return {
       withHostContext: Client.withHostContext<ResponseBody, PayloadBody>,
     };
-  };
+  }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  private static withHostContext = <ResponseBody, PayloadBody>(context: RequestHostContext) => {
+  private static withHostContext<ResponseBody, PayloadBody>(context: RequestHostContext) {
     return {
       withEndpoint: Client.prepareWithEndpoint<ResponseBody, PayloadBody>(context),
     };
-  };
+  }
 
-  private static prepareWithEndpoint = <ResponseBody, PayloadBody>(context: RequestHostContext) => {
+  private static prepareWithEndpoint<ResponseBody, PayloadBody>(context: RequestHostContext) {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     return (endpoint: RequestBaseContext['endpoint']) => {
       return {
         withMethod: Client.prepareWithMethod<ResponseBody, PayloadBody>(context, endpoint),
       };
     };
-  };
+  }
 
-  private static prepareWithMethod = <ResponseBody, PayloadBody>(
+  private static prepareWithMethod<ResponseBody, PayloadBody>(
     context: RequestHostContext,
     endpoint: RequestBaseContext['endpoint'],
-  ) => {
+  ) {
     return <Method extends RequestBaseContext['method']>(
       method: Method,
     ): Method extends 'GET' ? Client<ResponseBody, PayloadBody> : ClientWithBody<ResponseBody, PayloadBody> => {
@@ -72,7 +72,7 @@ export class Client<ResponseBody, PayloadBody = void> {
       }
       return new ClientWithBody<ResponseBody, PayloadBody>({ ...context, endpoint, method });
     };
-  };
+  }
 
   private get url(): string {
     const { host, endpoint, searchParams } = this.context;
@@ -93,30 +93,30 @@ export class Client<ResponseBody, PayloadBody = void> {
     };
   }
 
-  withHeaders = (headers: RequestContext['headers']): this => {
+  withHeaders(headers: RequestContext['headers']): this {
     this.context.headers = { ...this.context.headers, ...headers };
     return this;
-  };
+  }
 
-  withSearchParams = (searchParams: RequestContext['searchParams']): this => {
+  withSearchParams(searchParams: RequestContext['searchParams']): this {
     this.context.searchParams = searchParams;
     return this;
-  };
+  }
 
-  withRetries = (retryConfig: RequestContext['retriesConfig']): this => {
+  withRetries(retryConfig: RequestContext['retriesConfig']): this {
     this.context.retriesConfig = retryConfig;
     return this;
-  };
+  }
 
-  private doFetch = (): Promise<Response> => {
+  private doFetch(): Promise<Response> {
     return fetch(this.url, {
       headers: this.headers,
       method: this.context.method,
       ...(this.context.body && { body: JSON.stringify(this.context.body) }),
     });
-  };
+  }
 
-  call = async (shouldPushIssuesToToasts = true): Promise<ResponseBody> => {
+  async call(shouldPushIssuesToToasts = true): Promise<ResponseBody> {
     let response: Response;
 
     try {
@@ -180,14 +180,14 @@ export class Client<ResponseBody, PayloadBody = void> {
       `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${await response.text()}`,
       response.status,
     );
-  };
+  }
 }
 
 class ClientWithBody<ResponseBody, PayloadBody> extends Client<ResponseBody, PayloadBody> {
-  withBody = (body: PayloadBody): this => {
+  withBody(body: PayloadBody): this {
     this.context.body = body;
     return this;
-  };
+  }
 }
 
 const pushIssuesToToasts = (issues: string[]): void => {

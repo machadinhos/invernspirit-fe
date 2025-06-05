@@ -67,15 +67,15 @@ class Toast<Params extends Record<string, unknown> | undefined = undefined> {
     this.singleton = singleton;
   }
 
-  startTimer = (): void => {
+  startTimer(): void {
     if (this.remainingTime === null) return;
     this.lastTime = Date.now();
     this.timeoutId = setTimeout(() => {
       this.destroy();
     }, this.remainingTime);
-  };
+  }
 
-  pauseTimer = (): void => {
+  pauseTimer(): void {
     if (this.remainingTime === null) return;
     if (this.timeoutId !== undefined && this.lastTime !== undefined) {
       clearTimeout(this.timeoutId);
@@ -83,14 +83,14 @@ class Toast<Params extends Record<string, unknown> | undefined = undefined> {
       const elapsed = Date.now() - this.lastTime;
       this.remainingTime -= elapsed;
     }
-  };
+  }
 
-  resetTimer = (): void => {
+  resetTimer(): void {
     if (this.intervalId === undefined) return;
     if (this.timeoutId !== undefined) clearTimeout(this.timeoutId);
     this.remainingTime = this.duration;
     this.startTimer();
-  };
+  }
 }
 
 export class Toasts {
@@ -141,18 +141,18 @@ export class Toasts {
     return newToast;
   }
 
-  filterOutGroup = (group: string): void => {
+  filterOutGroup(group: string): void {
     this.restOfToasts = this.restOfToasts.filter((toast) => toast.id.description !== group);
     this.value = this.value.filter((toast) => toast.id.description !== group);
-  };
+  }
 
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  findToastByGroup = (group: string): Toast<any> | undefined => {
+  findToastByGroup(group: string): Toast<any> | undefined {
     return (
       this.value.find((toast) => toast.id.description === group) ??
       this.restOfToasts.find((toast) => toast.id.description === group)
     );
-  };
+  }
 }
 
 export const toasts = new Toasts();

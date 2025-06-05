@@ -5,22 +5,22 @@ class Loading {
     return this.value;
   }
 
-  startLoading = (): void => {
+  startLoading(): void {
     this.value = true;
-  };
+  }
 
-  stopLoading = (): void => {
+  stopLoading(): void {
     this.value = false;
-  };
+  }
 
-  withLoading = async (func: () => Promise<void>): Promise<void> => {
+  async withLoading(func: () => Promise<void>): Promise<void> {
     this.startLoading();
     try {
       await func();
     } finally {
       this.stopLoading();
     }
-  };
+  }
 }
 
 export const loading = new Loading();

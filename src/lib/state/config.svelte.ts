@@ -14,19 +14,19 @@ class Config {
     });
   }
 
-  init = async (searchParams: URLSearchParams): Promise<void> => {
+  async init(searchParams: URLSearchParams): Promise<void> {
     const configHeaders = searchParams.get('after-checkout') === 'true' ? { 'after-checkout': 'true' } : undefined;
     const config = await bffClient.config.get(page.params.country, configHeaders);
     cart.setCart(config.cart);
     user.value = config.user;
     this.completeInitialization();
     this.isInitialized = true;
-  };
+  }
 
-  afterInitialization = async <Result>(callback: () => Result): Promise<Result> => {
+  async afterInitialization<Result>(callback: () => Result): Promise<Result> {
     await this.initializationPromise;
     return callback();
-  };
+  }
 }
 
 export const config = new Config();

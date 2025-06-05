@@ -11,47 +11,43 @@ class Cart {
   isCheckoutPossible = $state(false);
   private beCallQueue = new AsyncTaskQueue();
 
-  setCart = (cart: CartType): void => {
+  setCart(cart: CartType): void {
     const { products, isCheckoutPossible } = cart;
     this.value = products;
     this.isCheckoutPossible = isCheckoutPossible ?? true;
-  };
+  }
 
-  updateProductQuantity = async (
-    product: Product,
-    newQuantity: number,
-    pushToastOnQuantityUpdate = true,
-  ): Promise<void> => {
+  async updateProductQuantity(product: Product, newQuantity: number, pushToastOnQuantityUpdate = true): Promise<void> {
     await this.beCallQueue.enqueue(async () => {
       const cart = await bffClient.cart.updateItemQuantity(page.params.country, product.id, newQuantity);
       this.setCart(cart);
       if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
       toasts.push(ItemAddedToCartToastComponent, { group: 'cart-update', singleton: true });
     });
-  };
+  }
 
-  patchProductQuantity = async (
+  async patchProductQuantity(
     product: Product,
     quantityDifference: number,
     pushToastOnQuantityUpdate = true,
-  ): Promise<void> => {
+  ): Promise<void> {
     await this.beCallQueue.enqueue(async () => {
       const cart = await bffClient.cart.patchItemQuantity(page.params.country, product.id, quantityDifference);
       this.setCart(cart);
       if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
       toasts.push(ItemAddedToCartToastComponent, { group: 'cart-update', singleton: true });
     });
-  };
+  }
 
-  removeProduct = async (product: Product): Promise<void> => {
+  async removeProduct(product: Product): Promise<void> {
     await this.beCallQueue.enqueue(async () => {
       this.value = (await bffClient.cart.removeItem(page.params.country, product.id)).products;
     });
-  };
+  }
 
-  getProductQuantity = (productId: string): number => {
+  getProductQuantity(productId: string): number {
     return this.value.find(({ id }) => id === productId)?.quantity ?? 0;
-  };
+  }
 }
 
 export const cart = new Cart();

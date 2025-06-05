@@ -30,11 +30,11 @@ class Modal {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   private queue: ModalInstance<any>[] = [];
 
-  private setValueFromQueue = (): void => {
+  private setValueFromQueue(): void {
     if (this.queue.length > 0 && !this.value) this.value = this.queue.shift();
-  };
+  }
 
-  generateCloseFunction = (id: symbol): (() => void) => {
+  generateCloseFunction(id: symbol): () => void {
     return (): void => {
       if (this.value?.id === id) {
         this.value = undefined;
@@ -43,7 +43,7 @@ class Modal {
         this.queue = this.queue.filter((modal) => modal.id !== id);
       }
     };
-  };
+  }
 
   open(element: NoExtraParamsElement): ModalInstance;
   open<Params extends Record<string, unknown>>(element: Element<Params>, extraParams: Params): ModalInstance<Params>;

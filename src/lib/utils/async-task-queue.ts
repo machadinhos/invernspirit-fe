@@ -2,10 +2,10 @@ export class AsyncTaskQueue {
   private queue: (() => Promise<void>)[] = [];
   private isProcessing = false;
 
-  enqueue = <Result, Args extends unknown[] = []>(
+  enqueue<Result, Args extends unknown[] = []>(
     asyncFunc: (...args: Args) => Promise<Result>,
     ...args: Args
-  ): Promise<Result> => {
+  ): Promise<Result> {
     return new Promise((resolve, reject) => {
       const task = async (): Promise<void> => {
         try {
@@ -18,9 +18,9 @@ export class AsyncTaskQueue {
       this.queue.push(task);
       this.triggerQueueProcessing();
     });
-  };
+  }
 
-  private triggerQueueProcessing = async (): Promise<void> => {
+  private async triggerQueueProcessing(): Promise<void> {
     if (this.isProcessing) return;
     this.isProcessing = true;
 
@@ -32,5 +32,5 @@ export class AsyncTaskQueue {
     } finally {
       this.isProcessing = false;
     }
-  };
+  }
 }
