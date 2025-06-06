@@ -7,3 +7,4 @@ export type * from './config';
 export type * from './order';
 export type * from './product';
 export type * from './user';
+export type * from './utils';

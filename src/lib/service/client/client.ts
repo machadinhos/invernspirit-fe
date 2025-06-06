@@ -2,6 +2,7 @@ import { getAccessToken, setAccessToken } from './access-token';
 import { browser } from '$app/environment';
 import { ClientError } from '$service';
 import { ClientErrorToastComponent } from '$components-toasts';
+import type { Jsonable } from '$types';
 import { toasts } from '$state';
 
 export type RetriesConfig = {
@@ -28,54 +29,103 @@ type RequestContext<Body = void> = {
   retriesConfig?: RetriesConfig;
 } & RequestBaseContext;
 
+type RequiredBuilderMethods = 'withHostContext' | 'withEndpoint' | 'withMethod';
+type OptionalBuilderMethods = 'withHeaders' | 'withSearchParams' | 'withRetries' | 'withBody';
+type BuilderMethods = RequiredBuilderMethods | OptionalBuilderMethods;
+
+type ClientBuilderBase<ResponseBody, PayloadBody> = Omit<Client<ResponseBody, PayloadBody>, BuilderMethods | 'call'>;
+
+type FluentStep<NextStep extends RequiredBuilderMethods | 'withBody', ResponseBody, PayloadBody> = {
+  _context: Client<ResponseBody, PayloadBody>['_context'];
+} & Pick<Client<ResponseBody, PayloadBody>, NextStep>;
+
+type OptionalStepResult<
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  ClientBuilderType extends ClientBuilderBase<any, any>,
+  NewIgnore extends BuilderMethods,
+> = Omit<ClientBuilderType, NewIgnore>;
+
 export class Client<ResponseBody, PayloadBody = void> {
-  protected readonly context: RequestContext<PayloadBody>;
+  readonly _context: RequestContext<PayloadBody> = {} as RequestContext<PayloadBody>;
 
-  protected constructor(context: RequestBaseContext) {
-    this.context = context;
+  /* eslint-disable-next-line @typescript-eslint/no-empty-function */
+  protected constructor() {}
+
+  static create<ResponseBody extends Jsonable | never, PayloadBody extends Jsonable | never = never>(): FluentStep<
+    'withHostContext',
+    ResponseBody,
+    PayloadBody
+  > {
+    return new Client<ResponseBody, PayloadBody>();
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  static create<ResponseBody, PayloadBody = void>() {
-    return {
-      withHostContext: Client.withHostContext<ResponseBody, PayloadBody>,
-    };
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  withHostContext<This extends ClientBuilderBase<any, any>>(
+    this: This,
+    { host, headers }: RequestHostContext,
+  ): FluentStep<'withEndpoint', ResponseBody, PayloadBody> {
+    this._context.host = host;
+    this._context.headers = headers;
+    return this as any;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  private static withHostContext<ResponseBody, PayloadBody>(context: RequestHostContext) {
-    return {
-      withEndpoint: Client.prepareWithEndpoint<ResponseBody, PayloadBody>(context),
-    };
-  }
-
-  private static prepareWithEndpoint<ResponseBody, PayloadBody>(context: RequestHostContext) {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    return (endpoint: RequestBaseContext['endpoint']) => {
-      return {
-        withMethod: Client.prepareWithMethod<ResponseBody, PayloadBody>(context, endpoint),
-      };
-    };
-  }
-
-  private static prepareWithMethod<ResponseBody, PayloadBody>(
-    context: RequestHostContext,
+  withEndpoint<This extends ClientBuilderBase<any, any>>(
+    this: This,
     endpoint: RequestBaseContext['endpoint'],
-  ) {
-    return <Method extends RequestBaseContext['method']>(
-      method: Method,
-    ): Method extends 'GET' ? Client<ResponseBody, PayloadBody> : ClientWithBody<ResponseBody, PayloadBody> => {
-      if (method === 'GET') {
-        return new Client<ResponseBody, PayloadBody>({ ...context, endpoint, method }) as Method extends 'GET'
-          ? Client<ResponseBody, PayloadBody>
-          : ClientWithBody<ResponseBody, PayloadBody>;
-      }
-      return new ClientWithBody<ResponseBody, PayloadBody>({ ...context, endpoint, method });
-    };
+  ): FluentStep<'withMethod', ResponseBody, PayloadBody> {
+    this._context.endpoint = endpoint;
+    return this as any;
   }
+
+  withMethod<This extends ClientBuilderBase<any, any>, Method extends RequestBaseContext['method']>(
+    this: This,
+    method: Method,
+  ): Method extends 'GET'
+    ? [PayloadBody] extends [never]
+      ? OptionalStepResult<Client<ResponseBody, PayloadBody>, RequiredBuilderMethods | 'withBody'>
+      : never
+    : [PayloadBody] extends [never]
+      ? OptionalStepResult<Client<ResponseBody, PayloadBody>, RequiredBuilderMethods | 'withBody'>
+      : FluentStep<'withBody', ResponseBody, PayloadBody> {
+    this._context.method = method;
+    return this as any;
+  }
+
+  withBody<This extends ClientBuilderBase<any, any>>(
+    this: This,
+    body: PayloadBody,
+  ): OptionalStepResult<Client<ResponseBody, PayloadBody>, RequiredBuilderMethods | 'withBody'> {
+    this._context.body = body;
+    return this as any;
+  }
+
+  withHeaders<This extends ClientBuilderBase<any, any>>(
+    this: This,
+    headers: RequestContext['headers'],
+  ): OptionalStepResult<This, 'withHeaders'> {
+    this._context.headers = { ...this._context.headers, ...headers };
+    return this as any;
+  }
+
+  withSearchParams<This extends ClientBuilderBase<any, any>>(
+    this: This,
+    searchParams: RequestContext['searchParams'],
+  ): OptionalStepResult<This, 'withSearchParams'> {
+    this._context.searchParams = searchParams;
+    return this as any;
+  }
+
+  withRetries<This extends ClientBuilderBase<any, any>>(
+    this: This,
+    retryConfig: RequestContext['retriesConfig'],
+  ): OptionalStepResult<This, 'withRetries'> {
+    this._context.retriesConfig = retryConfig;
+    return this as any;
+  }
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   private get url(): string {
-    const { host, endpoint, searchParams } = this.context;
+    const { host, endpoint, searchParams } = this._context;
     let url = `${host}${endpoint}`;
 
     if (searchParams) {
@@ -88,31 +138,16 @@ export class Client<ResponseBody, PayloadBody = void> {
   private get headers(): Record<string, string> {
     const accessToken = getAccessToken();
     return {
-      ...this.context.headers,
+      ...this._context.headers,
       ...(accessToken && { authorization: `Bearer ${accessToken}` }),
     };
-  }
-
-  withHeaders(headers: RequestContext['headers']): this {
-    this.context.headers = { ...this.context.headers, ...headers };
-    return this;
-  }
-
-  withSearchParams(searchParams: RequestContext['searchParams']): this {
-    this.context.searchParams = searchParams;
-    return this;
-  }
-
-  withRetries(retryConfig: RequestContext['retriesConfig']): this {
-    this.context.retriesConfig = retryConfig;
-    return this;
   }
 
   private doFetch(): Promise<Response> {
     return fetch(this.url, {
       headers: this.headers,
-      method: this.context.method,
-      ...(this.context.body && { body: JSON.stringify(this.context.body) }),
+      method: this._context.method,
+      ...(this._context.body && { body: JSON.stringify(this._context.body) }),
     });
   }
 
@@ -122,8 +157,8 @@ export class Client<ResponseBody, PayloadBody = void> {
     try {
       response = await this.doFetch();
 
-      if (this.context.retriesConfig) {
-        const { maxRetries, retryDelay, shouldRetry } = this.context.retriesConfig;
+      if (this._context.retriesConfig) {
+        const { maxRetries, retryDelay, shouldRetry } = this._context.retriesConfig;
         let retries = 0;
         while (retries < maxRetries && (await shouldRetry(response.clone()))) {
           await new Promise((resolve) => setTimeout(resolve, retryDelay));
@@ -137,7 +172,7 @@ export class Client<ResponseBody, PayloadBody = void> {
 
       const errorString = 'Unable to connect to server';
       if (browser) toasts.push(ClientErrorToastComponent, { extraParams: { error: errorString }, type: 'error' });
-      throw new Error(`${errorString} ${this.context.method} ${this.url}`);
+      throw new Error(`${errorString} ${this._context.method} ${this.url}`);
     }
 
     if (response.ok) {
@@ -163,7 +198,7 @@ export class Client<ResponseBody, PayloadBody = void> {
         }
       }
       throw new ClientError(
-        `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${JSON.stringify(responseBody, null, 2)}`,
+        `Error code: ${response.status}\nError calling endpoint ${this._context.method} ${this.url}\nClient error: ${JSON.stringify(responseBody, null, 2)}`,
         response.status,
         issues,
       );
@@ -177,16 +212,9 @@ export class Client<ResponseBody, PayloadBody = void> {
       );
     }
     throw new ClientError(
-      `Error code: ${response.status}\nError calling endpoint ${this.context.method} ${this.url}\nClient error: ${await response.text()}`,
+      `Error code: ${response.status}\nError calling endpoint ${this._context.method} ${this.url}\nClient error: ${await response.text()}`,
       response.status,
     );
-  }
-}
-
-class ClientWithBody<ResponseBody, PayloadBody> extends Client<ResponseBody, PayloadBody> {
-  withBody(body: PayloadBody): this {
-    this.context.body = body;
-    return this;
   }
 }
 

@@ -14,7 +14,7 @@ export const prepareGetLoggedInUser: Endpoint<UserDetails> = (context) => {
   };
 };
 
-export const prepareDeleteLoggedInUser: Endpoint<void> = (context) => {
+export const prepareDeleteLoggedInUser: Endpoint<never> = (context) => {
   return (countryCode) => {
     return Client.create<never>()
       .withHostContext(context)
@@ -37,7 +37,7 @@ export const prepareUpdateLoggedInUserPersonalInformation: Endpoint<UserDetails,
   };
 };
 
-export const prepareUpdateLoggedInUserEmailSubmitEmail: Endpoint<void, [string]> = (context) => {
+export const prepareUpdateLoggedInUserEmailSubmitEmail: Endpoint<never, [string]> = (context) => {
   return (countryCode, newEmail) => {
     return Client.create<never, { email: string }>()
       .withHostContext(context)
@@ -48,7 +48,7 @@ export const prepareUpdateLoggedInUserEmailSubmitEmail: Endpoint<void, [string]>
   };
 };
 
-export const prepareUpdateLoggedInUserEmailValidateCode: Endpoint<void, [string]> = (context) => {
+export const prepareUpdateLoggedInUserEmailValidateCode: Endpoint<never, [string]> = (context) => {
   return (countryCode, code) => {
     return Client.create<never, { code: string }>()
       .withHostContext(context)
@@ -64,7 +64,7 @@ type UpdatePasswordPayload = {
   newPassword: string;
 };
 
-export const prepareUpdateLoggedInUserPassword: Endpoint<void, [UpdatePasswordPayload]> = (context) => {
+export const prepareUpdateLoggedInUserPassword: Endpoint<never, [UpdatePasswordPayload]> = (context) => {
   return (countryCode, payload) => {
     return Client.create<never, UpdatePasswordPayload>()
       .withHostContext(context)
@@ -131,7 +131,7 @@ export const prepareVerifyEmail: Endpoint<LogInAndSignUpUserResponse, [VerifyEma
   };
 };
 
-export const prepareResendEmail: Endpoint<void, [string]> = (context) => {
+export const prepareResendEmail: Endpoint<never, [string]> = (context) => {
   return (countryCode, email) => {
     return Client.create<never, UserBaseInfo>()
       .withHostContext(context)
@@ -162,7 +162,7 @@ type ForgotPasswordSubmitEmailPayload = {
   captchaToken: string;
 };
 
-export const prepareForgotPasswordSubmitEmail: Endpoint<void, [ForgotPasswordSubmitEmailPayload]> = (context) => {
+export const prepareForgotPasswordSubmitEmail: Endpoint<never, [ForgotPasswordSubmitEmailPayload]> = (context) => {
   return (countryCode, payload) => {
     return Client.create<never, ForgotPasswordSubmitEmailPayload>()
       .withHostContext(context)
@@ -173,7 +173,7 @@ export const prepareForgotPasswordSubmitEmail: Endpoint<void, [ForgotPasswordSub
   };
 };
 
-export const prepareForgotPasswordValidateCode: Endpoint<void, [string, string]> = (context) => {
+export const prepareForgotPasswordValidateCode: Endpoint<never, [string, string]> = (context) => {
   return (countryCode, email, code) => {
     return Client.create<never, { email: string; code: string }>()
       .withHostContext(context)
@@ -184,7 +184,7 @@ export const prepareForgotPasswordValidateCode: Endpoint<void, [string, string]>
   };
 };
 
-export const prepareForgotPasswordResetPassword: Endpoint<void, [string, string, string]> = (context) => {
+export const prepareForgotPasswordResetPassword: Endpoint<never, [string, string, string]> = (context) => {
   return (countryCode, email, code, newPassword) => {
     return Client.create<never, { email: string; code: string; password: string }>()
       .withHostContext(context)
