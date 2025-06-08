@@ -8,6 +8,7 @@
     "headTitle": "Invern Spirit • products",
     "title": "Products",
     "id": {
+      "headTitle": "Invern Spirit • ",
       "belongsToCollectionStart": "This product belongs to the ",
       "belongsToCollectionEnd": " collection.",
       "stock": "Stock"

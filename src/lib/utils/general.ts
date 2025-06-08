@@ -12,3 +12,12 @@ export const transition = (action: () => void): void => {
   }
   document.startViewTransition(action);
 };
+
+export const truncateWithEllipsis = (input: string, maxLength: number): string => {
+  const ellipsis = '...';
+  if (input.length <= maxLength) {
+    return input;
+  }
+  const truncateTo = maxLength - ellipsis.length;
+  return input.slice(0, truncateTo) + ellipsis;
+};

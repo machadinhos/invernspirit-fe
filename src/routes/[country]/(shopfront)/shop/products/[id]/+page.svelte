@@ -1,14 +1,18 @@
 <script lang="ts">
   import { Anchor, Button, ThumbnailCarousel } from '$components';
-  import { cart, config } from '$state';
+  import { cart, config, toasts } from '$state';
+  import { CopiedToClipboardToastComponent } from '$components-toasts';
   import { formatPrice } from '$lib/utils/currency-formatting';
   import { getStockFromBucket } from '$service';
+  import { Icon } from 'svelte-icons-pack';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import type { PageData } from './$types';
   import ProductQuantitySelector from '../../../ProductQuantitySelector.svelte';
   import ProductStatusBanner from '../../ProductStatusBanner.svelte';
+  import { RiSystemShareLine } from 'svelte-icons-pack/ri';
   import { shop } from '$content';
+  import { truncateWithEllipsis } from '$lib/utils/general';
 
   type Props = {
     data: PageData;
@@ -35,6 +39,21 @@
     }
   };
 
+  const onShareClick = async (): Promise<void> => {
+    try {
+      await navigator.share({
+        title: data.product.name,
+        text: 'Check out this product:',
+        url: `${page.url.origin}${page.url.pathname}`,
+      });
+    } catch (error) {
+      /* eslint-disable-next-line no-console */
+      console.error(error);
+      navigator.clipboard.writeText(`${page.url.origin}${page.url.pathname}`);
+      toasts.push(CopiedToClipboardToastComponent, { group: 'clipboard', singleton: true });
+    }
+  };
+
   onMount(async () => {
     bucketStock = (await getStockFromBucket(data.product.id)).data;
     config.afterInitialization(() => {
@@ -43,7 +62,13 @@
   });
 </script>
 
-<svelte:head><title>{shop.products.headTitle}</title></svelte:head>
+<svelte:head>
+  <title>{`${shop.products.id.headTitle}${data.product.name}`}</title>
+  <meta name="og:type" content="product" />
+  <meta name="og:title" content={data.product.name} />
+  <meta name="og:description" content={truncateWithEllipsis(data.product.description, 155)} />
+  <meta content={data.product.images[0].url} property="og:image" />
+</svelte:head>
 
 <div class="margins flex flex-col gap-5 lg:flex-row">
   <div class="flex justify-center lg:w-1/2">
@@ -51,9 +76,14 @@
   </div>
   <div class="lg:w-1/2">
     <h1 class="text-6xl lg:text-8xl">{data.product.name}</h1>
-    <p class="price text-4xl lg:text-6xl">
-      {formatPrice(data.country.locale, data.country.currency.code, data.product.grossPrice)}
-    </p>
+    <div class="flex items-center justify-between">
+      <p class="price text-4xl lg:text-6xl">
+        {formatPrice(data.country.locale, data.country.currency.code, data.product.grossPrice)}
+      </p>
+      <button class="p-0.5" onclick={onShareClick} type="button">
+        <Icon size="25" src={RiSystemShareLine} />
+      </button>
+    </div>
     <div class="my-5 h-px w-full bg-white"></div>
     <p class="min-h-24">{data.product.description}</p>
     <div class="my-5 h-px w-full bg-white"></div>
