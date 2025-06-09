@@ -126,7 +126,7 @@ export class Toasts {
       const existingToast = this.findToastByGroup(options.group);
       if (existingToast) {
         existingToast.resetTimer();
-        return existingToast as Toast<Params | undefined>;
+        return existingToast;
       }
     }
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
