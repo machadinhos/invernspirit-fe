@@ -28,6 +28,25 @@
     goToNextStage();
   };
 
+  const onkeydown = (e: KeyboardEvent): void => {
+    const element = e.target as HTMLInputElement;
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        const prevInput = element.parentElement?.previousElementSibling?.childNodes[0];
+        if (prevInput && prevInput instanceof HTMLInputElement) {
+          e.preventDefault();
+          prevInput.focus();
+        }
+      } else {
+        const nextInput = element.parentElement?.nextElementSibling?.childNodes[0];
+        if (nextInput && nextInput instanceof HTMLInputElement) {
+          e.preventDefault();
+          nextInput.focus();
+        }
+      }
+    }
+  };
+
   onMount(async () => {
     const { shippingMethods: givenShippingMethods, selectedShippingMethod } =
       await bffClient.checkout.stages.shipping.get(page.params.country);
@@ -38,32 +57,49 @@
   });
 </script>
 
-{#snippet shippingMethodCard(shippingMethod: ShippingMethod)}
-  {@const id = `shipping-method-${shippingMethod.id}`}
-  <input {id} class="hidden" type="radio" value={shippingMethod.id} bind:group={selectedShippingMethodId} />
-  <label
-    class={[
-      'w-44 cursor-pointer border-2 p-4 transition-all',
-      selectedShippingMethodId === shippingMethod.id ? 'border-primary' : 'border-white',
-    ]}
-    for={id}
-  >
-    <h2 class="truncate">{shippingMethod.name}</h2>
-    <p>{checkout.shippingMethodPage.deliveryTime}: {shippingMethod.rate.deliveryTime} days</p>
-    <p class="price">
-      {checkout.shippingMethodPage.price}: {formatPrice(
-        country.locale,
-        country.currency.code,
-        shippingMethod.rate.priceInCents,
-      )}
-    </p>
-  </label>
-{/snippet}
-
 {#if shippingMethods}
   <div class="grid grid-cols-[repeat(auto-fit,minmax(186px,1fr))] justify-center justify-items-center gap-4">
     {#each shippingMethods as shippingMethod (shippingMethod.id)}
-      {@render shippingMethodCard(shippingMethod)}
+      <label class="bg-background w-44 cursor-pointer p-4">
+        <input
+          class="sr-only"
+          {onkeydown}
+          type="radio"
+          value={shippingMethod.id}
+          bind:group={selectedShippingMethodId}
+        />
+        <div class="mb-2 flex w-full justify-center">
+          <div
+            class={[
+              "bg-background-dark after:bg-primary flex h-4 w-4 items-center justify-center rounded-full after:h-2 after:w-2 after:rounded-full after:transition-opacity after:content-['']",
+              shippingMethod.id === selectedShippingMethodId ? 'after:opacity-100' : 'after:opacity-0',
+            ]}
+          ></div>
+        </div>
+        <h2 class="truncate">{shippingMethod.name}</h2>
+        <p>{checkout.shippingMethodPage.deliveryTime}: {shippingMethod.rate.deliveryTime} days</p>
+        <p class="price">
+          {checkout.shippingMethodPage.price}:}: {formatPrice(
+            country.locale,
+            country.currency.code,
+            shippingMethod.rate.priceInCents,
+          )}
+          }
+        </p>
+      </label>
     {/each}
-  </div>
-{/if}
+  </div>{/if}
+
+<style>
+  label {
+    transition: box-shadow 150ms ease-in-out;
+  }
+
+  label:has(input:checked) {
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  label:has(input:not(:checked):focus-visible) {
+    box-shadow: 0 0 0 1px white;
+  }
+</style>
