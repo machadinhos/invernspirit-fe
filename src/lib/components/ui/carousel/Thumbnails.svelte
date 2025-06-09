@@ -51,16 +51,16 @@
     overflow: hidden;
   }
 
-  .embla__container.axisX {
+  .embla__container {
     display: flex;
-    touch-action: pan-x pinch-zoom;
+  }
+
+  .embla__container.axisX {
     height: 21.25vw;
     flex-direction: row;
   }
 
   .embla__container.axisY {
-    display: flex;
-    touch-action: pan-y pinch-zoom;
     height: 35vw;
     flex-direction: column;
   }
@@ -70,5 +70,6 @@
     flex: 0 0 var(--slide-size);
     min-height: 0;
     aspect-ratio: 1/1;
+    touch-action: manipulation;
   }
 </style>
