@@ -82,7 +82,10 @@ export const validateFormFields = (formFields: FormFields): boolean => {
   for (const field of Object.values(formFields)) {
     const isValid = field.validate(field.value);
     field.isValid = isValid;
-    if (!isValid) hasError = true;
+    if (!isValid && !hasError) {
+      hasError = true;
+      document.getElementById(field.id)?.focus();
+    }
   }
 
   return !hasError;
