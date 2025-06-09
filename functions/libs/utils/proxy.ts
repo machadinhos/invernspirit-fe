@@ -37,7 +37,7 @@ export const beClientProxy = async (
 
   const beResponse = await fetch(backendUrl, beRequest);
 
-  return new Response(JSON.stringify(await beResponse.json()), {
+  return new Response(beResponse.body, {
     status: beResponse.status,
     headers: beResponse.headers,
   });
