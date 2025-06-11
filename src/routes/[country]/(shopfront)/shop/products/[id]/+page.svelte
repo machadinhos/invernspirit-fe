@@ -64,9 +64,9 @@
 
 <svelte:head>
   <title>{`${shop.products.id.headTitle}${data.product.name}`}</title>
-  <meta name="og:type" content="product" />
-  <meta name="og:title" content={data.product.name} />
-  <meta name="og:description" content={truncateWithEllipsis(data.product.description, 155)} />
+  <meta content="product" property="og:type" />
+  <meta content={data.product.name} property="og:title" />
+  <meta content={truncateWithEllipsis(data.product.description, 155)} property="og:description" />
   <meta content={data.product.images[0].url} property="og:image" />
 </svelte:head>
 
