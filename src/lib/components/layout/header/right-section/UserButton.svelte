@@ -20,7 +20,7 @@
     isOpen = false;
     user.value = undefined;
     cart.setCart(newCart);
-    goto(`/${page.params.country}`, {});
+    goto(`/${page.params.country}`);
   };
 
   const closeDropdown = (): void => {

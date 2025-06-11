@@ -49,7 +49,7 @@ export class Client<ResponseBody, PayloadBody = void> {
   readonly _context: RequestContext<PayloadBody> = {} as RequestContext<PayloadBody>;
 
   /* eslint-disable-next-line @typescript-eslint/no-empty-function */
-  protected constructor() {}
+  private constructor() {}
 
   static create<ResponseBody extends Jsonable | never, PayloadBody extends Jsonable | never = never>(): FluentStep<
     'withHostContext',
