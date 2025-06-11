@@ -12,7 +12,6 @@
   import ProductStatusBanner from '../../ProductStatusBanner.svelte';
   import { RiSystemShareLine } from 'svelte-icons-pack/ri';
   import { shop } from '$content';
-  import { truncateWithEllipsis } from '$lib/utils/general';
 
   type Props = {
     data: PageData;
@@ -62,13 +61,7 @@
   });
 </script>
 
-<svelte:head>
-  <title>{`${shop.products.id.headTitle}${data.product.name}`}</title>
-  <meta content="product" property="og:type" />
-  <meta content={data.product.name} property="og:title" />
-  <meta content={truncateWithEllipsis(data.product.description, 155)} property="og:description" />
-  <meta content={data.product.images[0].url} property="og:image" />
-</svelte:head>
+<svelte:head><title>{`${shop.products.id.headTitle}${data.product.name}`}</title></svelte:head>
 
 <div class="margins flex flex-col gap-5 lg:flex-row">
   <div class="flex justify-center lg:w-1/2">
