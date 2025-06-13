@@ -58,9 +58,9 @@
 </script>
 
 {#if shippingMethods}
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(186px,1fr))] justify-center justify-items-center gap-4">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] justify-center justify-items-center gap-4">
     {#each shippingMethods as shippingMethod (shippingMethod.id)}
-      <label class="bg-background w-44 cursor-pointer p-4">
+      <label class="bg-background w-60 cursor-pointer p-4">
         <input
           class="sr-only"
           {onkeydown}
@@ -76,15 +76,13 @@
             ]}
           ></div>
         </div>
-        <h2 class="truncate">{shippingMethod.name}</h2>
+        <h2 class="truncate text-2xl">{shippingMethod.name}</h2>
         <p>{checkout.shippingMethodPage.deliveryTime}: {shippingMethod.rate.deliveryTime} days</p>
-        <p class="price">
-          {checkout.shippingMethodPage.price}:}: {formatPrice(
-            country.locale,
-            country.currency.code,
-            shippingMethod.rate.priceInCents,
-          )}
-          }
+        <p>
+          {checkout.shippingMethodPage.price}:
+          <span class="price"
+            >{formatPrice(country.locale, country.currency.code, shippingMethod.rate.priceInCents)}</span
+          >
         </p>
       </label>
     {/each}
