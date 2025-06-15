@@ -127,7 +127,7 @@
     </div>
   {/each}
 
-  <CheckBox class="mb-4" label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
+  <CheckBox name="remember-me" class="mb-4" label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
 
   <CaptchaElement action="sign-up" callback={captchaCallback} bind:resetToken />
 

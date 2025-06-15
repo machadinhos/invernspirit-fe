@@ -92,7 +92,7 @@
   {/each}
 
   <div class="mb-4 flex justify-between">
-    <CheckBox label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
+    <CheckBox name="remember-me" label={auth.rememberMeLabel} bind:checked={rememberMeInput} />
     <Anchor class="text-right" href={forgotPasswordUrl} onclick={actionAfterForgotPasswordClick}
       >{auth.signIn.forgotPassword}</Anchor
     >

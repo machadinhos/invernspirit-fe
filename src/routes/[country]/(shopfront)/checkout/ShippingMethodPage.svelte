@@ -62,6 +62,7 @@
     {#each shippingMethods as shippingMethod (shippingMethod.id)}
       <label class="bg-background w-60 cursor-pointer p-4">
         <input
+          name="shipping-method"
           class="sr-only"
           {onkeydown}
           type="radio"

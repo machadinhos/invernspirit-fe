@@ -135,5 +135,5 @@
 </div>
 
 {#if user.isLoggedIn}
-  <CheckBox label={checkout.addressPage.saveAddress} bind:checked={saveAddress} />
+  <CheckBox name="save-address" label={checkout.addressPage.saveAddress} bind:checked={saveAddress} />
 {/if}
