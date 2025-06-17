@@ -13,7 +13,7 @@
     <h2 class="text-center text-4xl">{about.title2}</h2>
     <div class="my-4 h-px w-full bg-white"></div>
     <div class="flex flex-col gap-4">
-      <div class="flex h-[150px] items-center overflow-hidden">
+      <div class="flex h-[150px] items-center overflow-clip">
         <img class="w-full" alt="ceramic banner" src={imageLinks.about.banner} />
       </div>
       <h3>{about.subtitle1}</h3>

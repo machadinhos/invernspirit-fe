@@ -30,7 +30,7 @@
 
 <svelte:head><title>{home.headTitle}</title></svelte:head>
 
-<div class="pointer-events-none fixed inset-0 -z-10 h-full w-full overflow-hidden grayscale filter select-none">
+<div class="pointer-events-none fixed inset-0 -z-10 h-full w-full overflow-clip grayscale filter select-none">
   <GrainyFilter />
   {#each imageLinks.home.bgImages as image, index (index)}
     <div>

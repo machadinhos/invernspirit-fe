@@ -60,7 +60,7 @@
       <div
         id="{id}-accordion-content-{index}"
         style={isOpened ? `height: ${calculateContentHeight(index)}px` : 'height: 0px'}
-        class={['relative w-full overflow-hidden transition-all duration-200', isOpened && 'pb-2']}
+        class={['relative w-full overflow-clip transition-all duration-200', isOpened && 'pb-2']}
       >
         <div class="absolute top-0 left-0 w-full px-2 pt-3.5 pb-2">
           {@render accordionContent(item.content)}

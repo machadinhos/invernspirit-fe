@@ -12,7 +12,7 @@
   let { class: classNames, children, duration }: Props = $props();
 </script>
 
-<div class="overflow-hidden">
+<div class="overflow-clip">
   <div
     class={['w-fit', classNames]}
     transition:fly|global={{
