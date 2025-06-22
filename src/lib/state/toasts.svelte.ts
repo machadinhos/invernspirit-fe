@@ -93,7 +93,7 @@ class Toast<Params extends Record<string, unknown> | undefined = undefined> {
   }
 }
 
-export class Toasts {
+class Toasts {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   value: Toast<any>[] = $state([]);
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
