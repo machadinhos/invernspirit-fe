@@ -41,7 +41,7 @@ class Cart {
 
   async removeProduct(product: Product): Promise<void> {
     await this.beCallQueue.enqueue(async () => {
-      this.value = (await bffClient.cart.removeItem(page.params.country, product.id)).products;
+      this.setCart(await bffClient.cart.removeItem(page.params.country, product.id));
     });
   }
 
