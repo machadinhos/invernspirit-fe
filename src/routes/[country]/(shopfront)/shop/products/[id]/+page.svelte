@@ -39,6 +39,10 @@
   };
 
   const onShareClick = async (): Promise<void> => {
+    if (navigator.share === undefined) {
+      navigator.clipboard.writeText(`${page.url.origin}${page.url.pathname}`);
+      toasts.push(CopiedToClipboardToastComponent, { group: 'clipboard', singleton: true });
+    }
     try {
       await navigator.share({
         title: data.product.name,
@@ -48,8 +52,6 @@
     } catch (error) {
       /* eslint-disable-next-line no-console */
       console.error(error);
-      navigator.clipboard.writeText(`${page.url.origin}${page.url.pathname}`);
-      toasts.push(CopiedToClipboardToastComponent, { group: 'clipboard', singleton: true });
     }
   };
 

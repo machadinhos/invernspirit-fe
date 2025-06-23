@@ -22,14 +22,17 @@
     }
 
     let cleanUpMessageListener: (() => void) | undefined;
+    let checkPopupClosedInterval: ReturnType<typeof setInterval> | undefined;
     try {
       const { url } = await bffClient.user.oauth.google.getRedirectUrl(page.params.country);
       popup.location.replace(url);
 
-      const checkPopupClosedInterval = setInterval(() => {
+      checkPopupClosedInterval = setInterval(() => {
         if (popup.closed) {
           clearInterval(checkPopupClosedInterval);
-          toasts.push(OpeningPopupErrorToastComponent, { type: 'error' });
+          setTimeout(() => {
+            cleanUpMessageListener?.();
+          }, 400);
         }
       }, 500);
 
@@ -48,10 +51,11 @@
         cart.setCart(signedInCart);
         actionAfterAuthentication();
       });
-    } catch {
+    } catch (error) {
       popup.close();
       cleanUpMessageListener?.();
-      toasts.push(OpeningPopupErrorToastComponent, { type: 'error' });
+      /* eslint-disable-next-line no-console */
+      console.error(error);
     }
   };
 </script>
