@@ -65,6 +65,9 @@ class Toast<Params extends Record<string, unknown> | undefined = undefined> {
     };
     this.type = type;
     this.singleton = singleton;
+
+    this.startTimer = this.startTimer.bind(this);
+    this.pauseTimer = this.pauseTimer.bind(this);
   }
 
   startTimer(): void {
