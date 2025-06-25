@@ -24,14 +24,12 @@
     "prepare": "(svelte-kit sync || echo '') ; (husky || echo '')"
   },
   "dependencies": {
-    "@axe-core/puppeteer": "^4.10.2",
     "@sveltejs/adapter-static": "^3.0.8",
     "@sveltejs/kit": "^2.21.4",
     "@sveltejs/vite-plugin-svelte": "^5.1.0",
     "@tailwindcss/vite": "^4.1.8",
     "dompurify": "^3.2.6",
     "embla-carousel-svelte": "^8.6.0",
-    "puppeteer": "^24.10.0",
     "svelte": "^5.33.19",
     "svelte-icons-pack": "^3.1.3",
     "tailwindcss": "^4.1.8",
@@ -39,6 +37,7 @@
     "vite-plugin-devtools-json": "^0.2.0"
   },
   "devDependencies": {
+    "@axe-core/puppeteer": "^4.10.2",
     "@cloudflare/workers-types": "^4.20250610.0",
     "@eslint/compat": "^1.2.9",
     "@eslint/js": "^9.28.0",
@@ -55,6 +54,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-svelte": "^3.4.0",
     "prettier-plugin-tailwindcss": "^0.6.12",
+    "puppeteer": "^24.10.2",
     "svelte-check": "^4.2.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.34.0"
