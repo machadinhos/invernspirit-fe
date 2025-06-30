@@ -5,6 +5,7 @@
   import { home } from '$content';
   import { loading } from '$state';
   import { page } from '$app/state';
+  import { PUBLIC_GOOGLE_ANALYTICS_ID } from '$env/static/public';
   import { truncateWithEllipsis } from '$lib/utils/general';
 
   type Props = {
@@ -15,6 +16,17 @@
 </script>
 
 <svelte:head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id={PUBLIC_GOOGLE_ANALYTICS_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', PUBLIC_GOOGLE_ANALYTICS_ID);
+  </script>
+
   {#if !page.data.noCrawl}
     <meta name="robots" content="index,follow" />
   {:else}
