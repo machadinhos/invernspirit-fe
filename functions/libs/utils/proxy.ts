@@ -17,14 +17,12 @@ export const beClientProxy = async (
     return new Response('Method not allowed', { status: 405 });
   }
 
-  let backendUrl: string;
-  if (config?.bePath) {
-    backendUrl = env.BE_HOST + config.bePath;
-  } else {
-    const url = new URL(request.url);
-    const bePathname = url.pathname.replace(/^\/api/, '');
-    backendUrl = env.BE_HOST + bePathname + url.search;
-  }
+  const backendUrl = config?.bePath
+    ? env.BE_HOST + config.bePath
+    : ((): string => {
+        const url = new URL(request.url);
+        return env.BE_HOST + url.pathname.replace(/^\/api/, '') + url.search;
+      })();
 
   request.headers.set(env.BE_ID_KEY, env.BE_ID_VALUE);
   request.headers.set(env.BE_SECRET_KEY, env.BE_SECRET_VALUE);

@@ -13,12 +13,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
 
   if (!beResponse.ok) return beResponse;
 
-  let feUrl: URL;
-  if (state.url) {
-    feUrl = new URL(state.url);
-  } else {
-    feUrl = new URL(`${env.FE_HOST}/${state.country}`);
-  }
+  const feUrl = state.url ? new URL(state.url) : new URL(`${env.FE_HOST}/${state.country}`);
 
   if (state.action) {
     feUrl.searchParams.set('action', state.action);
