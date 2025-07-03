@@ -21,3 +21,7 @@ export const truncateWithEllipsis = (input: string, maxLength: number): string =
   const truncateTo = maxLength - ellipsis.length;
   return input.slice(0, truncateTo) + ellipsis;
 };
+
+export const clamp = (num: number, min: number, max: number): number => {
+  return Math.min(Math.max(num, min), max);
+};

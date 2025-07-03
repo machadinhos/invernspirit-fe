@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Button } from '$components';
+  import { clamp } from '$lib/utils/general';
 
   type Props = {
     stock: number;
@@ -28,7 +29,7 @@
     const currentValue = inputElementRef.value;
     const sanitized = currentValue.replace(/\D/g, '');
 
-    selectedQuantity = Math.max(Math.min(Number(sanitized), stock), 1);
+    selectedQuantity = clamp(Number(sanitized), 1, stock);
     inputElementRef.value = String(selectedQuantity);
   };
 

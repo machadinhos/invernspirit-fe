@@ -1,5 +1,6 @@
 <script lang="ts">
   import BaseTextInput from './BaseTextInput.svelte';
+  import { clamp } from '$lib/utils/general';
   import type { FocusEventHandler } from 'svelte/elements';
 
   type Props = {
@@ -128,7 +129,7 @@
       placement = distanceToTop > distanceToBottom ? 'above' : 'below';
     }
 
-    heightFitOptions = Math.min(Math.max(Math.floor((windowHeight * 0.75) / height), 1), 5);
+    heightFitOptions = clamp(Math.floor((windowHeight * 0.75) / height), 1, 5);
   };
 
   $effect.pre(() => {
