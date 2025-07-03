@@ -220,8 +220,8 @@ export class Client<ResponseBody, PayloadBody = void> {
 
 const pushIssuesToToasts = (issues: string[]): void => {
   if (browser) {
-    for (const issue of issues) {
+    issues.forEach((issue) => {
       toasts.push(ClientErrorToastComponent, { extraParams: { error: issue }, type: 'error', duration: 8000 });
-    }
+    });
   }
 };

@@ -77,18 +77,13 @@ export type GenericFormField = FormField<any, (value: any) => any, boolean, ((va
 type FormFields = Record<string, GenericFormField>;
 
 export const validateFormFields = (formFields: FormFields): boolean => {
-  let hasError = false;
-
-  for (const field of Object.values(formFields)) {
-    const isValid = field.validate(field.value);
-    field.isValid = isValid;
-    if (!isValid && !hasError) {
-      hasError = true;
+  return Object.values(formFields).every((field) => {
+    field.isValid = field.validate(field.value);
+    if (!field.isValid) {
       document.getElementById(field.id)?.focus();
     }
-  }
-
-  return !hasError;
+    return field.isValid;
+  });
 };
 
 export const generateFormFieldOnblurCallback = (formField: GenericFormField) => {
@@ -125,10 +120,10 @@ export const populateFormFields = (
   data: Record<string, string>,
   rewriteWhenDataFieldIsEmpty = true,
 ): void => {
-  for (const [key, value] of Object.entries(data)) {
+  Object.entries(data).forEach(([key, value]) => {
     if (formFields[key]) {
-      if (!rewriteWhenDataFieldIsEmpty && !value) continue;
+      if (!rewriteWhenDataFieldIsEmpty && !value) return;
       formFields[key].value = value;
     }
-  }
+  });
 };

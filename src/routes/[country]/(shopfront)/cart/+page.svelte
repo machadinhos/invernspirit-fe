@@ -37,9 +37,9 @@
         const newCart = await bffClient.cart.get(page.params.country);
         cartState.setCart(newCart);
         if (newCart.issues) {
-          for (const issue of newCart.issues) {
+          newCart.issues.forEach((issue) => {
             toasts.push(ClientErrorToastComponent, { extraParams: { error: issue }, type: 'error' });
-          }
+          });
         }
       });
       toasts.filterOutGroup('cart-update');

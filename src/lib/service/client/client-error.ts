@@ -23,9 +23,9 @@ export class ClientError extends Error {
         });
         return;
       }
-      for (const issue of this.issues) {
+      this.issues.forEach((issue) => {
         toasts.push(ClientErrorToastComponent, { extraParams: { error: issue }, type: 'error', duration: 8000 });
-      }
+      });
     }
   }
 }
