@@ -1,6 +1,7 @@
 export class AsyncTaskQueue {
   private queue: (() => Promise<void>)[] = [];
   private isProcessing = false;
+  idle = Promise.resolve();
 
   enqueue<Result, Args extends unknown[] = []>(
     asyncFunc: (...args: Args) => Promise<Result>,
@@ -23,6 +24,8 @@ export class AsyncTaskQueue {
   private async triggerQueueProcessing(): Promise<void> {
     if (this.isProcessing) return;
     this.isProcessing = true;
+    let resolve: (() => void) | undefined;
+    this.idle = new Promise((res) => (resolve = res));
 
     try {
       while (this.queue.length > 0) {
@@ -31,6 +34,7 @@ export class AsyncTaskQueue {
       }
     } finally {
       this.isProcessing = false;
+      resolve?.();
     }
   }
 }

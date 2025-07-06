@@ -19,6 +19,8 @@
 
   let { data }: Props = $props();
 
+  let cartLoaded = $state(false);
+
   const onCheckout = (): void => {
     const goToCheckout = (): Promise<void> => goto(`/${page.params.country}/checkout`);
     if (user.isLoggedIn) {
@@ -32,17 +34,22 @@
   };
 
   onMount(() => {
-    config.afterInitialization(() => {
-      loading.withLoading(async () => {
+    toasts.filterOutGroup('cart-update');
+
+    loading.withLoading(async () => {
+      await config.afterInitialization(async () => {
+        await cartState.idle;
         const newCart = await bffClient.cart.get(page.params.country);
         cartState.setCart(newCart);
+
+        cartLoaded = true;
+
         if (newCart.issues) {
           newCart.issues.forEach((issue) => {
             toasts.push(ClientErrorToastComponent, { extraParams: { error: issue }, type: 'error' });
           });
         }
       });
-      toasts.filterOutGroup('cart-update');
     });
   });
 </script>
@@ -58,7 +65,7 @@
   </div>
   <div class="flex h-full w-full flex-col items-center md:flex-row md:items-start md:justify-center md:gap-5 lg:gap-10">
     <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
-      {#if config.isInitialized}
+      {#if config.isInitialized && cartLoaded}
         {#each cartState.value as product (product.id)}
           <div class="flex w-full justify-center" animate:flip={{ duration: 150 }}>
             <LineItemCard country={data.country} editable {product} pushToastOnQuantityUpdate={false} />

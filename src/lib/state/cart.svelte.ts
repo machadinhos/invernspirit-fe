@@ -11,6 +11,10 @@ class Cart {
   isCheckoutPossible = $state(false);
   private beCallQueue = new AsyncTaskQueue();
 
+  get idle(): Promise<void> {
+    return this.beCallQueue.idle;
+  }
+
   setCart(cart: CartType): void {
     const { products, isCheckoutPossible } = cart;
     this.value = products;
