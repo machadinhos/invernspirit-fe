@@ -21,6 +21,7 @@
   $effect(() => {
     const newCountry = countriesCodes[selectedCountry].toLowerCase();
     if (newCountry !== untrack(() => page.params.country)) {
+      /* eslint-disable-next-line svelte/prefer-svelte-reactivity */
       const newURL = new URL(untrack(() => page.url));
       const pathSegments = newURL.pathname.split('/').filter((segment) => segment !== '');
       pathSegments[0] = newCountry;

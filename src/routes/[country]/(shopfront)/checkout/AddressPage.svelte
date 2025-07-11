@@ -24,7 +24,7 @@
 
   let { stages = $bindable(), goToNextStage, onStageSubmit = $bindable(), country }: Props = $props();
 
-  let saveAddress = $state(true);
+  let saveAddress = $state(false);
 
   const formFields = {
     street: new FormField({

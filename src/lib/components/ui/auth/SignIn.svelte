@@ -18,7 +18,7 @@
 
   let { actionAfterAuthentication, showAuthSwitchMessage = true, actionAfterForgotPasswordClick }: Props = $props();
 
-  let rememberMeInput = $state(true);
+  let rememberMeInput = $state(false);
   let processing = $state(false);
   let resetToken: (() => void) | undefined = $state();
 

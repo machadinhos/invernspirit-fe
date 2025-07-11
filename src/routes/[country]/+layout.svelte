@@ -1,6 +1,7 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation';
   import { config } from '$state';
+  import { CookieConsent } from '$components';
   import Footer from '$lib/components/layout/footer/Footer.svelte';
   import Header from '$lib/components/layout/header/Header.svelte';
   import { onMount } from 'svelte';
@@ -14,6 +15,7 @@
 
   let { children, data }: Props = $props();
 
+  let showConsent = $state(false);
   let mainComponent: HTMLElement;
 
   afterNavigate(() => {
@@ -22,6 +24,7 @@
 
   onMount(() => {
     config.init(page.url.searchParams);
+    showConsent = !document.cookie.includes('cookie_consent=');
   });
 </script>
 
@@ -30,6 +33,9 @@
 
   <main bind:this={mainComponent} class="flex-1 overflow-auto">
     {@render children()}
+    {#if showConsent}
+      <CookieConsent bind:showConsent />
+    {/if}
   </main>
 
   <Footer />

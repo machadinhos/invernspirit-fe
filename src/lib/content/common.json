@@ -44,5 +44,32 @@
     "button": "Return to homepage"
   },
   "hidePasswordButtonAriaLabel": "hide/un-hide password",
-  "copyToClipboard": "Copied to clipboard."
+  "copyToClipboard": "Copied to clipboard.",
+  "cookieConsent": {
+    "title": "We value your privacy",
+    "text1": "We use cookies to improve your experience, allowing you to remember your preferences, and for analytics, so we can make improvements based on your usage. By clicking \"Accept all\", you consent to the use of all cookies.",
+    "text2": "For more information, see our",
+    "link": "Cookie Policy",
+    "text3": ".",
+    "accept": "Accept all",
+    "customize": "Customize",
+    "onlyNecessary": "Only necessary",
+    "customizationSection": {
+      "title": "Customize cookie preferences",
+      "requiredCookies": {
+        "title": "Required cookies",
+        "description": "Cookies that are necessary for the website to function and cannot be switched off."
+      },
+      "preferenceCookies": {
+        "title": "Preference cookies",
+        "description": "Cookies that are used to remember your preferences, allowing you to decide weather or not to reuse information from your previous visits so that you don't have to re-enter them."
+      },
+      "analyticsCookies": {
+        "title": "Analytics cookies",
+        "description": "Cookies that are used to collect analytics data. These are anonymized and are used to track how visitors use the website, so we can make improvements based on your usage."
+      },
+      "save": "Save",
+      "back": "Back"
+    }
+  }
 }

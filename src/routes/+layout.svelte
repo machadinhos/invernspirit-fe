@@ -22,9 +22,14 @@
     function gtag() {
       dataLayer.push(arguments);
     }
+    {
+      const cookieConsent = document.cookie.includes('cookie_consent=true') ? 'granted' : 'denied';
+      gtag('consent', 'default', {
+        ad_storage: cookieConsent,
+        analytics_storage: cookieConsent,
+      });
+    }
     gtag('js', new Date());
-
-    gtag('config', PUBLIC_GOOGLE_ANALYTICS_ID);
   </script>
 
   {#if !page.data.noCrawl}
