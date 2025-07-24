@@ -32,6 +32,7 @@
   );
   let shippingCost = $state(0);
   let onStageSubmit: ((e: SubmitEvent) => Promise<void>) | undefined = $state();
+  let extraPricesExtended = $state(true);
 
   const finalOnStageSubmit = async (e: SubmitEvent): Promise<void> => {
     e.preventDefault();
@@ -59,6 +60,10 @@
   $effect(() => {
     const newStage = getStageFromUrl();
     if (enabledStages?.includes(newStage as StageName)) selectedStageName = newStage;
+  });
+
+  $effect(() => {
+    if (selectedStageName === 'review') extraPricesExtended = true;
   });
 
   onMount(async () => {
@@ -134,6 +139,7 @@
           buttonText={isLastStage(selectedStageName) ? checkout.continueToPaymentButton : checkout.continueButton}
           buttonType="submit"
           country={data.country}
+          bind:isExpanded={extraPricesExtended}
         />
       </div>
     </Form>
