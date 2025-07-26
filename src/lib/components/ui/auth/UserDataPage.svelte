@@ -134,7 +134,7 @@
   <Button class="mt-5" disabled={processing} fullWidth type="submit">{auth.signUp.submitButton}</Button>
 </Form>
 
-<OAuthSection {actionAfterAuthentication} />
+<OAuthSection {actionAfterAuthentication} bind:processing />
 
 {#if showAuthSwitchMessage}
   <AuthSwitchMessage

@@ -10,11 +10,15 @@
 
   type Props = {
     actionAfterAuthentication: () => void;
+    processing: boolean;
   };
 
-  let { actionAfterAuthentication }: Props = $props();
+  let { actionAfterAuthentication, processing = $bindable() }: Props = $props();
 
   const onContinueWithGoogleClick = async (): Promise<void> => {
+    if (processing) return;
+    processing = true;
+
     const popup = window.open(`${window.location.origin}/oauth-loading.html`, 'google-oauth', 'width=500,height=600');
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
       toasts.push(OpeningPopupErrorToastComponent, { type: 'error' });
@@ -32,6 +36,7 @@
           clearInterval(checkPopupClosedInterval);
           setTimeout(() => {
             cleanUpMessageListener?.();
+            processing = false;
           }, 400);
         }
       }, 500);
@@ -52,6 +57,7 @@
         actionAfterAuthentication();
       });
     } catch (error) {
+      processing = false;
       popup.close();
       cleanUpMessageListener?.();
       /* eslint-disable-next-line no-console */
@@ -62,8 +68,12 @@
 
 {#snippet oAuthButton(icon: Snippet, label: string, name: string, onclick: () => void)}
   <button
-    class="oauth-button flex h-[35px] w-full items-center justify-center gap-2 rounded-2xl border transition-all hover:scale-110"
+    class={[
+      'oauth-button flex h-[35px] w-full items-center justify-center gap-2 rounded-2xl border transition-all hover:scale-110',
+      processing && 'brightness-50',
+    ]}
     aria-label={label}
+    disabled={processing}
     {onclick}
     type="button"
   >
