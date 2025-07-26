@@ -14,8 +14,8 @@
 
   const countriesCodes = countries.map((country) => country.code);
 
-  let selectedCountry = $state(countriesCodes.indexOf(page.params.country.toUpperCase()));
-  let focused = $state(countriesCodes.indexOf(page.params.country.toUpperCase()));
+  let selectedCountry = $state(countriesCodes.indexOf((page.params.country ?? '').toUpperCase()));
+  let focused = $state(countriesCodes.indexOf((page.params.country ?? '').toUpperCase()));
   let isOpen = $state(false);
 
   $effect(() => {
