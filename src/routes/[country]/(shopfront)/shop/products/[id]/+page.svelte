@@ -80,7 +80,7 @@
       </button>
     </div>
     <div class="my-5 h-px w-full bg-white"></div>
-    <p class="min-h-24">{data.product.description}</p>
+    <p class="min-h-24 text-justify">{data.product.description}</p>
     <div class="my-5 h-px w-full bg-white"></div>
     <p>
       {shop.products.id.belongsToCollectionStart}

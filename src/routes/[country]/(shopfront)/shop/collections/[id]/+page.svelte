@@ -26,7 +26,7 @@
   </div>
   <div class="mt-3 mb-5 h-px bg-white lg:hidden"></div>
   <div class="lg:w-1/2">
-    <p>{data.collection.description}</p>
+    <p class="text-justify">{data.collection.description}</p>
   </div>
 </div>
 
