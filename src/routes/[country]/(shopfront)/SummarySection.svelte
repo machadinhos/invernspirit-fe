@@ -102,7 +102,7 @@
     <div
       id="{id}-extra-prices"
       style="height: {isExpanded ? calculateExtraPricesHeight() : '0px'};"
-      class="extra-prices overflow-y-hidden transition-all duration-300"
+      class="extra-prices overflow-clip transition-all duration-300"
     >
       {@render priceLine(cart.subtotal, subTotalPrice, 'text-2xl')}
       {#each additionalCharges as { price, name } (name)}
