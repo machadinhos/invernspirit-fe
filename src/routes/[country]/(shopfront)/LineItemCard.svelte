@@ -29,6 +29,17 @@
     'pushToastOnQuantityUpdate' in rest ? (rest.pushToastOnQuantityUpdate ?? true) : true;
 
   let selectedQuantity = $state(product.quantity);
+  let pendingRemoval = $state(false);
+
+  const removeFromCart = async (): Promise<void> => {
+    if (pendingRemoval) return;
+    pendingRemoval = true;
+    try {
+      await cartState.removeProduct(product);
+    } catch {
+      pendingRemoval = false;
+    }
+  };
 
   $effect(() => {
     if (product.quantity === selectedQuantity) return;
@@ -36,13 +47,15 @@
       selectedQuantity = cartState.getProductQuantity(product.id);
     });
   });
-
-  const removeFromCart = (): void => {
-    cartState.removeProduct(product);
-  };
 </script>
 
-<div class={['flex w-full flex-col gap-1.5 overflow-x-clip p-3', background && 'bg-background shadow-2xl']}>
+<div
+  class={[
+    'flex w-full flex-col gap-1.5 overflow-x-clip p-3',
+    background && 'bg-background shadow-2xl',
+    pendingRemoval && 'brightness-75',
+  ]}
+>
   <div class="relative flex w-full items-center justify-between">
     <div class="flex gap-4">
       <div class="h-[100px] w-[100px]">
@@ -61,11 +74,12 @@
     </div>
     {#if editable}
       <div class="absolute top-1/2 right-3 -translate-y-1/2">
-        <ProductQuantitySelector allowZero stock={product.stock} bind:selectedQuantity />
+        <ProductQuantitySelector allowZero disabled={pendingRemoval} stock={product.stock} bind:selectedQuantity />
       </div>
       <button
         class="text-primary absolute right-3 bottom-2 flex items-center justify-center"
         aria-label="remove-from-cart"
+        disabled={pendingRemoval}
         onclick={removeFromCart}
         type="button"
       >
