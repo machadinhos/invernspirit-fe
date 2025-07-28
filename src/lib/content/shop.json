@@ -1,11 +1,11 @@
 {
   "addToCartButtonLabel": "Add to cart",
   "collections": {
-    "headTitle": "Invern Spirit • collections",
+    "headTitle": "Invern Spirit • Collections",
     "title": "Collections"
   },
   "products": {
-    "headTitle": "Invern Spirit • products",
+    "headTitle": "Invern Spirit • Products",
     "title": "Products",
     "id": {
       "headTitle": "Invern Spirit • ",
@@ -20,7 +20,7 @@
     }
   },
   "search": {
-    "headTitle": "Invern Spirit • collections",
+    "headTitle": "Invern Spirit • Collections",
     "title": "Search results",
     "noResults": "No results found for"
   }
