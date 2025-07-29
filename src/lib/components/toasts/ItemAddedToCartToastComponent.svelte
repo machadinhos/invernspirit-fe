@@ -13,7 +13,7 @@
 
 <p>{cart.itemAddedToCart}</p>
 <div class="flex w-full justify-center">
-  <a class="mt-2 inline-block" href="/{page.params.country}/cart">
+  <a class="mt-2 inline-block" draggable="false" href="/{page.params.country}/cart">
     <Button onclick={toast.destroy} shrinkOnClick={false}><strong>{cart.viewCart}</strong></Button>
   </a>
 </div>
