@@ -2,10 +2,10 @@
   import '../app.css';
   import { GlobalModal, ToastGroup } from '$components-global';
   import { GrainyFilter, LoadingScreen } from '$components';
+  import { PUBLIC_FE_HOST, PUBLIC_GOOGLE_ANALYTICS_ID } from '$env/static/public';
   import { home } from '$content';
   import { loading } from '$state';
   import { page } from '$app/state';
-  import { PUBLIC_GOOGLE_ANALYTICS_ID } from '$env/static/public';
   import { truncateWithEllipsis } from '$lib/utils/general';
 
   type Props = {
@@ -57,7 +57,7 @@
     <meta content="website" property="og:type" />
     <meta content={home.headTitle} property="og:title" />
     <meta content={truncateWithEllipsis(home.metaDescription, 155)} property="og:description" />
-    <meta content="/images/logo-with-background.webp" property="og:image" />
+    <meta content="{PUBLIC_FE_HOST}/images/logo-with-background.webp" property="og:image" />
   {/if}
 </svelte:head>
 
