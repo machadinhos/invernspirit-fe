@@ -26,7 +26,7 @@ class Cart {
       const cart = await bffClient.cart.updateItemQuantity(page.params.country, product.id, newQuantity);
       this.setCart(cart);
       if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
-      toasts.push(ItemAddedToCartToastComponent, { group: 'cart-update', singleton: true });
+      toasts.push(ItemAddedToCartToastComponent, { tag: 'cart-update' });
     });
   }
 
@@ -39,7 +39,7 @@ class Cart {
       const cart = await bffClient.cart.patchItemQuantity(page.params.country, product.id, quantityDifference);
       this.setCart(cart);
       if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
-      toasts.push(ItemAddedToCartToastComponent, { group: 'cart-update', singleton: true });
+      toasts.push(ItemAddedToCartToastComponent, { tag: 'cart-update' });
     });
   }
 

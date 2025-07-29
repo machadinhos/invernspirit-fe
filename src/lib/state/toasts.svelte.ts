@@ -6,8 +6,7 @@ type BaseToastOptions = {
   hasRemainingTimeLine?: boolean;
   hasCloseButton?: boolean;
   type?: 'normal' | 'error' | 'success';
-  group?: string;
-  singleton?: boolean;
+  tag?: string;
 };
 
 type ToastOptions<ExtraParams> = BaseToastOptions & {
@@ -37,7 +36,7 @@ class Toast<Params extends Record<string, unknown> | undefined = undefined> {
   declare readonly id: symbol;
   declare readonly destroy: () => void;
   declare readonly type: 'normal' | 'error' | 'success';
-  declare readonly singleton: boolean;
+  declare tag: string | undefined;
 
   constructor(
     element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
@@ -47,8 +46,7 @@ class Toast<Params extends Record<string, unknown> | undefined = undefined> {
       hasCloseButton = true,
       duration = 4000,
       type = 'normal',
-      group,
-      singleton = false,
+      tag,
       ...rest
     }: Params extends never ? BaseToastOptions : ToastOptions<Params>,
   ) {
@@ -59,12 +57,12 @@ class Toast<Params extends Record<string, unknown> | undefined = undefined> {
     this.hasCloseButton = hasCloseButton;
     this.duration = duration;
     this.element = element;
-    this.id = Symbol(group);
+    this.id = Symbol();
+    this.tag = tag;
     this.destroy = (): undefined => {
       toasts.value = toasts.value.filter((toast) => toast.id !== this.id);
     };
     this.type = type;
-    this.singleton = singleton;
 
     this.startTimer = this.startTimer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
@@ -125,8 +123,8 @@ class Toasts {
     element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
     options: BaseToastOptions | ToastOptions<Params> = {},
   ): Toast<Params | undefined> {
-    if (options?.singleton && options.group !== undefined) {
-      const existingToast = this.findToastByGroup(options.group);
+    if (options?.tag !== undefined) {
+      const existingToast = this.findToastByTag(options.tag);
       if (existingToast) {
         existingToast.resetTimer();
         return existingToast;
@@ -144,17 +142,14 @@ class Toasts {
     return newToast;
   }
 
-  filterOutGroup(group: string): void {
-    this.restOfToasts = this.restOfToasts.filter((toast) => toast.id.description !== group);
-    this.value = this.value.filter((toast) => toast.id.description !== group);
+  filterOutTag(tag: string): void {
+    this.restOfToasts = this.restOfToasts.filter((toast) => toast.tag !== tag);
+    this.value = this.value.filter((toast) => toast.tag !== tag);
   }
 
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  findToastByGroup(group: string): Toast<any> | undefined {
-    return (
-      this.value.find((toast) => toast.id.description === group) ??
-      this.restOfToasts.find((toast) => toast.id.description === group)
-    );
+  findToastByTag(tag: string): Toast<any> | undefined {
+    return this.value.find((toast) => toast.tag === tag) ?? this.restOfToasts.find((toast) => toast.tag === tag);
   }
 }
 

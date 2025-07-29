@@ -40,8 +40,8 @@
 
   const onShareClick = async (): Promise<void> => {
     if (navigator.share === undefined) {
-      navigator.clipboard.writeText(`${page.url.origin}${page.url.pathname}`);
-      toasts.push(CopiedToClipboardToastComponent, { group: 'clipboard', singleton: true });
+      await navigator.clipboard.writeText(`${page.url.origin}${page.url.pathname}`);
+      toasts.push(CopiedToClipboardToastComponent, { tag: 'clipboard' });
     }
     try {
       await navigator.share({

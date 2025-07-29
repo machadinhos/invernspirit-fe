@@ -34,7 +34,7 @@
   };
 
   onMount(() => {
-    toasts.filterOutGroup('cart-update');
+    toasts.filterOutTag('cart-update');
 
     loading.withLoading(async () => {
       await config.afterInitialization(async () => {

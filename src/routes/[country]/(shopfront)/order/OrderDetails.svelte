@@ -21,7 +21,7 @@
   const onOrderIdClick = (): void => {
     if (!order) return;
     navigator.clipboard.writeText(order.id);
-    toasts.push(CopiedToClipboardToastComponent, { group: 'clipboard', singleton: true });
+    toasts.push(CopiedToClipboardToastComponent, { tag: 'clipboard' });
   };
 
   const mapStatusToText = (status: OrderStatus): string => {
