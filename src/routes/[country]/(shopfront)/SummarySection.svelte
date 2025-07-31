@@ -54,6 +54,10 @@
   let subTotalPrice = $derived(cartState.value.reduce((sum, item) => sum + item.netPrice * item.quantity, 0));
   let taxesPrices = $derived(getTaxesPrices());
 
+  let dragging = false;
+  let startY: number | undefined;
+  let expandElement: HTMLDivElement;
+
   const toggleIsExpanded = (): void => {
     isExpanded = !isExpanded;
   };
@@ -62,6 +66,27 @@
     if (!browser) return 'auto';
     const extraPricesElement = document.getElementById(`${id}-extra-prices`);
     return extraPricesElement ? `${extraPricesElement.scrollHeight}px` : 'auto';
+  };
+
+  const onpointerdown = (e: PointerEvent): void => {
+    if (dragging || e.pointerType !== 'touch') return;
+    startY = e.clientY;
+    dragging = true;
+    expandElement.setPointerCapture(e.pointerId);
+  };
+
+  const onpointermove = (e: PointerEvent): void => {
+    if (!dragging || startY === undefined) return;
+    if (Math.abs(e.clientY - startY) > 10) {
+      if (e.clientY < startY) isExpanded = true;
+      else if (e.clientY > startY) isExpanded = false;
+      if (expandElement.hasPointerCapture(e.pointerId)) expandElement.releasePointerCapture(e.pointerId);
+      dragging = false;
+    }
+  };
+
+  const onpointercancelOrPointerup = (): void => {
+    dragging = false;
   };
 
   $effect(() => {
@@ -88,29 +113,38 @@
 {/snippet}
 
 <div class="bg-secondary relative flex w-full justify-center p-5">
-  <div class="absolute inset-0 h-fit w-full md:hidden">
-    <button
-      class={[
-        'flex h-7 w-full items-center justify-center [&>svg]:transition-all [&>svg]:duration-300',
-        isExpanded && '[&>svg]:rotate-180',
-      ]}
-      onclick={toggleIsExpanded}
-      type="button"><Icon src={FaSolidChevronUp} /></button
-    >
-  </div>
   <div class="flex w-full flex-col justify-end">
     <div
-      id="{id}-extra-prices"
-      style="height: {isExpanded ? calculateExtraPricesHeight() : '0px'};"
-      class="extra-prices overflow-clip transition-all duration-300"
+      bind:this={expandElement}
+      class="touch-pan-x"
+      onpointercancel={onpointercancelOrPointerup}
+      {onpointerdown}
+      {onpointermove}
+      onpointerup={onpointercancelOrPointerup}
     >
-      {@render priceLine(cart.subtotal, subTotalPrice, 'text-2xl')}
-      {#each additionalCharges as { price, name } (name)}
-        {@render priceLine(name, price, 'text-2xl')}
-      {/each}
-      {#each taxesPrices as taxPrice (taxPrice.name)}
-        {@render priceLine(`${taxPrice.name} (${taxPrice.rate * 100}%)`, taxPrice.value, 'text-2xl')}
-      {/each}
+      <div class="absolute inset-0 h-fit w-full md:hidden">
+        <button
+          class={[
+            'flex h-6 w-full items-center justify-center [&>svg]:transition-all [&>svg]:duration-300',
+            isExpanded && '[&>svg]:rotate-180',
+          ]}
+          onclick={toggleIsExpanded}
+          type="button"><Icon src={FaSolidChevronUp} /></button
+        >
+      </div>
+      <div
+        id="{id}-extra-prices"
+        style="height: {isExpanded ? calculateExtraPricesHeight() : '0px'};"
+        class="extra-prices overflow-clip transition-all duration-300"
+      >
+        {@render priceLine(cart.subtotal, subTotalPrice, 'text-2xl')}
+        {#each additionalCharges as { price, name } (name)}
+          {@render priceLine(name, price, 'text-2xl')}
+        {/each}
+        {#each taxesPrices as taxPrice (taxPrice.name)}
+          {@render priceLine(`${taxPrice.name} (${taxPrice.rate * 100}%)`, taxPrice.value, 'text-2xl')}
+        {/each}
+      </div>
     </div>
     <div class="mt-2 w-full">
       <div class="mb-3 flex flex-col gap-0.5">
