@@ -17,6 +17,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "eslint --fix",
+    "lint:no-fix": "eslint",
     "format": "prettier --write --list-different",
     "format:lint": "prettier --write --list-different . && eslint . --fix",
     "a11y-audit": "bun scripts/run-a11y-audit.ts",

@@ -1,6 +1,9 @@
 /* eslint-disable */
 const commitMessage = process.argv[2];
-const commitMessageNoComments = commitMessage.replace(/#.*$/gm, '').trim();
+const commitMessageNoComments = commitMessage
+  .replace(/# ---[\s\S]*$/, '')
+  .replace(/#.*$/gm, '')
+  .trim();
 const commitMessageLines = commitMessageNoComments.split('\n');
 
 const SUGGESTED_FIRST_LINE_LENGTH = 50;

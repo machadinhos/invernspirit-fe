@@ -8,19 +8,5 @@ if [ "$branch" = "main" ] || [ "$branch" = "preview" ]; then
   exit 1
 fi
 
-files=$(git diff --name-only --cached --diff-filter=d | grep -E '\.(ts|js|svelte|css|html)$' || true)
-if [ -z "$files" ]; then
-  exit 0
-fi
-
-export -f lint_and_format
-
-echo "$files" | xargs -I {} -P 10 bash -c 'lint_and_format "{}"'
-status=$?
-
-if [ $status -ne 0 ]; then
-  echo "Linting failed. Please fix the linting errors before committing."
-  exit 1
-fi
-
-echo "$files" | xargs git add
+bun run format
+bun run lint:no-fix
