@@ -42,7 +42,11 @@
   };
 
   $effect(() => {
-    if (product.quantity === selectedQuantity) return;
+    if (product.quantity === selectedQuantity || pendingRemoval) return;
+    if (selectedQuantity <= 0) {
+      removeFromCart();
+      return;
+    }
     cartState.updateProductQuantity(product, selectedQuantity, pushToastOnQuantityUpdate).catch(() => {
       selectedQuantity = cartState.getProductQuantity(product.id);
     });
