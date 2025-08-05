@@ -4,7 +4,7 @@
   "private": true,
   "repository": "https://github.com/machadinhos/invernspirit-fe.git",
   "type": "module",
-  "packageManager": "bun@^1.2.15",
+  "packageManager": "bun@1.2.19",
   "scripts": {
     "dev": "vite dev",
     "local": "bunx wrangler pages dev functions --show-interactive-dev-session=false --port=9000 --compatibility-date=2025-02-15",

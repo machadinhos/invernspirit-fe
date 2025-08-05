@@ -4,7 +4,7 @@ The frontend for the [Invern Spirit](https://www.invernspirit.com/) e-commerce w
 
 ## Prerequisites
 
-- [Bun](https://bun.sh/) (version 1.2.15 or higher)
+- [Bun](https://bun.sh/) (version 1.2.19 or higher)
 - [Backend](https://github.com/manuelfesantos/invern-be)
 
 ## Development
