@@ -19,7 +19,16 @@
     if (processing) return;
     processing = true;
 
-    const popup = window.open(`${window.location.origin}/oauth-loading.html`, 'google-oauth', 'width=500,height=600');
+    const width = 600;
+    const height = 700;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+
+    const popup = window.open(
+      `${window.location.origin}/oauth-loading.html`,
+      'google-oauth',
+      `width=${width},height=${height},left=${left},top=${top}`,
+    );
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
       toasts.push(OpeningPopupErrorToastComponent, { type: 'error' });
       return;
