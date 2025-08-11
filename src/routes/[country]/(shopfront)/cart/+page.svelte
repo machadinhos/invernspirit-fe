@@ -20,17 +20,23 @@
   let { data }: Props = $props();
 
   let cartLoaded = $state(false);
+  let checkoutDisabled = $state(false);
 
-  const onCheckout = (): void => {
+  const onCheckout = async (): void => {
     const goToCheckout = (): Promise<void> => goto(`/${page.params.country}/checkout`);
+
+    checkoutDisabled = true;
+    await cartState.idle;
+
     if (user.isLoggedIn) {
-      goToCheckout();
+      await goToCheckout();
     } else {
       modal.open(AskForLoginModalComponent, {
         action: goToCheckout,
         allowGuest: true,
       });
     }
+    checkoutDisabled = false;
   };
 
   onMount(() => {
@@ -79,7 +85,12 @@
       {/if}
     </div>
     <div class="bg-secondary sticky -bottom-px mt-4 w-full md:top-0 md:mt-0 md:w-1/3 md:max-w-[396px]">
-      <SummarySection buttonText={cart.checkoutButtonLabel} country={data.country} onclick={onCheckout} />
+      <SummarySection
+        buttonDisabled={checkoutDisabled}
+        buttonText={cart.checkoutButtonLabel}
+        country={data.country}
+        onclick={onCheckout}
+      />
       <div class="mx-[10%] mb-5 hidden md:block">
         <div class="flex items-center gap-2">
           <div class="h-0.5 w-full bg-white"></div>
