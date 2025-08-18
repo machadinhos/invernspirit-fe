@@ -192,7 +192,7 @@ export class Client<ResponseBody, PayloadBody = void> {
         } else {
           pushIssuesToToasts(
             response.status === 429
-              ? ['Careful with that button, Eugene.']
+              ? ['Woah, you’re sending requests quickly. Try again in 15 seconds.']
               : ['Something went wrong. Hang tight while we fix it!'],
           );
         }
@@ -207,7 +207,7 @@ export class Client<ResponseBody, PayloadBody = void> {
     if (shouldPushIssuesToToasts) {
       pushIssuesToToasts(
         response.status === 429
-          ? ['Careful with that button, Eugene.']
+          ? ['Woah, you’re sending requests quickly. Try again in 15 seconds.']
           : ['Something went wrong. Hang tight while we fix it!'],
       );
     }
