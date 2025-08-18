@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { CheckoutStage, StageName } from '$types';
+  import { expand as expandSummary, default as SummarySection } from '../SummarySection.svelte';
   import { nextStage, prevStage, stagesTitles } from './stages';
   import AddressPage from './AddressPage.svelte';
   import { bffClient } from '$service';
@@ -16,7 +17,6 @@
   import PersonalDetailsPage from './PersonalDetailsPage.svelte';
   import ReviewPage from './ReviewPage.svelte';
   import ShippingMethodPage from './ShippingMethodPage.svelte';
-  import SummarySection from '../SummarySection.svelte';
 
   type Props = {
     data: PageData;
@@ -32,7 +32,6 @@
   );
   let shippingCost = $state(0);
   let onStageSubmit: ((e: SubmitEvent) => Promise<void>) | undefined = $state();
-  let extraPricesExtended = $state(true);
 
   const finalOnStageSubmit = async (e: SubmitEvent): Promise<void> => {
     e.preventDefault();
@@ -63,7 +62,7 @@
   });
 
   $effect(() => {
-    if (selectedStageName === 'review') extraPricesExtended = true;
+    if (selectedStageName === 'review') expandSummary();
   });
 
   onMount(async () => {
@@ -139,7 +138,6 @@
           buttonText={isLastStage(selectedStageName) ? checkout.continueToPaymentButton : checkout.continueButton}
           buttonType="submit"
           country={data.country}
-          bind:isExpanded={extraPricesExtended}
         />
       </div>
     </Form>

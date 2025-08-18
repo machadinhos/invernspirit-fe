@@ -1,3 +1,11 @@
+<script lang="ts" module>
+  let isExpanded = $state(true);
+
+  export const expand = (): void => {
+    isExpanded = true;
+  };
+</script>
+
 <script lang="ts">
   import { cart as cartState, config } from '$state';
   import { browser } from '$app/environment';
@@ -16,7 +24,6 @@
     buttonType?: HTMLButtonElement['type'];
     buttonDisabled?: boolean;
     additionalCharges?: { name: string; price: number }[];
-    isExpanded?: boolean;
   };
 
   let {
@@ -26,7 +33,6 @@
     buttonType = 'button',
     buttonDisabled = false,
     additionalCharges = [],
-    isExpanded = $bindable(true),
   }: Props = $props();
   const id = $props.id();
 
