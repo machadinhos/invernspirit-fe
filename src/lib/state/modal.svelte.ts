@@ -9,13 +9,13 @@ type NoExtraParamsElement =
 
 class ModalInstance<Params extends Record<string, unknown> | undefined = undefined> {
   readonly element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement;
-  readonly extraParams: Params;
+  readonly extraParams: NoInfer<Omit<Params, 'modal'>>;
   readonly close: () => void;
   readonly id: symbol;
 
   constructor(
     element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
-    extraParams: Params,
+    extraParams: NoInfer<Omit<Params, 'modal'>>,
   ) {
     this.id = Symbol();
     this.element = element;
@@ -46,12 +46,16 @@ class Modal {
   }
 
   open(element: NoExtraParamsElement): ModalInstance;
-  open<Params extends Record<string, unknown>>(element: Element<Params>, extraParams: Params): ModalInstance<Params>;
+  open<Params extends Record<string, unknown>>(
+    element: Element<Params>,
+    extraParams: NoInfer<Omit<Params, 'modal'>>,
+  ): ModalInstance<Params>;
   open<Params extends Record<string, unknown> | undefined>(
     element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
-    extraParams?: Params,
+    extraParams?: NoInfer<Omit<Params, 'modal'>>,
   ): ModalInstance<Params> | ModalInstance {
-    const modalInstance = new ModalInstance(element, extraParams);
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    const modalInstance = new ModalInstance(element, extraParams as any);
     if (this.value) {
       this.queue.push(modalInstance);
     } else {

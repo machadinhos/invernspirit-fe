@@ -1,14 +1,16 @@
-<script generics="ModalParams extends Record<string, unknown> | undefined" lang="ts">
+<script lang="ts">
   import type { Component } from 'svelte';
   import { type ModalInstance } from '$state';
 
   type Props = {
-    modal: ModalInstance<ModalParams>;
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    modal: ModalInstance<any>;
   };
 
   let { modal }: Props = $props();
 
-  const Element = modal.element as Component<ModalParams & { modal: ModalInstance<ModalParams> }, Record<never, never>>;
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  const Element = modal.element as Component<any, Record<never, never>>;
 </script>
 
 <Element {...modal.extraParams} {modal} />

@@ -118,10 +118,13 @@ class Toasts {
   }
 
   push(element: NoExtraParamsElement, options?: BaseToastOptions): Toast;
-  push<Params extends Record<string, unknown>>(element: Element<Params>, options: ToastOptions<Params>): Toast<Params>;
+  push<Params extends Record<string, unknown>>(
+    element: Element<Params>,
+    options: ToastOptions<NoInfer<Params>>,
+  ): Toast<Params>;
   push<Params extends Record<string, unknown> | undefined>(
     element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
-    options: BaseToastOptions | ToastOptions<Params> = {},
+    options: BaseToastOptions | ToastOptions<NoInfer<Params>> = {},
   ): Toast<Params | undefined> {
     if (options?.tag !== undefined) {
       const existingToast = this.findToastByTag(options.tag);
