@@ -25,8 +25,7 @@
   };
 
   let { product, country, editable = false, background = true, ...rest }: Props = $props();
-  const pushToastOnQuantityUpdate =
-    'pushToastOnQuantityUpdate' in rest ? (rest.pushToastOnQuantityUpdate ?? true) : true;
+  const pushToastOnQuantityUpdate = rest.pushToastOnQuantityUpdate ?? true;
 
   let selectedQuantity = $state(product.quantity);
   let pendingRemoval = $state(false);

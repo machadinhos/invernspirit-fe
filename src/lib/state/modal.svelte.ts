@@ -31,7 +31,7 @@ class Modal {
   private queue: ModalInstance<any>[] = [];
 
   private setValueFromQueue(): void {
-    if (this.queue.length > 0 && !this.value) this.value = this.queue.shift();
+    this.value ??= this.queue.shift();
   }
 
   generateCloseFunction(id: symbol): () => void {
