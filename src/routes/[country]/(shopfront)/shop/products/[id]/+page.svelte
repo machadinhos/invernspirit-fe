@@ -30,6 +30,20 @@
     if (bucketStock === undefined || inCartQuantity === undefined || availableStock < selectedQuantity) return;
     try {
       const updateProductQuantityPromise = cart.patchProductQuantity(data.product, selectedQuantity);
+      gtag('event', 'add_to_cart', {
+        currency: data.country.currency.code,
+        value: (data.product.netPrice / 100) * selectedQuantity,
+        items: [
+          {
+            /* eslint-disable camelcase */
+            item_id: data.product.id,
+            item_name: data.product.name,
+            price: data.product.netPrice / 100,
+            quantity: selectedQuantity,
+            /* eslint-enable camelcase */
+          },
+        ],
+      });
       inCartQuantity += selectedQuantity;
       selectedQuantity = 1;
       await updateProductQuantityPromise;
@@ -39,15 +53,22 @@
   };
 
   const onShareClick = async (): Promise<void> => {
-    if (navigator.share === undefined) {
-      await navigator.clipboard.writeText(`${page.url.origin}${page.url.pathname}`);
-      toasts.push(CopiedToClipboardToastComponent, { tag: 'clipboard' });
-    }
     try {
-      await navigator.share({
-        title: data.product.name,
-        text: 'Check out this product:',
-        url: `${page.url.origin}${page.url.pathname}`,
+      if (!navigator.share) {
+        await navigator.clipboard.writeText(`${page.url.origin}${page.url.pathname}`);
+        toasts.push(CopiedToClipboardToastComponent, { tag: 'clipboard' });
+      } else {
+        await navigator.share({
+          title: data.product.name,
+          text: 'Check out this product:',
+          url: `${page.url.origin}${page.url.pathname}`,
+        });
+      }
+
+      gtag('event', 'share', {
+        /* eslint-disable camelcase */
+        item_id: data.product.id,
+        /* eslint-enable camelcase */
       });
     } catch (error) {
       /* eslint-disable-next-line no-console */

@@ -1,6 +1,6 @@
 <script lang="ts">
+  import type { HTMLButtonAttributes, MouseEventHandler } from 'svelte/elements';
   import { Icon, type IconType } from 'svelte-icons-pack';
-  import type { HTMLButtonAttributes } from 'svelte/elements';
   import { ShrinkOnClickWrapper } from '$components';
 
   type ElementType =
@@ -9,7 +9,7 @@
       }
     | {
         type: 'button';
-        onclick?: HTMLButtonElement['onclick'];
+        onclick?: MouseEventHandler<HTMLButtonElement>;
       }
     | {
         type: 'anchor';

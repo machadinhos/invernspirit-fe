@@ -22,9 +22,11 @@ class Config {
     user.value = config.user;
     this.completeInitialization();
     this.isInitialized = true;
-    if (user.value) {
+    if (user.value && config.userId) {
       gtag('config', PUBLIC_GOOGLE_ANALYTICS_ID, {
-        user_id: user.value.id,
+        /* eslint-disable camelcase */
+        user_id: config.userId,
+        /* eslint-enable camelcase */
       });
     } else {
       gtag('config', PUBLIC_GOOGLE_ANALYTICS_ID);

@@ -34,6 +34,10 @@
     user.value = signedUpUser;
     cart.setCart(signedUpCart);
 
+    gtag('event', 'sign_up', {
+      method: 'Email',
+    });
+
     actionAfterAuthentication();
   };
 </script>

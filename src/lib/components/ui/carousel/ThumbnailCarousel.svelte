@@ -22,18 +22,6 @@
   let prevButton: HTMLElement;
   let nextButton: HTMLElement;
 
-  $effect(() => {
-    if (emblaApi === undefined || verticalThumbsApi === undefined || horizontalThumbsApi === undefined) return;
-    emblaApi.on('select', (eventApi) => {
-      const selectedIndex = eventApi.selectedScrollSnap();
-      if (verticalThumbsApi !== undefined && horizontalThumbsApi !== undefined) {
-        verticalThumbsApi.scrollTo(selectedIndex);
-        horizontalThumbsApi.scrollTo(selectedIndex);
-        selectedSlide = selectedIndex;
-      }
-    });
-  });
-
   const stopPropagation = (fn: { call: (arg0: HTMLElement, arg1: Event) => void }) => {
     return function (this: HTMLElement, event: Event): void {
       event.stopPropagation();
@@ -49,6 +37,18 @@
       nextButton.addEventListener('click', stopPropagation(emblaApi.scrollNext));
     }
   };
+
+  $effect(() => {
+    if (emblaApi === undefined || verticalThumbsApi === undefined || horizontalThumbsApi === undefined) return;
+    emblaApi.on('select', (eventApi) => {
+      const selectedIndex = eventApi.selectedScrollSnap();
+      if (verticalThumbsApi !== undefined && horizontalThumbsApi !== undefined) {
+        verticalThumbsApi.scrollTo(selectedIndex);
+        horizontalThumbsApi.scrollTo(selectedIndex);
+        selectedSlide = selectedIndex;
+      }
+    });
+  });
 </script>
 
 <div class="flex flex-col-reverse select-none lg:flex-row">

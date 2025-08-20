@@ -22,8 +22,23 @@
   let cartLoaded = $state(false);
   let checkoutDisabled = $state(false);
 
-  const onCheckout = async (): void => {
-    const goToCheckout = (): Promise<void> => goto(`/${page.params.country}/checkout`);
+  const onCheckout = async (): Promise<void> => {
+    const goToCheckout = async (): Promise<void> => {
+      await goto(`/${page.params.country}/checkout`);
+
+      gtag('event', 'begin_checkout', {
+        currency: data.country.currency.code,
+        value: cartState.netPrice / 100,
+        items: cartState.value.map((p) => ({
+          /* eslint-disable camelcase */
+          item_id: p.id,
+          item_name: p.name,
+          price: p.netPrice / 100,
+          quantity: p.quantity,
+          /* eslint-enable camelcase */
+        })),
+      });
+    };
 
     checkoutDisabled = true;
     await cartState.idle;
@@ -49,6 +64,19 @@
         cartState.setCart(newCart);
 
         cartLoaded = true;
+
+        gtag('event', 'view_cart', {
+          currency: data.country.currency.code,
+          value: newCart.netPrice / 100,
+          items: newCart.products.map((p) => ({
+            /* eslint-disable camelcase */
+            item_id: p.id,
+            item_name: p.name,
+            price: p.netPrice / 100,
+            quantity: p.quantity,
+            /* eslint-enable camelcase */
+          })),
+        });
 
         if (newCart.issues) {
           newCart.issues.forEach((issue) => {

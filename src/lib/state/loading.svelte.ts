@@ -13,7 +13,7 @@ class Loading {
     this.value = false;
   }
 
-  async withLoading(func: () => Promise<void>): Promise<void> {
+  async withLoading(func: () => void | Promise<void>): Promise<void> {
     this.startLoading();
     try {
       await func();

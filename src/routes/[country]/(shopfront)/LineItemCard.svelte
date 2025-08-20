@@ -35,6 +35,20 @@
     pendingRemoval = true;
     try {
       await cartState.removeProduct(product);
+      gtag('event', 'remove_from_cart', {
+        currency: country.currency.code,
+        value: 0,
+        items: [
+          {
+            /* eslint-disable camelcase */
+            item_id: product.id,
+            item_name: product.name,
+            price: product.netPrice / 100,
+            quantity: 0,
+            /* eslint-enable camelcase */
+          },
+        ],
+      });
     } catch {
       pendingRemoval = false;
     }
@@ -46,9 +60,28 @@
       removeFromCart();
       return;
     }
-    cartState.updateProductQuantity(product, selectedQuantity, pushToastOnQuantityUpdate).catch(() => {
-      selectedQuantity = cartState.getProductQuantity(product.id);
-    });
+    const action = product.quantity < selectedQuantity ? 'add_to_cart' : 'remove_from_cart';
+    cartState
+      .updateProductQuantity(product, selectedQuantity, pushToastOnQuantityUpdate)
+      .catch(() => {
+        selectedQuantity = cartState.getProductQuantity(product.id);
+      })
+      .then(() => {
+        gtag('event', action, {
+          currency: country.currency.code,
+          value: (product.netPrice / 100) * selectedQuantity,
+          items: [
+            {
+              /* eslint-disable camelcase */
+              item_id: product.id,
+              item_name: product.name,
+              price: product.netPrice / 100,
+              quantity: selectedQuantity,
+              /* eslint-enable camelcase */
+            },
+          ],
+        });
+      });
   });
 </script>
 

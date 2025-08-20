@@ -9,7 +9,7 @@
   import SignUp from '$lib/components/ui/auth/SignUp.svelte';
 
   type Params = {
-    action: () => Promise<void>;
+    action: () => Promise<void> | void;
     allowGuest: boolean;
   };
 
@@ -21,18 +21,18 @@
 
   let state: 'choosing' | 'sign in' | 'sign up' = $state('choosing');
 
-  const finalAction = async (modal: ModalInstance<Params>, action: () => Promise<void>): Promise<void> => {
-    await (action ?? ((): Promise<void> => Promise.resolve()))();
+  const finalAction = async (modal: ModalInstance<Params>, action: () => Promise<void> | void): Promise<void> => {
+    await action();
     modal.close();
   };
 
-  const getFinalAction = (modal: ModalInstance<Params>, action: () => Promise<void>): (() => Promise<void>) => {
+  const getFinalAction = (modal: ModalInstance<Params>, action: () => Promise<void> | void): (() => Promise<void>) => {
     return () => finalAction(modal, action);
   };
 
   type choice = {
     name: string;
-    getAction: (modal: ModalInstance<Params>, action: () => Promise<void>) => () => Promise<void> | void;
+    getAction: (modal: ModalInstance<Params>, action: () => Promise<void> | void) => () => Promise<void> | void;
   };
 
   const choices: Record<'guest' | 'signIn' | 'signUp', choice> = {

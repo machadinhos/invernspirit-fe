@@ -7,6 +7,8 @@ import { toasts } from '$state';
 
 class Cart {
   value: LineItem[] = $state([]);
+  netPrice = 0;
+  grossPrice = 0;
   size = $derived(this.value.reduce((sum, { quantity }) => sum + quantity, 0));
   isCheckoutPossible = $state(false);
   private beCallQueue = new AsyncTaskQueue();
@@ -19,6 +21,8 @@ class Cart {
     const { products, isCheckoutPossible } = cart;
     this.value = products;
     this.isCheckoutPossible = isCheckoutPossible ?? true;
+    this.netPrice = cart.netPrice;
+    this.grossPrice = cart.grossPrice;
   }
 
   async updateProductQuantity(product: Product, newQuantity: number, pushToastOnQuantityUpdate = true): Promise<void> {

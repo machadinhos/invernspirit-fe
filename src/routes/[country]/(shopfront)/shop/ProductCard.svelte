@@ -24,6 +24,20 @@
     if (inCartQuantity === undefined) return;
     try {
       const updateProductQuantityPromise = cart.patchProductQuantity(product, 1);
+      gtag('event', 'add_to_cart', {
+        currency: country.currency.code,
+        value: product.netPrice / 100,
+        items: [
+          {
+            /* eslint-disable camelcase */
+            item_id: product.id,
+            item_name: product.name,
+            price: product.netPrice / 100,
+            quantity: 1,
+            /* eslint-enable camelcase */
+          },
+        ],
+      });
       inCartQuantity += 1;
       await updateProductQuantityPromise;
     } catch {

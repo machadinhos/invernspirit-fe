@@ -58,6 +58,10 @@
       user.value = signedInUser;
       cart.setCart(signedInCart);
 
+      gtag('event', 'login', {
+        method: 'Email',
+      });
+
       actionAfterAuthentication();
     } catch {
       captchaToken = undefined;
