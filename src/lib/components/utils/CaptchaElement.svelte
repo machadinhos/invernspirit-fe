@@ -16,7 +16,6 @@
   onMount(() => {
     const renderWidget = (): boolean => {
       if (typeof turnstile === 'undefined') return false;
-      /* eslint-disable-next-line no-undef */
       widgetId = turnstile.render(turnstileContainer, {
         sitekey: PUBLIC_CF_CAPTCHA_SITE_KEY,
         action: action,
@@ -24,7 +23,6 @@
       });
       resetToken = (): void => {
         if (widgetId && typeof turnstile !== 'undefined') {
-          /* eslint-disable-next-line no-undef */
           turnstile.reset(widgetId);
         }
       };
@@ -41,7 +39,6 @@
 
     return (): void => {
       if (widgetId && typeof turnstile !== 'undefined') {
-        /* eslint-disable-next-line no-undef */
         turnstile.remove(widgetId);
       }
     };

@@ -23,6 +23,8 @@ export default ts.config(
       globals: {
         ...globals.browser,
         ...globals.node,
+        turnstile: 'readonly',
+        gtag: 'readonly',
       },
     },
   },

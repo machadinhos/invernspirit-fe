@@ -14,7 +14,6 @@
 
   const setGtagConsent = (option: boolean): void => {
     const cookieConsent = option ? 'granted' : 'denied';
-    /* eslint-disable-next-line no-undef */
     gtag('consent', 'update', {
       /* eslint-disable camelcase */
       ad_storage: cookieConsent,
