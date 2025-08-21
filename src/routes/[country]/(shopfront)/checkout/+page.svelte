@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { CheckoutStage, StageName } from '$types';
+  import { config, loading } from '$state';
   import { expand as expandSummary, default as SummarySection } from '../SummarySection.svelte';
   import { nextStage, prevStage, stagesTitles } from './stages';
   import AddressPage from './AddressPage.svelte';
   import { bffClient } from '$service';
   import { BreadCrumbs } from '$components';
   import { checkout } from '$content';
-  import { config } from '$state';
   import { FaSolidArrowLeft } from 'svelte-icons-pack/fa';
   import { Form } from '$components-utils';
   import { goto } from '$app/navigation';
@@ -65,20 +65,22 @@
     if (selectedStageName === 'review') expandSummary();
   });
 
-  onMount(async () => {
-    const { availableCheckoutStages, isCheckoutPossible } = await config.afterInitialization(() =>
-      bffClient.checkout.stages.get(page.params.country),
-    );
-    if (isCheckoutPossible === false) {
-      goto(`/${page.params.country}/cart`, { replaceState: true });
-      return;
-    }
-    stages = availableCheckoutStages;
-    const lastEnabledStage = enabledStages?.at(-1);
-    if (lastEnabledStage !== getStageFromUrl()) {
-      goto(`/${page.params.country}/checkout?stage=${lastEnabledStage}`, { replaceState: true });
-      selectedStageName = lastEnabledStage;
-    }
+  onMount(() => {
+    loading.withLoading(async () => {
+      const { availableCheckoutStages, isCheckoutPossible } = await config.afterInitialization(() =>
+        bffClient.checkout.stages.get(page.params.country),
+      );
+      if (isCheckoutPossible === false) {
+        goto(`/${page.params.country}/cart`, { replaceState: true });
+        return;
+      }
+      stages = availableCheckoutStages;
+      const lastEnabledStage = enabledStages?.at(-1);
+      if (lastEnabledStage !== getStageFromUrl()) {
+        goto(`/${page.params.country}/checkout?stage=${lastEnabledStage}`, { replaceState: true });
+        selectedStageName = lastEnabledStage;
+      }
+    });
   });
 </script>
 
