@@ -1,4 +1,4 @@
-export { default as ClientErrorToastComponent } from './ClientErrorToastComponent.svelte';
-export { default as CopiedToClipboardToastComponent } from './CopiedToClipboardToastComponent.svelte';
-export { default as ItemAddedToCartToastComponent } from './ItemAddedToCartToastComponent.svelte';
-export { default as OpeningPopupErrorToastComponent } from './OpeningPopupErrorToastComponent.svelte';
+export { default as ClientErrorToast } from './ClientErrorToast.svelte';
+export { default as CopiedToClipboardToast } from './CopiedToClipboardToast.svelte';
+export { default as ItemAddedToCartToast } from './ItemAddedToCartToast.svelte';
+export { default as OpeningPopupErrorToast } from './OpeningPopupErrorToast.svelte';

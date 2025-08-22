@@ -4,7 +4,7 @@
   import { bffClient } from '$service';
   import { googleIcon } from '$components-svg-icons';
   import { on } from 'svelte/events';
-  import { OpeningPopupErrorToastComponent } from '$components-toasts';
+  import { OpeningPopupErrorToast } from '$components-toasts';
   import { page } from '$app/state';
   import type { Snippet } from 'svelte';
 
@@ -30,7 +30,7 @@
       `width=${width},height=${height},left=${left},top=${top}`,
     );
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-      toasts.push(OpeningPopupErrorToastComponent, { type: 'error' });
+      toasts.push(OpeningPopupErrorToast, { type: 'error' });
       return;
     }
 

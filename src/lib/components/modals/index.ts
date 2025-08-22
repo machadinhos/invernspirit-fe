@@ -1,1 +1,1 @@
-export { default as AskForLoginModalComponent } from './AskForLoginModalComponent.svelte';
+export { default as AskForLoginModal } from './AskForLoginModal.svelte';

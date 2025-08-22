@@ -1,7 +1,7 @@
 <script lang="ts">
   import { checkout, order as orderContent } from '$content';
   import type { Country, Order, OrderStatus } from '$types';
-  import { CopiedToClipboardToastComponent } from '$components-toasts';
+  import { CopiedToClipboardToast } from '$components-toasts';
   import { FaCopy } from 'svelte-icons-pack/fa';
   import { formatDate } from '$lib/utils/date-formatting';
   import { formatPrice } from '$lib/utils/currency-formatting';
@@ -21,7 +21,7 @@
   const onOrderIdClick = (): void => {
     if (!order) return;
     navigator.clipboard.writeText(order.id);
-    toasts.push(CopiedToClipboardToastComponent, { tag: 'clipboard' });
+    toasts.push(CopiedToClipboardToast, { tag: 'clipboard' });
   };
 
   const mapStatusToText = (status: OrderStatus): string => {

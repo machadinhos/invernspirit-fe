@@ -1,7 +1,7 @@
 import { getAccessToken, setAccessToken } from './access-token';
 import { browser } from '$app/environment';
 import { ClientError } from '$service';
-import { ClientErrorToastComponent } from '$components-toasts';
+import { ClientErrorToast } from '$components-toasts';
 import type { Jsonable } from '$types';
 import { toasts } from '$state';
 
@@ -171,7 +171,7 @@ export class Client<ResponseBody, PayloadBody = void> {
       console.error(error);
 
       const errorString = 'Unable to connect to server';
-      if (browser) toasts.push(ClientErrorToastComponent, { extraParams: { error: errorString }, type: 'error' });
+      if (browser) toasts.push(ClientErrorToast, { extraParams: { error: errorString }, type: 'error' });
       throw new Error(`${errorString} ${this._context.method} ${this.url}`);
     }
 
@@ -221,7 +221,7 @@ export class Client<ResponseBody, PayloadBody = void> {
 const pushIssuesToToasts = (issues: string[]): void => {
   if (browser) {
     issues.forEach((issue) => {
-      toasts.push(ClientErrorToastComponent, { extraParams: { error: issue }, type: 'error', duration: 8000 });
+      toasts.push(ClientErrorToast, { extraParams: { error: issue }, type: 'error', duration: 8000 });
     });
   }
 };

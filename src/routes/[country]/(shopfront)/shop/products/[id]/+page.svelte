@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Anchor, Button, ThumbnailCarousel } from '$components';
   import { cart, config, toasts } from '$state';
-  import { CopiedToClipboardToastComponent } from '$components-toasts';
+  import { CopiedToClipboardToast } from '$components-toasts';
   import { formatPrice } from '$lib/utils/currency-formatting';
   import { getStockFromBucket } from '$service';
   import { Icon } from 'svelte-icons-pack';
@@ -56,7 +56,7 @@
     try {
       if (!navigator.share) {
         await navigator.clipboard.writeText(`${page.url.origin}${page.url.pathname}`);
-        toasts.push(CopiedToClipboardToastComponent, { tag: 'clipboard' });
+        toasts.push(CopiedToClipboardToast, { tag: 'clipboard' });
       } else {
         await navigator.share({
           title: data.product.name,

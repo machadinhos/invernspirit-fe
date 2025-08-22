@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { ClientErrorToastComponent } from '$components-toasts';
+import { ClientErrorToast } from '$components-toasts';
 import { toasts } from '$state';
 
 export class ClientError extends Error {
@@ -16,7 +16,7 @@ export class ClientError extends Error {
   pushIssuesToToasts(): void {
     if (browser) {
       if (this.statusCode === 500) {
-        toasts.push(ClientErrorToastComponent, {
+        toasts.push(ClientErrorToast, {
           extraParams: { error: 'Something went wrong. Hang tight while we fix it!' },
           type: 'error',
           duration: 8000,
@@ -24,7 +24,7 @@ export class ClientError extends Error {
         return;
       }
       this.issues.forEach((issue) => {
-        toasts.push(ClientErrorToastComponent, { extraParams: { error: issue }, type: 'error', duration: 8000 });
+        toasts.push(ClientErrorToast, { extraParams: { error: issue }, type: 'error', duration: 8000 });
       });
     }
   }
