@@ -7,6 +7,12 @@
   import { page } from '$app/state';
   import { SlMagnifier } from 'svelte-icons-pack/sl';
 
+  type Props = {
+    hideSearchBarOnMobile: boolean;
+  };
+
+  let { hideSearchBarOnMobile }: Props = $props();
+
   let searchString = $state('');
 
   const doSearch = (event: Event): void => {
@@ -18,7 +24,7 @@
 </script>
 
 <footer class="w-full">
-  <form class="flex w-full" onsubmit={doSearch}>
+  <form class={['flex h-fit w-full', hideSearchBarOnMobile && 'hidden md:flex']} onsubmit={doSearch}>
     <div class="bg-background flex w-full items-center">
       <div class="px-2">
         <Icon color="white" size="20" src={SlMagnifier} />

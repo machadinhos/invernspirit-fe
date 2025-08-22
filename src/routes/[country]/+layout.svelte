@@ -38,5 +38,5 @@
     {/if}
   </main>
 
-  <Footer />
+  <Footer hideSearchBarOnMobile={page.data.hideSearchBarOnMobile ?? false} />
 </div>

@@ -32,6 +32,7 @@ declare global {
     interface PageData {
       noCrawl?: boolean;
       openGraph?: OpenGraph;
+      hideSearchBarOnMobile?: boolean;
     }
     // interface PageState {}
     // interface Platform {};
