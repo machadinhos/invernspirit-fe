@@ -3,8 +3,6 @@
   import { Button } from '$components';
   import { Icon } from 'svelte-icons-pack';
   import type { ModalInstance } from '$state';
-  import { onClickOutside } from '$components-attachments';
-  import { scale } from 'svelte/transition';
   import SignIn from '$lib/components/ui/auth/SignIn.svelte';
   import SignUp from '$lib/components/ui/auth/SignUp.svelte';
 
@@ -67,11 +65,9 @@
 
 <div
   class={[
-    'bg-background-dark relative flex max-h-[80%] min-h-[35%] w-[90%] max-w-[500px] flex-col items-center overflow-y-auto p-4 pb-8 lg:px-8',
+    'bg-background-dark relative flex max-h-[80vh] min-h-[35vh] w-[90vw] max-w-[500px] flex-col items-center overflow-y-auto p-4 pb-8 lg:px-8',
     state === 'choosing' && 'justify-center',
   ]}
-  {@attach onClickOutside({ callback: modal.close })}
-  in:scale|global
 >
   <button
     class={['absolute top-4 left-4', state === 'choosing' && 'brightness-50']}

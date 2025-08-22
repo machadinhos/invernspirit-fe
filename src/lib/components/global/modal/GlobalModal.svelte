@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { fade, scale } from 'svelte/transition';
   import type { Attachment } from 'svelte/attachments';
-  import { fade } from 'svelte/transition';
   import { modal } from '$state';
   import ModalBody from './ModalBody.svelte';
+  import { onClickOutside } from '$components-attachments';
 
   const dialogAttachment: Attachment<HTMLDialogElement> = (node: HTMLDialogElement) => {
     node.showModal();
@@ -14,26 +15,35 @@
 </script>
 
 {#if modal.value}
-  <dialog class="modal-dialog backdrop-blur-sm" {@attach dialogAttachment} {onclose} in:fade|global>
-    <ModalBody modal={modal.value} />
-  </dialog>
+  <div class="modal-wrapper fixed inset-0 z-50 h-screen w-screen backdrop-blur-sm" in:fade|global>
+    <dialog
+      class="modal-dialog flex w-fit items-center justify-center"
+      {@attach dialogAttachment}
+      {onclose}
+      in:scale|global
+    >
+      <div {@attach onClickOutside({ callback: onclose })}>
+        <ModalBody modal={modal.value} />
+      </div>
+    </dialog>
+  </div>
 {/if}
 
 <style>
+  .modal-wrapper {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
   .modal-dialog {
-    width: 100vw;
-    height: 100vh;
     max-width: none;
     max-height: none;
     margin: 0;
     padding: 0;
-    background: rgba(0, 0, 0, 0.4) none;
     border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: transparent;
     position: fixed;
-    inset: 0;
-    z-index: 45;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>
