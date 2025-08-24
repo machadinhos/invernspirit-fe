@@ -16,10 +16,10 @@
     "build:preview:local": "bun run build && bun run preview:local",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "lint": "eslint --fix",
-    "lint:no-fix": "eslint",
+    "lint": "eslint --concurrency=auto --fix",
+    "lint:no-fix": "eslint --concurrency=auto",
     "format": "prettier --write --list-different",
-    "format:lint": "prettier --write --list-different . && eslint . --fix",
+    "format:lint": "prettier --write --list-different . && eslint --concurrency=auto --fix .",
     "a11y-audit": "bun scripts/run-a11y-audit.ts",
     "generate-sitemap": "bun scripts/generate-sitemap.ts",
     "prepare": "(svelte-kit sync || echo '') ; (husky || echo '')"
