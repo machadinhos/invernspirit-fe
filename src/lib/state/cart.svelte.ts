@@ -39,8 +39,9 @@ class Cart {
     quantityDifference: number,
     pushToastOnQuantityUpdate = true,
   ): Promise<void> {
+    const finalQuantity = this.getProductQuantity(product.id) + quantityDifference;
     await this.beCallQueue.enqueue(async () => {
-      const cart = await bffClient.cart.patchItemQuantity(page.params.country, product.id, quantityDifference);
+      const cart = await bffClient.cart.updateItemQuantity(page.params.country, product.id, finalQuantity);
       this.setCart(cart);
       if (!pushToastOnQuantityUpdate || page.url.pathname.endsWith('/cart')) return;
       toasts.push(ItemAddedToCartToast, { tag: 'cart-update' });

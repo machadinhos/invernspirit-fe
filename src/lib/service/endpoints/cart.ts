@@ -29,17 +29,6 @@ export const prepareUpdateCartItemQuantity: Endpoint<Cart, [string, number]> = (
   };
 };
 
-export const preparePatchCartItemQuantity: Endpoint<Cart, [string, number]> = (context) => {
-  return (countryCode, productId, productQuantityDifference) => {
-    return Client.create<Cart, UpdateCartItemBody>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/items/${productId}`)
-      .withMethod('PATCH')
-      .withBody({ quantity: productQuantityDifference })
-      .call();
-  };
-};
-
 export const prepareRemoveCartItem: Endpoint<Cart, [string]> = (context) => {
   return (countryCode, productId) => {
     return Client.create<Cart>()
