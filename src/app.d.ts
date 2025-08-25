@@ -34,7 +34,9 @@ declare global {
       openGraph?: OpenGraph;
       hideSearchBarOnMobile?: boolean;
     }
-    // interface PageState {}
+    interface PageState {
+      openedModal?: string;
+    }
     // interface Platform {};
   }
 }

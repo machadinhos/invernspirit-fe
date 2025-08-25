@@ -1,4 +1,6 @@
 import type { Component } from 'svelte';
+import { page } from '$app/state';
+import { pushState } from '$app/navigation';
 
 type Element<Params extends Record<string, unknown>> =
   | Component<Params & { modal: ModalInstance<Params> }, Record<never, never>>
@@ -17,26 +19,55 @@ class ModalInstance<Params extends Record<string, unknown> | undefined = undefin
     element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
     extraParams: NoInfer<Omit<Params, 'modal'>>,
   ) {
-    this.id = Symbol();
+    this.id = Symbol(crypto.randomUUID());
     this.element = element;
     this.extraParams = extraParams;
     this.close = modal.generateCloseFunction(this.id);
   }
 }
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+type GenericModalInstance = ModalInstance<any>;
+
 class Modal {
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  value: ModalInstance<any> | undefined = $state();
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  private queue: ModalInstance<any>[] = [];
+  _value: GenericModalInstance | undefined = $state();
+
+  private queue: GenericModalInstance[] = [];
+
+  private set value(modal: GenericModalInstance | undefined) {
+    this._value = modal;
+    pushState('', {
+      openedModal: modal?.id.toString(),
+    });
+  }
+
+  get value(): GenericModalInstance | undefined {
+    return this._value;
+  }
+
+  constructor() {
+    $effect.root(() => {
+      $effect(() => {
+        if (page.state.openedModal === undefined) {
+          this.value?.close();
+        }
+      });
+    });
+  }
 
   private setValueFromQueue(): void {
-    this.value ??= this.queue.shift();
+    if (this.value) return;
+    const modal = this.queue.shift();
+    if (modal) this.value = modal;
   }
 
   generateCloseFunction(id: symbol): () => void {
     return (): void => {
       if (this.value?.id === id) {
+        if (page.state.openedModal === id.toString()) {
+          history.back();
+          return;
+        }
         this.value = undefined;
         this.setValueFromQueue();
       } else {
