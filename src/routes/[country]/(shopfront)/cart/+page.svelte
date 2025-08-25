@@ -47,8 +47,10 @@
       await goToCheckout();
     } else {
       modal.open(AskForLoginModal, {
-        action: goToCheckout,
-        allowGuest: true,
+        extraParams: {
+          action: goToCheckout,
+          allowGuest: true,
+        },
       });
     }
     checkoutDisabled = false;

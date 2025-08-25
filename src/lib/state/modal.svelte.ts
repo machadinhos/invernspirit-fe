@@ -1,5 +1,13 @@
 import type { Component } from 'svelte';
 
+type BaseModalOptions = {
+  closeOnNavigate?: boolean;
+};
+
+type ModalOptions<ExtraParams> = BaseModalOptions & {
+  extraParams: Omit<ExtraParams, 'modal'>;
+};
+
 type Element<Params extends Record<string, unknown>> =
   | Component<Params & { modal: ModalInstance<Params> }, Record<never, never>>
   | Component<Params, Record<never, never>>;
@@ -9,17 +17,20 @@ type NoExtraParamsElement =
 
 class ModalInstance<Params extends Record<string, unknown> | undefined = undefined> {
   readonly element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement;
+  readonly closeOnNavigate: boolean;
   readonly extraParams: NoInfer<Omit<Params, 'modal'>>;
   readonly close: () => void;
   readonly id: symbol;
 
   constructor(
     element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
-    extraParams: NoInfer<Omit<Params, 'modal'>>,
+    { closeOnNavigate = true, ...rest }: Params extends never ? BaseModalOptions : ModalOptions<Params>,
   ) {
     this.id = Symbol();
     this.element = element;
-    this.extraParams = extraParams;
+    this.extraParams = ('extraParams' in rest ? rest.extraParams : undefined) as Params;
+    this.closeOnNavigate = closeOnNavigate;
+
     this.close = modal.generateCloseFunction(this.id);
   }
 }
@@ -45,17 +56,17 @@ class Modal {
     };
   }
 
-  open(element: NoExtraParamsElement): ModalInstance;
+  open(element: NoExtraParamsElement, options?: BaseModalOptions): ModalInstance;
   open<Params extends Record<string, unknown>>(
     element: Element<Params>,
-    extraParams: NoInfer<Omit<Params, 'modal'>>,
+    options: ModalOptions<NoInfer<Params>>,
   ): ModalInstance<Params>;
   open<Params extends Record<string, unknown> | undefined>(
     element: Params extends Record<string, unknown> ? Element<Params> : NoExtraParamsElement,
-    extraParams?: NoInfer<Omit<Params, 'modal'>>,
-  ): ModalInstance<Params> | ModalInstance {
+    options: BaseModalOptions | ModalOptions<NoInfer<Params>> = {},
+  ): ModalInstance<Params | undefined> {
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    const modalInstance = new ModalInstance(element, extraParams as any);
+    const modalInstance = new ModalInstance(element, options as any);
     if (this.value) {
       this.queue.push(modalInstance);
     } else {
