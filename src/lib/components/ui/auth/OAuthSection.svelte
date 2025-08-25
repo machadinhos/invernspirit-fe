@@ -2,11 +2,11 @@
   import { cart, toasts, user } from '$state';
   import { auth } from '$content';
   import { bffClient } from '$service';
-  import { googleIcon } from '$components-svg-icons';
+  import type { Component } from 'svelte';
+  import { GoogleIcon } from '$components-svg-icons';
   import { on } from 'svelte/events';
   import { OpeningPopupErrorToast } from '$components-toasts';
   import { page } from '$app/state';
-  import type { Snippet } from 'svelte';
 
   type Props = {
     actionAfterAuthentication: () => void;
@@ -81,7 +81,12 @@
   };
 </script>
 
-{#snippet oAuthButton(icon: Snippet, label: string, name: string, onclick: () => void)}
+{#snippet oAuthButton(
+  Icon: Component<Record<never, never>, Record<never, never>>,
+  label: string,
+  name: string,
+  onclick: () => void,
+)}
   <button
     class={[
       'oauth-button flex h-[35px] w-full items-center justify-center gap-2 rounded-2xl border transition-all hover:scale-110',
@@ -93,7 +98,7 @@
     type="button"
   >
     <div class="flex h-[20px] w-[20px] items-center">
-      {@render icon()}
+      <Icon />
     </div>
     <p>Continue with {name}</p>
   </button>
@@ -106,7 +111,7 @@
     <div class="h-0.5 w-full bg-white"></div>
   </div>
   <div class="flex w-full flex-col items-center gap-3">
-    {@render oAuthButton(googleIcon, auth.googleAriaLabel, auth.googleName, onContinueWithGoogleClick)}
+    {@render oAuthButton(GoogleIcon, auth.googleAriaLabel, auth.googleName, onContinueWithGoogleClick)}
   </div>
 </div>
 
