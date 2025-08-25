@@ -17,11 +17,11 @@
 </div>
 
 <style>
-  :global(.shrinking-element > *) {
+  .shrinking-element > :global(*) {
     transition: transform 150ms ease-in-out;
   }
 
-  :global(.shrinking-element > *:not(:disabled):active) {
+  .shrinking-element > :global(*):not(:disabled):active {
     transform: scaleX(var(--scale-x-value)) scaleY(var(--scale-y-value));
   }
 </style>

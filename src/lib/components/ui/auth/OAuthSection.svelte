@@ -116,11 +116,11 @@
 </div>
 
 <style>
-  :global .oauth-button path {
+  .oauth-button :global(path) {
     transition: fill 250ms ease-in-out;
   }
 
-  :global .oauth-button:not(:hover) path {
+  .oauth-button:not(:hover) :global(path) {
     fill: white !important;
   }
 </style>
