@@ -21,7 +21,7 @@ export type Order = {
     grossAmount: number;
     paymentMethod?: {
       type: 'card' | 'paypal';
-      brand?: string;
+      brand?: 'visa' | 'mastercard';
       last4?: string;
     };
   };

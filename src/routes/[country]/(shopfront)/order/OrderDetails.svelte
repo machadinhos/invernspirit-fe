@@ -46,16 +46,7 @@
   const paymentLogos = {
     paypal: '/paypal-logo.webp',
     visa: '/visa-logo.webp',
-    masterCard: '/mastercard-logo.webp',
-  };
-
-  const mapCardBrandToLogo = (brand: string): string | undefined => {
-    switch (brand) {
-      case 'visa':
-        return paymentLogos.visa;
-      case 'mastercard':
-        return paymentLogos.masterCard;
-    }
+    mastercard: '/mastercard-logo.webp',
   };
 </script>
 
@@ -74,11 +65,12 @@
         {orderContent.paymentMethod}:
         {#if order.payment.paymentMethod.type === 'card'}
           {#if order.payment.paymentMethod.brand && order.payment.paymentMethod.last4}
-            {#if mapCardBrandToLogo(order.payment.paymentMethod.brand ?? '')}
+            {@const paymentLogo = paymentLogos[order.payment.paymentMethod.brand]}
+            {#if paymentLogo}
               <img
                 class="h-[22px] w-[34px]"
                 alt="{order.payment.paymentMethod.brand} logo"
-                src="/payment-logos/{mapCardBrandToLogo(order.payment.paymentMethod.brand ?? '')}"
+                src="/payment-logos/{paymentLogo}"
               />
             {/if}
             {orderContent.cardEndingIn}
