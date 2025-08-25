@@ -21,7 +21,7 @@
         id={field.id}
         name={field.name}
         class={[
-          'peer focus:border-primary h-10 w-full border-b-2 border-white bg-transparent focus:outline-hidden',
+          'peer h-10 w-full border-b-2 border-white bg-transparent focus:border-primary focus:outline-hidden',
           trailingIcon && 'pr-6',
           className,
         ]}
@@ -37,7 +37,7 @@
         id={field.id}
         name={field.name}
         class={[
-          'peer focus:border-primary min-h-24 w-full border-b-2 border-white bg-transparent focus:outline-hidden',
+          'peer min-h-24 w-full border-b-2 border-white bg-transparent focus:border-primary focus:outline-hidden',
           className,
         ]}
         autocomplete="off"
@@ -55,7 +55,7 @@
     {#if label}
       <label
         class={[
-          'text-text-secondary pointer-events-none absolute left-0 text-lg transition-all select-none peer-focus:-top-3.5 peer-focus:text-sm',
+          'pointer-events-none absolute left-0 text-lg text-text-secondary transition-all select-none peer-focus:-top-3.5 peer-focus:text-sm',
           field.value ? '-top-3.5 text-sm' : 'top-2 text-base',
         ]}
         for={field.id}
@@ -64,7 +64,7 @@
       </label>
     {/if}
     <p
-      class={['text-error-light pointer-events-none text-sm select-none', !field.isValid ? 'opacity-100' : 'opacity-0']}
+      class={['pointer-events-none text-sm text-error-light select-none', !field.isValid ? 'opacity-100' : 'opacity-0']}
     >
       {field.invalidText}
     </p>

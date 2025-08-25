@@ -57,7 +57,7 @@
 
 <div class="flex h-full w-full justify-center">
   <div
-    class="md:bg-background-dark mt-10 flex h-fit w-[95%] flex-col items-center py-14 sm:w-[80%] md:w-[65%] md:shadow-2xl lg:w-[50%] xl:w-[30%]"
+    class="mt-10 flex h-fit w-[95%] flex-col items-center py-14 sm:w-[80%] md:w-[65%] md:bg-background-dark md:shadow-2xl lg:w-[50%] xl:w-[30%]"
   >
     <div class="flex w-full flex-col items-center">
       <h1 style="font-size: 2.5rem" class="text-center">

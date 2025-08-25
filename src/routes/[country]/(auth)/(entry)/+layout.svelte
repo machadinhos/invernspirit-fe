@@ -35,7 +35,7 @@
 
 <div class="flex h-full w-full justify-center">
   <div
-    class="md:bg-background-dark mt-10 flex h-fit w-[95%] flex-col items-center sm:w-[80%] md:w-[65%] md:shadow-2xl lg:w-[50%] xl:w-[40%]"
+    class="mt-10 flex h-fit w-[95%] flex-col items-center sm:w-[80%] md:w-[65%] md:bg-background-dark md:shadow-2xl lg:w-[50%] xl:w-[40%]"
   >
     <div class="relative w-full pt-10">
       <ul class="flex w-full">

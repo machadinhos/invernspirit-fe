@@ -16,7 +16,7 @@
   const productLength = order.products.reduce((total, product) => total + product.quantity, 0);
 </script>
 
-<div class="bg-background-dark w-full">
+<div class="w-full bg-background-dark">
   <div class="bg-background pb-2 shadow-2xl">
     <LineItemCard
       background={false}

@@ -41,7 +41,7 @@
 <div class="flex flex-col gap-1">
   {#each items as item, index (index)}
     {@const isOpened = opened.includes(index)}
-    <div class="bg-background w-full">
+    <div class="w-full bg-background">
       <button
         class="relative w-full py-1 pr-4 pl-2 text-left"
         onclick={generateTriggerClickCallback(index)}

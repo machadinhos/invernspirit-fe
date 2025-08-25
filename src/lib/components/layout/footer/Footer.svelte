@@ -25,13 +25,13 @@
 
 <footer class="w-full">
   <form class={['flex h-fit w-full', hideSearchBarOnMobile && 'hidden md:flex']} onsubmit={doSearch}>
-    <div class="bg-background flex w-full items-center">
+    <div class="flex w-full items-center bg-background">
       <div class="px-2">
         <Icon color="white" size="20" src={SlMagnifier} />
       </div>
       <input
         name="searchString"
-        class="bg-background w-full focus:border-none focus:outline-hidden"
+        class="w-full bg-background focus:border-none focus:outline-hidden"
         aria-label={common.footer.searchBarPlaceholder}
         autocomplete="off"
         placeholder={common.footer.searchBarPlaceholder}

@@ -34,7 +34,7 @@
   <div class="fixed inset-0 z-50 h-full w-full bg-black/50" transition:fade={{ duration: 500 }}></div>
   <div
     class={[
-      'bg-background fixed top-0 z-50 h-full shadow-lg',
+      'fixed top-0 z-50 h-full bg-background shadow-lg',
       fullWidth ? 'w-full' : 'w-auto',
       side === 'left' ? 'left-0' : 'right-0',
       className,

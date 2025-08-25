@@ -24,7 +24,7 @@
 
 {#if pageState}
   <div class="flex h-full w-full items-center justify-center">
-    <div class="md:bg-background-dark flex w-[90%] max-w-[700px] flex-col items-center py-6">
+    <div class="flex w-[90%] max-w-[700px] flex-col items-center py-6 md:bg-background-dark">
       <div class="w-[85%]">
         {#if pageState === 'ask-email'}
           <AskEmail />

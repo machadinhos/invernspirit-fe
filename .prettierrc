@@ -12,5 +12,6 @@
   "singleQuote": true,
   "trailingComma": "all",
   "endOfLine": "lf",
-  "printWidth": 120
+  "printWidth": 120,
+  "tailwindStylesheet": "./src/app.css"
 }

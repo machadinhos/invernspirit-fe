@@ -55,7 +55,7 @@
   });
 </script>
 
-<article class="bg-background h-fit w-64 shadow-2xl transition-all duration-300 hover:scale-110">
+<article class="h-fit w-64 bg-background shadow-2xl transition-all duration-300 hover:scale-110">
   <div class="relative h-64">
     <ProductStatusBanner class="absolute top-2 left-2" {bucketStock} {inCartQuantity} />
     <a href="/{page.params.country}/shop/products/{product.id}">

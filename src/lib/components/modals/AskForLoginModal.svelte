@@ -65,7 +65,7 @@
 
 <div
   class={[
-    'bg-background-dark relative flex max-h-[80vh] min-h-[35vh] w-[90vw] max-w-[500px] flex-col items-center overflow-y-auto p-4 pb-8 lg:px-8',
+    'relative flex max-h-[80vh] min-h-[35vh] w-[90vw] max-w-[500px] flex-col items-center overflow-y-auto bg-background-dark p-4 pb-8 lg:px-8',
     state === 'choosing' && 'justify-center',
   ]}
 >

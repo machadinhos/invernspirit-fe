@@ -114,7 +114,7 @@
         {/each}
       {/if}
     </div>
-    <div class="bg-secondary sticky -bottom-px mt-4 w-full md:top-0 md:mt-0 md:w-1/3 md:max-w-[396px]">
+    <div class="sticky -bottom-px mt-4 w-full bg-secondary md:top-0 md:mt-0 md:w-1/3 md:max-w-[396px]">
       <SummarySection
         buttonDisabled={checkoutDisabled}
         buttonText={cart.checkoutButtonLabel}

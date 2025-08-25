@@ -113,7 +113,7 @@
         <ProductQuantitySelector allowZero disabled={pendingRemoval} stock={product.stock} bind:selectedQuantity />
       </div>
       <button
-        class="text-primary absolute right-3 bottom-2 flex items-center justify-center"
+        class="absolute right-3 bottom-2 flex items-center justify-center text-primary"
         aria-label="remove-from-cart"
         disabled={pendingRemoval}
         onclick={removeFromCart}

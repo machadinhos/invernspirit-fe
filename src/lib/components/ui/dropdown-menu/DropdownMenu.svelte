@@ -75,7 +75,7 @@
   {#if isOpen}
     <div
       style={menuPositionStyle}
-      class="bg-background z-20 shadow-2xl"
+      class="z-20 bg-background shadow-2xl"
       transition:slide={{ duration: 800, easing: isOpen ? backOut : backIn }}
     >
       <div class={className}>

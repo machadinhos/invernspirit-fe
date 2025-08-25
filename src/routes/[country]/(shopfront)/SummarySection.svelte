@@ -118,7 +118,7 @@
   </div>
 {/snippet}
 
-<div class="bg-secondary relative flex w-full justify-center p-5">
+<div class="relative flex w-full justify-center bg-secondary p-5">
   <div class="flex w-full flex-col justify-end">
     <div
       bind:this={expandElement}

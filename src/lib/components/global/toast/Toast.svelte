@@ -102,7 +102,7 @@
 >
   {#if toast.hasCloseButton}
     <button
-      class="text-primary absolute top-3 right-3"
+      class="absolute top-3 right-3 text-primary"
       aria-label="Close notification"
       onclick={toast.destroy}
       type="button"><Icon src={FaSolidXmark} /></button

@@ -64,7 +64,7 @@
   };
 </script>
 
-<div class="bg-background fixed bottom-0 z-100 w-full p-4 text-justify">
+<div class="fixed bottom-0 z-100 w-full bg-background p-4 text-justify">
   {#if !customizing}
     <div class="flex flex-col gap-4 md:flex-row md:justify-between">
       <div class="flex flex-col gap-2">

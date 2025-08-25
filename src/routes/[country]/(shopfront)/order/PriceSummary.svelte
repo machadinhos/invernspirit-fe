@@ -20,7 +20,7 @@
   </div>
 {/snippet}
 
-<div class="bg-secondary flex w-full justify-center p-5">
+<div class="flex w-full justify-center bg-secondary p-5">
   <div class="flex w-full flex-col justify-end">
     {@render priceLine(orderContent.subtotal, order.payment.netAmount, 'text-2xl')}
     {@render priceLine(orderContent.shipping, order.shippingMethod.rate.priceInCents, 'text-2xl')}

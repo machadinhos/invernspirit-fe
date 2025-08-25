@@ -63,7 +63,7 @@
   <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
     <div class="flex gap-1">
       {orderContent.orderId}:
-      <button class="text-primary flex items-center gap-1" onclick={onOrderIdClick} type="button">
+      <button class="flex items-center gap-1 text-primary" onclick={onOrderIdClick} type="button">
         <span class="text-white">{order.id}</span>
         <Icon src={FaCopy} />
       </button>

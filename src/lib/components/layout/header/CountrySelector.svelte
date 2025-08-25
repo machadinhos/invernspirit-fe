@@ -51,7 +51,7 @@
   {#snippet optionSnippet(text: string, index: number)}
     <div
       class={[
-        'bg-background hover:bg-primary flex w-14 items-center justify-center gap-1',
+        'flex w-14 items-center justify-center gap-1 bg-background hover:bg-primary',
         index === focused && 'bg-primary',
       ]}
     >

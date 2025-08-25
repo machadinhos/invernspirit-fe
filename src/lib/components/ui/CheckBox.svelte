@@ -15,7 +15,7 @@
 
 <label class={['inline-flex w-max items-center gap-2', disabled ? 'cursor-not-allowed' : 'cursor-pointer', className]}>
   <input {name} class="absolute hidden" {disabled} type="checkbox" bind:checked />
-  <div class="border-text-secondary flex h-5 w-5 items-center justify-center border-2">
+  <div class="flex h-5 w-5 items-center justify-center border-2 border-text-secondary">
     <div class="h-full w-full">
       {#if checked}
         <svg class={['bg-primary', disabled && 'brightness-[60%]']} class:checked viewBox="0 0 24 24" transition:scale>
