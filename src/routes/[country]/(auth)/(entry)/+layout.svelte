@@ -34,9 +34,7 @@
 {/snippet}
 
 <div class="flex h-full w-full justify-center">
-  <div
-    class="mt-10 flex h-fit w-[95%] flex-col items-center sm:w-[80%] md:w-[65%] md:bg-background-dark md:shadow-2xl lg:w-[50%] xl:w-[40%]"
-  >
+  <div class="mt-10 flex h-fit w-[90%] max-w-[675px] flex-col items-center md:bg-background-dark md:shadow-2xl">
     <div class="relative w-full pt-10">
       <ul class="flex w-full">
         {@render pageListItem('sign-in')}
@@ -47,7 +45,7 @@
         class="pointer-events-none absolute bottom-0.5 h-0.5 w-[25%] bg-white transition-all duration-500 select-none"
       ></div>
     </div>
-    <div class="mt-5 mb-10 w-[75%]">
+    <div class="mt-5 mb-10 w-full md:w-[75%]">
       {@render children()}
     </div>
   </div>
