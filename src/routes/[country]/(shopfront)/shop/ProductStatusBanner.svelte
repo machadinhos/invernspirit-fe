@@ -36,15 +36,13 @@
     },
   };
 
-  const getCurrentBanner = (): Banner | undefined => {
+  let banner = $derived.by((): Banner | undefined => {
     if (bucketStock === undefined || inCartQuantity === undefined) return;
     if (bucketStock === 0) return banners.outOfStock;
     if (inCartQuantity === 0) return;
     if (bucketStock <= inCartQuantity) return banners.allItemsInCart;
     return banners.someItemsInCart;
-  };
-
-  let banner: Banner | undefined = $derived(getCurrentBanner());
+  });
 </script>
 
 {#snippet text(banner: Banner)}

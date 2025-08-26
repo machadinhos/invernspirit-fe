@@ -69,15 +69,13 @@
     }
   };
 
-  let forgotPasswordUrl = $derived(
-    ((): string => {
-      const forgotPasswordUrl = `/${page.params.country}/forgot-password`;
-      if (formFields.email.value !== '' && formFields.email.validate(formFields.email.value)) {
-        return `${forgotPasswordUrl}?autofill-email=${encodeURIComponent(formFields.email.value)}`;
-      }
-      return forgotPasswordUrl;
-    })(),
-  );
+  let forgotPasswordUrl = $derived.by((): string => {
+    const forgotPasswordUrl = `/${page.params.country}/forgot-password`;
+    if (formFields.email.value !== '' && formFields.email.validate(formFields.email.value)) {
+      return `${forgotPasswordUrl}?autofill-email=${encodeURIComponent(formFields.email.value)}`;
+    }
+    return forgotPasswordUrl;
+  });
 
   const captchaCallback = (token: string): void => {
     captchaToken = token;

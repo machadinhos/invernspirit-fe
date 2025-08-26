@@ -32,7 +32,7 @@
   const isFullWidth = 'isFullWidth' in restProps ? restProps.isFullWidth : undefined;
   const position = 'position' in restProps ? restProps.position : undefined;
 
-  const getMenuPositionStyle = (): string => {
+  let menuPositionStyle = $derived.by((): string => {
     if (isFullWidth) {
       if (!triggerElementRef) return '';
       const top = triggerElementRef.offsetTop + triggerElementRef.offsetHeight + 10;
@@ -41,9 +41,7 @@
     return position === 'left'
       ? 'position: absolute; top: calc(100% + 10px); left: 0;'
       : 'position: absolute; top: calc(100% + 10px); right: 0;';
-  };
-
-  let menuPositionStyle = $derived(getMenuPositionStyle());
+  });
 
   const onClickOutsideCallback = (): void => {
     isOpen = false;

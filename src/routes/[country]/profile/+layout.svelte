@@ -13,7 +13,7 @@
 
   let { children }: Props = $props();
 
-  const selected = $derived(page.url.pathname.split('/')[3]);
+  let selected = $derived(page.url.pathname.split('/')[3]);
 
   onMount(() => {
     config.afterInitialization(() => {

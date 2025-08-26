@@ -36,7 +36,12 @@
   }: Props = $props();
   const id = $props.id();
 
-  const getTaxesPrices = (): { name: string; value: number; rate: number }[] => {
+  let totalPrice = $derived(
+    cartState.value.reduce((sum, item) => sum + item.grossPrice * item.quantity, 0) +
+      additionalCharges.reduce((sum, item) => sum + item.price, 0),
+  );
+  let subTotalPrice = $derived(cartState.value.reduce((sum, item) => sum + item.netPrice * item.quantity, 0));
+  let taxesPrices = $derived.by((): { name: string; value: number; rate: number }[] => {
     return country.taxes.reduce(
       (taxList, tax) => {
         const name = tax.name;
@@ -51,14 +56,7 @@
       },
       [] as { name: string; value: number; rate: number }[],
     );
-  };
-
-  let totalPrice = $derived(
-    cartState.value.reduce((sum, item) => sum + item.grossPrice * item.quantity, 0) +
-      additionalCharges.reduce((sum, item) => sum + item.price, 0),
-  );
-  let subTotalPrice = $derived(cartState.value.reduce((sum, item) => sum + item.netPrice * item.quantity, 0));
-  let taxesPrices = $derived(getTaxesPrices());
+  });
 
   let dragging = false;
   let startY: number | undefined;

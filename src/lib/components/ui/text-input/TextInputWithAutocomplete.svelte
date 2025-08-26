@@ -16,11 +16,7 @@
   let isOpen = $state(false);
   let heightFitOptions = $state(4);
   let placement: 'above' | 'below' = $state('below');
-  let activeOptions = $derived(
-    ((): string[] => {
-      return options.filter((option) => option.toLowerCase().includes(field.value.toLowerCase()));
-    })(),
-  );
+  let activeOptions = $derived(options.filter((option) => option.toLowerCase().includes(field.value.toLowerCase())));
   let selectedOption = $derived(options.indexOf(activeOptions[0]));
 
   let optionsElement: HTMLElement;

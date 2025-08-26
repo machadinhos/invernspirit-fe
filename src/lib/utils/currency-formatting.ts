@@ -1,9 +1,9 @@
-const currencyFormatter = new Map<string, Intl.NumberFormat>();
+const currencyFormatters = new Map<string, Intl.NumberFormat>();
 
 const getCurrencyFormatter = (locale: string, currencyCode: string): Intl.NumberFormat => {
   const key = `${locale}-${currencyCode}`;
-  if (!currencyFormatter.has(key)) currencyFormatter.set(key, createFormatter(locale, currencyCode));
-  return currencyFormatter.get(key) ?? createFormatter(locale, currencyCode);
+  if (!currencyFormatters.has(key)) currencyFormatters.set(key, createFormatter(locale, currencyCode));
+  return currencyFormatters.get(key) ?? createFormatter(locale, currencyCode);
 };
 
 const createFormatter = (locale: string, currencyCode: string): Intl.NumberFormat => {
