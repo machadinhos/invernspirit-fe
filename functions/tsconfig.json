@@ -12,7 +12,7 @@
     "lib": ["esnext"],
     "strict": true,
     "skipLibCheck": true,
-    "types": ["@cloudflare/workers-types", "jest"],
+    "types": ["@cloudflare/workers-types"],
     "resolveJsonModule": true,
     "paths": {
       "@types": ["libs/types/index.ts"],

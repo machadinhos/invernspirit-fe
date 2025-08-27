@@ -1,6 +1,5 @@
 import { beClientProxy } from '@utils';
 import { Env } from '@types';
 
-export const onRequest: PagesFunction<Env> = ({ request, env }) => {
-  return beClientProxy(request, ['PUT', 'PATCH', 'DELETE'], env);
-};
+export const onRequestPut: PagesFunction<Env> = beClientProxy;
+export const onRequestDelete: PagesFunction<Env> = beClientProxy;

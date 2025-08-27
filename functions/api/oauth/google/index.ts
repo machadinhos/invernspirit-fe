@@ -1,7 +1,8 @@
 import { beClientProxy } from '@utils';
 import { Env } from '@types';
 
-export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestGet: PagesFunction<Env> = async (context) => {
+  const { request, env } = context;
   const url = new URL(request.url);
   const state = JSON.parse(url.searchParams.get('state') ?? '{}');
 
@@ -9,7 +10,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
 
   const bePath = `/${state.country}/oauth/google/callback${url.search}`;
 
-  const beResponse = await beClientProxy(request, ['GET'], env, { bePath });
+  const beResponse = await beClientProxy(context, { bePath });
 
   if (!beResponse.ok) return beResponse;
 

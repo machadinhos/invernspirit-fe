@@ -1,22 +1,13 @@
 import { checkCaptchaToken } from './captcha-token-check.js';
 import { Env } from '@types';
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-
 type Config = {
   bePath?: string;
 };
 
-export const beClientProxy = async (
-  request: Request,
-  allowedMethods: HttpMethod[],
-  env: Env,
-  config?: Config,
-): Promise<Response> => {
-  if (!allowedMethods.includes(request.method as HttpMethod)) {
-    return new Response('Method not allowed', { status: 405 });
-  }
+type ProxyPagesFunction = (...args: [...Parameters<PagesFunction<Env>>, Config?]) => ReturnType<PagesFunction<Env>>;
 
+export const beClientProxy: ProxyPagesFunction = async ({ request, env }, config?: Config) => {
   const backendUrl = config?.bePath
     ? env.BE_HOST + config.bePath
     : ((): string => {
@@ -41,12 +32,15 @@ export const beClientProxy = async (
   });
 };
 
-export const beClientProxyWithCaptcha = async (
-  request: Request,
-  allowedMethods: HttpMethod[],
-  env: Env,
-  config?: Config,
-): Promise<Response> => {
+export const generateBeClientProxyWithConfig = (
+  beClientProxy: ProxyPagesFunction,
+  config: Config,
+): ProxyPagesFunction => {
+  return (context) => beClientProxy(context, config);
+};
+
+export const beClientProxyWithCaptcha: ProxyPagesFunction = async (context, config?: Config) => {
+  const { request, env } = context;
   const { captchaToken: token } = (await request.clone().json()) as { captchaToken: string };
   if (!token) {
     return new Response(JSON.stringify({ issues: ['Captcha token not provided'] }), {
@@ -63,5 +57,5 @@ export const beClientProxyWithCaptcha = async (
     });
   }
 
-  return beClientProxy(request, allowedMethods, env, config);
+  return beClientProxy(context, config);
 };
