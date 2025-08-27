@@ -60,7 +60,7 @@
     <Thumbnails axis="x" {emblaApi} {images} {selectedSlide} bind:thumbsApi={horizontalThumbsApi} />
   </div>
 
-  <div class="relative h-[85vw] w-[85vw] lg:h-[35vw] lg:w-[35vw]">
+  <div class="relative size-[85vw] lg:h-[35vw] lg:w-[35vw]">
     <button bind:this={prevButton} class="prev-button" aria-label="prev slide" type="button">
       <Icon size="25" src={BiSolidChevronLeftCircle} />
     </button>

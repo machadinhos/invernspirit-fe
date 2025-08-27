@@ -15,7 +15,7 @@
 <div class="relative w-full md:bg-background md:p-5 md:shadow-2xl">
   {#if hasEditButton}
     <div class="absolute top-5 right-5">
-      <button class="flex h-10 w-10 items-center justify-center text-primary" onclick={onEditButtonClick} type="button">
+      <button class="flex size-10 items-center justify-center text-primary" onclick={onEditButtonClick} type="button">
         <Icon size="20" src={FaSolidPencil} />
       </button>
     </div>

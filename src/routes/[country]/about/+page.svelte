@@ -12,7 +12,7 @@
     <h1 class="text-center text-6xl">{about.title1}</h1>
     <h2 class="text-center text-4xl">{about.title2}</h2>
     <div class="my-4 h-px w-full bg-white"></div>
-    <div class="flex flex-col gap-4">
+    <div class="space-y-4">
       <div class="flex h-[150px] items-center overflow-clip">
         <img class="w-full" alt="ceramic banner" src={imageLinks.about.banner} />
       </div>
@@ -20,7 +20,7 @@
       <p>{about.text1}</p>
       <p>{about.text2}</p>
       <div class="flex w-full flex-col-reverse gap-4 lg:flex-row lg:gap-20">
-        <div class="flex flex-col gap-4 lg:w-3/5">
+        <div class="space-y-4 lg:w-3/5">
           <p>{about.text3}</p>
           <p>{about.text4}</p>
           <p>{about.text5}</p>

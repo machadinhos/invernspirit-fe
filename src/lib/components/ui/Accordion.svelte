@@ -38,7 +38,7 @@
   };
 </script>
 
-<div class="flex flex-col gap-1">
+<div class="space-y-1">
   {#each items as item, index (index)}
     {@const isOpened = opened.includes(index)}
     <div class="w-full bg-background">
@@ -49,7 +49,7 @@
       >
         <div
           class={[
-            'absolute top-1/2 right-2 h-fit w-fit -translate-y-1/2 transition-all duration-200',
+            'absolute top-1/2 right-2 size-fit -translate-y-1/2 transition-[rotate] duration-200',
             isOpened && 'rotate-180',
           ]}
         >
@@ -60,7 +60,7 @@
       <div
         id="{id}-accordion-content-{index}"
         style="height: {isOpened ? calculateContentHeight(index) : '0'}px;"
-        class={['relative w-full overflow-clip transition-all duration-200', isOpened && 'pb-2']}
+        class={['relative w-full overflow-clip transition-[height] duration-200', isOpened && 'pb-2']}
       >
         <div class="absolute top-0 left-0 w-full px-2 pt-3.5 pb-2">
           {@render accordionContent(item.content)}

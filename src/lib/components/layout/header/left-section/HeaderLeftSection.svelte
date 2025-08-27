@@ -61,7 +61,7 @@
         {@render icons()}
       </div>
       <div class="flex h-[90%] w-full items-center justify-center">
-        <div class="flex flex-col gap-2">
+        <div class="space-y-2">
           <div>
             <DrawerItem>{@render drawerItem(common.header.pages.shop.title, 'main')}</DrawerItem>
             <DrawerItem

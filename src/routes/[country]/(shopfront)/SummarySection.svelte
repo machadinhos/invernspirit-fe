@@ -129,7 +129,7 @@
       <div class="absolute inset-0 h-fit w-full md:hidden">
         <button
           class={[
-            'flex h-6 w-full items-center justify-center [&>svg]:transition-all [&>svg]:duration-300',
+            'flex h-6 w-full items-center justify-center [&>svg]:transition-[rotate] [&>svg]:duration-300',
             isExpanded && '[&>svg]:rotate-180',
           ]}
           onclick={toggleIsExpanded}
@@ -139,7 +139,7 @@
       <div
         id="{id}-extra-prices"
         style="height: {isExpanded ? calculateExtraPricesHeight() : '0px'};"
-        class="extra-prices overflow-clip transition-all duration-300"
+        class="overflow-clip transition-[height] duration-300"
       >
         {@render priceLine(cart.subtotal, subTotalPrice, 'text-2xl')}
         {#each additionalCharges as { price, name } (name)}
@@ -151,7 +151,7 @@
       </div>
     </div>
     <div class="mt-2 w-full">
-      <div class="mb-3 flex flex-col gap-0.5">
+      <div class="mb-3 space-y-0.5">
         <div class="h-0.5 bg-white"></div>
         {@render priceLine(cart.total, totalPrice, 'text-4xl')}
         <div class="h-0.5 bg-white"></div>
@@ -167,11 +167,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  @media (width >= 48rem) {
-    .extra-prices {
-      height: auto !important;
-    }
-  }
-</style>

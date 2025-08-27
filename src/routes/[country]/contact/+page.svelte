@@ -55,7 +55,7 @@
 
 <svelte:head><title>{contactUs.headTitle}</title></svelte:head>
 
-<div class="flex h-full w-full justify-center">
+<div class="flex size-full justify-center">
   <div
     class="mt-10 flex h-fit w-[95%] flex-col items-center py-14 sm:w-[80%] md:w-[65%] md:bg-background-dark md:shadow-2xl lg:w-[50%] xl:w-[30%]"
   >

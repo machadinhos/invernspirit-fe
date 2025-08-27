@@ -82,7 +82,7 @@
     <Icon size="20" src={FaSolidXmark} />
   </button>
   {#if state === 'choosing'}
-    <div class="flex w-full flex-col gap-4 pt-8">
+    <div class="w-full space-y-4 pt-8">
       {#if allowGuest}
         {@render setStateButton(choices.guest.name, choices.guest.getAction(modal, action))}
       {/if}

@@ -30,14 +30,14 @@
 
 <svelte:head><title>{home.headTitle}</title></svelte:head>
 
-<div class="pointer-events-none fixed inset-0 -z-10 h-full w-full overflow-clip grayscale filter select-none">
+<div class="pointer-events-none fixed inset-0 -z-10 size-full overflow-clip grayscale filter select-none">
   <GrainyFilter />
   {#each imageLinks.home.bgImages as image, index (index)}
     <div>
       <div
         style="background-image: url({image})"
         class={[
-          'absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat brightness-[65%] transition-opacity duration-[2s]',
+          'absolute inset-0 size-full bg-cover bg-center bg-no-repeat brightness-[65%] transition-opacity duration-[2s]',
           index === currentImageIndex ? 'opacity-60' : 'opacity-0',
         ]}
       ></div>
@@ -45,7 +45,7 @@
   {/each}
 </div>
 
-<div class="flex h-full w-full flex-col items-center justify-center px-5">
+<div class="flex size-full flex-col items-center justify-center px-5">
   <div>
     <div class="mb-4 select-none">
       <div>

@@ -87,14 +87,14 @@
 
 <div
   class={[
-    'flex w-full flex-col gap-1.5 overflow-x-clip p-3',
+    'w-full space-y-1.5 overflow-x-clip p-3',
     background && 'bg-background shadow-2xl',
     pendingRemoval && 'brightness-75',
   ]}
 >
   <div class="relative flex w-full items-center justify-between">
     <div class="flex gap-4">
-      <div class="h-[100px] w-[100px]">
+      <div class="size-[100px]">
         <a href="/{page.params.country}/shop/products/{product.id}">
           <img alt={product.images[0].alt} height="100" src={product.images[0].url} width="100" />
         </a>

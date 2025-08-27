@@ -72,7 +72,7 @@
         <div class="mb-2 flex w-full justify-center">
           <div
             class={[
-              "flex h-4 w-4 items-center justify-center rounded-full bg-background-dark after:h-2 after:w-2 after:rounded-full after:bg-primary after:transition-opacity after:content-['']",
+              "flex size-4 items-center justify-center rounded-full bg-background-dark after:size-2 after:rounded-full after:bg-primary after:transition-opacity after:content-['']",
               shippingMethod.id === selectedShippingMethodId ? 'after:opacity-100' : 'after:opacity-0',
             ]}
           ></div>

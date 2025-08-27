@@ -19,9 +19,14 @@
 
 {#snippet headerLogo()}
   <ShrinkOnClickWrapper>
-    <div class="flex h-16 w-16 items-center justify-center">
-      <a class="imageLink flex h-full w-full items-center justify-center" href="/{page.params.country}/">
-        <img class="logoImage h-12 w-12 object-contain" alt="logo" fetchpriority="high" src="/images/logo.webp" />
+    <div class="flex size-16 items-center justify-center">
+      <a class="group flex size-full items-center justify-center" href="/{page.params.country}/">
+        <img
+          class="size-12 object-contain transition-[scale] duration-300 group-hover:scale-130"
+          alt="logo"
+          fetchpriority="high"
+          src="/images/logo.webp"
+        />
       </a>
     </div>
   </ShrinkOnClickWrapper>
@@ -72,15 +77,3 @@
     {@render headerLogo()}
   </div>
 </nav>
-
-<style>
-  .logoImage {
-    transition: scale 300ms ease-in-out;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .imageLink:hover > .logoImage {
-      scale: 130%;
-    }
-  }
-</style>

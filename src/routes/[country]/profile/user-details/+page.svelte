@@ -121,7 +121,7 @@
     </table>
     {#if user.address}{:else}{/if}
     {#if !editing}
-      <div class="flex flex-col gap-5">
+      <div class="space-y-5">
         <Button class="w-16" onclick={onEditClick} type="button">{profile.userDetails.edit}</Button>
         {#if user.isValidated}
           <Button class="w-fit" onclick={onChangePasswordClick}>{profile.userDetails.changePassword}</Button>

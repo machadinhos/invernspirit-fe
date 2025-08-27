@@ -54,7 +54,7 @@
   {#if type === 'button'}
     <button
       bind:this={ref}
-      class="outer-element relative flex h-9 w-9 cursor-pointer items-center justify-center"
+      class="outer-element relative flex size-9 cursor-pointer items-center justify-center"
       aria-label={ariaLabel}
       {onclick}
       type="button"
@@ -64,14 +64,14 @@
   {:else if type === 'anchor'}
     <a
       bind:this={ref}
-      class="outer-element relative flex h-9 w-9 cursor-pointer items-center justify-center"
+      class="outer-element relative flex size-9 cursor-pointer items-center justify-center"
       aria-label={ariaLabel}
       {href}
     >
       {@render innerElements()}
     </a>
   {:else}
-    <div bind:this={ref} class="outer-element relative flex h-9 w-9 cursor-pointer items-center justify-center">
+    <div bind:this={ref} class="outer-element relative flex size-9 cursor-pointer items-center justify-center">
       {@render innerElements()}
     </div>
   {/if}

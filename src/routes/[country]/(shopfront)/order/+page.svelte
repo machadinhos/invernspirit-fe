@@ -82,7 +82,7 @@
 
 <svelte:head><title>{orderContent.headTitle}</title></svelte:head>
 
-<div class="flex h-full w-full flex-col items-center">
+<div class="flex size-full flex-col items-center">
   {#if order === null}
     <h1>Order not found</h1>
   {:else if issue === 'ask-for-email'}

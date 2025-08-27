@@ -86,7 +86,7 @@
 
 <svelte:head><title>{checkout.headTitle}</title></svelte:head>
 
-<div class="flex h-full w-full flex-col items-center">
+<div class="flex size-full flex-col items-center">
   {#if stages && selectedStageName && enabledStages}
     <div class="mt-4 mb-4 flex flex-col items-center">
       <div class="ml-2 flex gap-3">

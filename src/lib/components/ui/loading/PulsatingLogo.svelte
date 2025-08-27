@@ -1,4 +1,4 @@
-<div style="background-image: url(/images/logo.webp)" class="pulsating-image h-44 w-44 bg-cover"></div>
+<div style="background-image: url(/images/logo.webp)" class="pulsating-image size-44 bg-cover"></div>
 
 <style>
   .pulsating-image {

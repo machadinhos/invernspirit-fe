@@ -23,7 +23,7 @@
 </script>
 
 {#if orders !== undefined}
-  <div class="flex flex-col gap-5">
+  <div class="space-y-5">
     {#each orders as order (order.id)}
       <OrderSummary country={data.country} {order} />
     {:else}

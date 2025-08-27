@@ -43,7 +43,7 @@
 </script>
 
 {#if review}
-  <div class="mb-4 flex flex-col gap-5">
+  <div class="mb-4 space-y-5">
     <ReviewSection
       hasEditButton={review.personalDetails.isEditable}
       onEditButtonClick={generateGoToSectionClick('personal-details')}

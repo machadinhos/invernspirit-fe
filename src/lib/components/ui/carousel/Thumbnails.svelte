@@ -29,11 +29,11 @@
     <div class={['embla__container', axis === 'x' && 'axisX', axis === 'y' && 'axisY']}>
       {#each images as { url, alt }, index (index)}
         <button
-          class={['embla__slide transition-all', index !== selectedSlide && 'brightness-50']}
+          class={['embla__slide transition-[brightness]', index !== selectedSlide && 'brightness-50']}
           onclick={generateOnclickCallback(index)}
           type="button"
         >
-          <img class="h-full w-full object-cover" {alt} src={url} />
+          <img class="size-full object-cover" {alt} src={url} />
         </button>
       {/each}
     </div>

@@ -28,7 +28,7 @@
       {@render priceLine(`${tax.name} (${tax.rate * 100}%)`, tax.amount, 'text-2xl')}
     {/each}
     <div class="mt-2 w-full">
-      <div class="mb-3 flex flex-col gap-0.5">
+      <div class="mb-3 space-y-0.5">
         <div class="h-0.5 bg-white"></div>
         {@render priceLine(orderContent.total, order.payment.grossAmount, 'text-4xl')}
         <div class="h-0.5 bg-white"></div>

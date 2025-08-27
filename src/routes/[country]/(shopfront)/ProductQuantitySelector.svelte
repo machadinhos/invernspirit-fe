@@ -41,7 +41,7 @@
 
 {#snippet quantityButton(type: 'increment' | 'decrement')}
   <Button
-    class="h-7 w-7 px-0 py-0"
+    class="size-7 px-0 py-0"
     disabled={type === 'increment' ? !canIncrementSelectedQuantity : !canDecrementSelectedQuantity}
     onclick={type === 'increment' ? incrementSelectedQuantity : decrementSelectedQuantity}
     >{type === 'increment' ? '+' : '-'}</Button

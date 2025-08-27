@@ -33,7 +33,7 @@
   </li>
 {/snippet}
 
-<div class="flex h-full w-full justify-center">
+<div class="flex size-full justify-center">
   <div class="mt-10 flex h-fit w-[90%] max-w-[675px] flex-col items-center md:bg-background-dark md:shadow-2xl">
     <div class="relative w-full pt-10">
       <ul class="flex w-full">
@@ -42,7 +42,7 @@
       </ul>
       <div
         style="left: {selected === 'sign-in' ? '12.5%' : '62.5%'}"
-        class="pointer-events-none absolute bottom-0.5 h-0.5 w-[25%] bg-white transition-all duration-500 select-none"
+        class="pointer-events-none absolute bottom-0.5 h-0.5 w-[25%] bg-white transition-[left] duration-500 select-none"
       ></div>
     </div>
     <div class="mt-5 mb-10 w-full md:w-[75%]">

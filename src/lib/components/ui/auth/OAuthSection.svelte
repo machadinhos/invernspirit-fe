@@ -89,7 +89,7 @@
 )}
   <button
     class={[
-      'oauth-button flex h-[35px] w-full items-center justify-center gap-2 rounded-2xl border transition-all hover:scale-110',
+      'oauth-button flex h-[35px] w-full items-center justify-center gap-2 rounded-2xl border transition-[scale] hover:scale-110',
       processing && 'brightness-50',
     ]}
     aria-label={label}
