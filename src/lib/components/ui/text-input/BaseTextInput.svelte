@@ -37,7 +37,7 @@
         id={field.id}
         name={field.name}
         class={[
-          'peer min-h-24 w-full border-b-2 border-white bg-transparent focus:border-primary focus:outline-hidden',
+          'peer field-sizing-content max-h-72 min-h-20 w-full border-b-2 border-white bg-transparent focus:border-primary focus:outline-hidden',
           className,
         ]}
         autocomplete="off"
