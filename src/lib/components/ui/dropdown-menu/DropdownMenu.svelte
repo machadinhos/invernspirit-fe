@@ -35,7 +35,7 @@
   let menuPositionStyle = $derived.by((): string => {
     if (isFullWidth) {
       if (!triggerElementRef) return '';
-      const top = triggerElementRef.offsetTop + triggerElementRef.offsetHeight + 10;
+      const top = triggerElementRef.getBoundingClientRect().top + triggerElementRef.offsetHeight + 10;
       return `position: fixed; top: ${top}px; left: 0; width: 100%;`;
     }
     return position === 'left'

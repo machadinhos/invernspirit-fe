@@ -6,23 +6,35 @@
   let { children }: Props = $props();
 </script>
 
-<li>
+<li data-test="outer">
   <span class="list-item-class">
     {@render children()}
   </span>
-  <div class="flex justify-center">
-    <div class="underline-class h-0.5 w-0 bg-white"></div>
-  </div>
 </li>
 
 <style>
-  .underline-class {
-    transition: width 300ms ease-in-out;
+  .list-item-class {
+    display: inline;
+    position: relative;
+  }
+
+  .list-item-class::after {
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -0.25rem;
+    width: 100%;
+    height: 2px;
+    background: white;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    transition: transform 300ms ease-in-out;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .list-item-class:hover ~ div > .underline-class {
-      width: 100%;
+    .list-item-class:hover::after {
+      transform: translateX(-50%) scaleX(1);
     }
   }
 </style>
