@@ -19,7 +19,7 @@
       <h3>{about.subtitle1}</h3>
       <p>{about.text1}</p>
       <p>{about.text2}</p>
-      <div class="flex w-full flex-col-reverse gap-4 lg:flex-row lg:gap-20">
+      <div class="flex w-full gap-4 max-lg:flex-col-reverse lg:gap-20">
         <div class="space-y-4 lg:w-3/5">
           <p>{about.text3}</p>
           <p>{about.text4}</p>

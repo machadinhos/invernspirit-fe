@@ -50,7 +50,7 @@
   };
 </script>
 
-<div class="flex w-full flex-1 flex-col items-center md:flex-row md:items-start md:justify-center md:gap-10">
+<div class="flex w-full flex-1 items-center max-md:flex-col md:items-start md:justify-center md:gap-10">
   <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
     <div class="flex gap-1">
       {orderContent.orderId}:

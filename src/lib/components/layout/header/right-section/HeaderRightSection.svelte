@@ -16,7 +16,7 @@
 </script>
 
 <div class="mt-8 flex w-20 items-center justify-end gap-4 xl:w-52">
-  <div class="hidden xl:block">
+  <div class="max-xl:hidden">
     <CountrySelector {countries} />
   </div>
   <UserButton />

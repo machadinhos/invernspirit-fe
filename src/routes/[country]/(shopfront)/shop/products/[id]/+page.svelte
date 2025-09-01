@@ -86,7 +86,7 @@
 
 <svelte:head><title>{`${shop.products.id.headTitle}${data.product.name}`}</title></svelte:head>
 
-<div class="margins flex flex-col gap-5 lg:flex-row">
+<div class="margins flex gap-5 max-lg:flex-col">
   <div class="flex justify-center lg:w-1/2">
     <ThumbnailCarousel images={data.product.images} />
   </div>

@@ -3,7 +3,6 @@
   import { common } from '$content';
   import { FaSolidChevronDown } from 'svelte-icons-pack/fa';
   import { Icon } from 'svelte-icons-pack';
-  import NavbarItem from './NavbarItem.svelte';
   import { page } from '$app/state';
 
   let isOpen = $state(false);
@@ -34,7 +33,7 @@
 
 <nav class="mt-5 flex justify-center">
   <ul class="hidden h-full items-center gap-28 text-xl xl:flex">
-    <NavbarItem>
+    <li>
       <DropdownMenu isFullWidth bind:isOpen>
         {#snippet triggerElement()}
           <button class="flex items-center gap-1.5" onclick={toggleDropdown} type="button">
@@ -58,22 +57,49 @@
           </DropdownMenuItem>
         </div>
       </DropdownMenu>
-    </NavbarItem>
-    <NavbarItem>
-      <a href="/{page.params.country}/about">{common.header.pages.about}</a>
-    </NavbarItem>
+    </li>
     <li>
+      <a href="/{page.params.country}/about">{common.header.pages.about}</a>
+    </li>
+    <li class="logo">
       {@render headerLogo()}
     </li>
-    <NavbarItem>
+    <li>
       <a href="/{page.params.country}/contact">{common.header.pages.contact}</a>
-    </NavbarItem>
-    <NavbarItem>
+    </li>
+    <li>
       <a class="h-full" href="/{page.params.country}/faq">{common.header.pages.faq}</a>
-    </NavbarItem>
+    </li>
   </ul>
 
   <div class="xl:hidden">
     {@render headerLogo()}
   </div>
 </nav>
+
+<style>
+  li:not(.logo) {
+    display: inline;
+    position: relative;
+  }
+
+  li:not(.logo)::after {
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -0.25rem;
+    width: 100%;
+    height: 2px;
+    background: white;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    transition: transform 300ms ease-in-out;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    li:not(.logo):hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+  }
+</style>

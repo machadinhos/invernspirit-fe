@@ -56,15 +56,13 @@
 <svelte:head><title>{contactUs.headTitle}</title></svelte:head>
 
 <div class="flex size-full justify-center">
-  <div
-    class="mt-10 flex h-fit w-[95%] flex-col items-center py-14 sm:w-[80%] md:w-[65%] md:bg-background-dark md:shadow-2xl lg:w-[50%] xl:w-[30%]"
-  >
+  <div class="mt-10 flex h-fit w-[90%] max-w-[675px] flex-col items-center py-14 md:bg-background-dark md:shadow-2xl">
     <UnderLine>
       <h1 style="font-size: 2.5rem" class="text-center">
         {contactUs.title}
       </h1>
     </UnderLine>
-    <div class="mt-5 w-[75%]">
+    <div class="mt-5 w-full md:w-[75%]">
       <form onsubmit={submitMessage}>
         {#each Object.values(formFields) as field (field.id)}
           <div class="w-full">

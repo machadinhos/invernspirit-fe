@@ -98,7 +98,7 @@
       {cart.title}
     </h1>
   </UnderLine>
-  <div class="flex size-full flex-col items-center md:flex-row md:items-start md:justify-center md:gap-5 lg:gap-10">
+  <div class="flex size-full items-center max-md:flex-col md:items-start md:justify-center md:gap-5 lg:gap-10">
     <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
       {#if config.isInitialized && cartLoaded}
         {#each cartState.value as product (product.id)}
@@ -106,7 +106,7 @@
             <LineItemCard country={data.country} editable {product} pushToastOnQuantityUpdate={false} />
           </div>
         {:else}
-          <div class="mt-24 text-center text-2xl md:flex md:gap-1.5">
+          <div class="mt-24 text-center text-2xl md:flex md:gap-1.5 md:justify-center">
             <span>{cart.emptyCartMessage}</span>
             <Anchor class="block" href="/{page.params.country}/shop/products">{cart.fillUpCTA}</Anchor>
           </div>
@@ -120,7 +120,7 @@
         country={data.country}
         onclick={onCheckout}
       />
-      <div class="mx-[10%] mb-5 hidden md:block">
+      <div class="mx-[10%] mb-5 max-md:hidden">
         <div class="flex items-center gap-2">
           <div class="h-0.5 w-full bg-white"></div>
           {cart.or}

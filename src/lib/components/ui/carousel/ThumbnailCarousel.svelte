@@ -51,7 +51,7 @@
   });
 </script>
 
-<div class="flex flex-col-reverse select-none lg:flex-row">
+<div class="flex select-none max-lg:flex-col-reverse">
   <div class="hidden h-[35vw] w-[8.75vw] lg:block">
     <Thumbnails axis="y" {emblaApi} {images} {selectedSlide} bind:thumbsApi={verticalThumbsApi} />
   </div>

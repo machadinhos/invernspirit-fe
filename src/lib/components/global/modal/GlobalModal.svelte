@@ -37,13 +37,10 @@
   .modal-dialog {
     max-width: none;
     max-height: none;
-    margin: 0;
+    margin: auto;
     padding: 0;
     border: none;
     background: transparent;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 </style>

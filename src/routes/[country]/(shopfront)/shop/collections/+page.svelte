@@ -18,7 +18,7 @@
       <h1 class="text-center text-5xl">{shop.collections.title}</h1>
     </div>
 
-    <div class="flex flex-col gap-4 md:h-full md:flex-row md:justify-center md:gap-2">
+    <div class="flex gap-4 max-md:flex-col md:h-full md:justify-center md:gap-2">
       {#each data.collections as { id, name, image } (id)}
         <a class="h-36 md:h-auto" href={`/${page.params.country}/shop/collections/${id}`}>
           <div class="relative h-full md:h-full md:w-[200px]">

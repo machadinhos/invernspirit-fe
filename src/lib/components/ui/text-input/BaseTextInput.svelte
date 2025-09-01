@@ -13,7 +13,7 @@
   let { field, type, label, trailingIcon, class: className }: Props = $props();
 </script>
 
-<div class={[label && 'pt-2.5']}>
+<div class={[label && 'pt-2.5', !field.isValid && 'caret-error-light']}>
   <div class="relative">
     {#if field.type !== 'textarea'}
       <input
@@ -64,7 +64,7 @@
       </label>
     {/if}
     <p
-      class={['pointer-events-none text-sm text-error-light select-none', !field.isValid ? 'opacity-100' : 'opacity-0']}
+      class={['pointer-events-none text-sm text-error-light select-none', field.isValid ? 'opacity-0' : 'opacity-100']}
     >
       {field.invalidText}
     </p>

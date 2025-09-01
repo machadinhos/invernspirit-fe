@@ -66,7 +66,7 @@
 
 <div class="fixed bottom-0 z-100 w-full bg-background p-4 text-justify">
   {#if !customizing}
-    <div class="flex flex-col gap-4 md:flex-row md:justify-between">
+    <div class="flex gap-4 max-md:flex-col md:justify-between">
       <div class="space-y-2">
         <h2 class="text-2xl">{common.cookieConsent.title}</h2>
         <p>{common.cookieConsent.text1}</p>
@@ -85,7 +85,7 @@
     </div>
   {:else if customizing}
     <h2 class="mb-2 text-2xl">{common.cookieConsent.customizationSection.title}</h2>
-    <div class="flex flex-col gap-4 md:flex-row md:justify-between">
+    <div class="flex gap-4 max-md:flex-col md:justify-between">
       <div class="flex-1">
         <CheckBox
           name="necessary-cookies"

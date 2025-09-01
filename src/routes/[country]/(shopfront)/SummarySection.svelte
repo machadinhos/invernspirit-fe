@@ -8,14 +8,12 @@
 
 <script lang="ts">
   import { cart as cartState, config } from '$state';
-  import { browser } from '$app/environment';
   import { Button } from '$components';
   import { cart } from '$content';
   import type { Country } from '$types';
   import { FaSolidChevronUp } from 'svelte-icons-pack/fa';
   import { formatPrice } from '$lib/utils/currency-formatting';
   import { Icon } from 'svelte-icons-pack';
-  import { untrack } from 'svelte';
 
   type Props = {
     country: Country;
@@ -34,7 +32,6 @@
     buttonDisabled = false,
     additionalCharges = [],
   }: Props = $props();
-  const id = $props.id();
 
   let totalPrice = $derived(
     cartState.value.reduce((sum, item) => sum + item.grossPrice * item.quantity, 0) +
@@ -66,12 +63,6 @@
     isExpanded = !isExpanded;
   };
 
-  const calculateExtraPricesHeight = (): string => {
-    if (!browser) return 'auto';
-    const extraPricesElement = document.getElementById(`${id}-extra-prices`);
-    return extraPricesElement ? `${extraPricesElement.scrollHeight}px` : 'auto';
-  };
-
   const onpointerdown = (e: PointerEvent): void => {
     if (dragging || e.pointerType !== 'touch') return;
     startY = e.clientY;
@@ -92,15 +83,6 @@
   const onpointercancelOrPointerup = (): void => {
     dragging = false;
   };
-
-  $effect(() => {
-    additionalCharges = additionalCharges;
-    if (!untrack(() => isExpanded)) return;
-    const extraPricesElement = document.getElementById(`${id}-extra-prices`);
-    if (!extraPricesElement) return;
-    extraPricesElement.style.height = 'auto';
-    extraPricesElement.style.height = `${extraPricesElement.scrollHeight}px`;
-  });
 </script>
 
 {#snippet priceLine(text: string, price: number, textSize: 'text-2xl' | 'text-4xl')}
@@ -116,17 +98,20 @@
   </div>
 {/snippet}
 
-<div class="relative flex w-full justify-center bg-secondary p-5">
+<div class="flex w-full justify-center bg-secondary p-5 max-md:pt-0">
   <div class="flex w-full flex-col justify-end">
     <div
       bind:this={expandElement}
-      class="touch-pan-x"
+      class={[
+        'grid touch-pan-x [grid-template-rows:auto_0fr] transition-all duration-300',
+        isExpanded && '[grid-template-rows:auto_1fr]',
+      ]}
       onpointercancel={onpointercancelOrPointerup}
       {onpointerdown}
       {onpointermove}
       onpointerup={onpointercancelOrPointerup}
     >
-      <div class="absolute inset-0 h-fit w-full md:hidden">
+      <div class="h-fit w-full md:hidden">
         <button
           class={[
             'flex h-6 w-full items-center justify-center [&>svg]:transition-[rotate] [&>svg]:duration-300',
@@ -136,11 +121,7 @@
           type="button"><Icon src={FaSolidChevronUp} /></button
         >
       </div>
-      <div
-        id="{id}-extra-prices"
-        style="height: {isExpanded ? calculateExtraPricesHeight() : '0px'};"
-        class="overflow-clip transition-[height] duration-300"
-      >
+      <div class="overflow-hidden">
         {@render priceLine(cart.subtotal, subTotalPrice, 'text-2xl')}
         {#each additionalCharges as { price, name } (name)}
           {@render priceLine(name, price, 'text-2xl')}

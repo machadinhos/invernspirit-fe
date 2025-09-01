@@ -25,7 +25,7 @@
     background: white;
     position: absolute;
     left: 50%;
-    bottom: -0.25rem;
+    bottom: -0.125rem;
     width: var(--width-percent);
     height: 2px;
     transform: translateX(-50%);

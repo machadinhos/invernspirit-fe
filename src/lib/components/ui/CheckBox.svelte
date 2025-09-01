@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { draw, scale } from 'svelte/transition';
   import type { ClassValue } from 'svelte/elements';
-  import { scale } from 'svelte/transition';
 
   type Props = {
     checked: boolean;
@@ -26,6 +26,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="3"
+            in:draw
           />
         </svg>
       {/if}

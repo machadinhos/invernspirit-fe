@@ -33,12 +33,14 @@
 
 <svelte:head><title>{shop.search.headTitle}</title></svelte:head>
 
-{#if products !== undefined}
-  <h1 class="mb-9 text-center text-5xl">{shop.search.title}</h1>
+<div class="paddings">
+  {#if products !== undefined}
+    <h1 class="mb-9 text-center text-5xl">{shop.search.title}</h1>
 
-  {#if products.length === 0}
-    <p class="text-center">{shop.search.noResults} "{page.url.searchParams.get('q')}"</p>
-  {:else}
-    <ProductGrid country={data.country} {products} />
+    {#if products.length === 0}
+      <p class="text-center">{shop.search.noResults} "{page.url.searchParams.get('q')}"</p>
+    {:else}
+      <ProductGrid country={data.country} {products} />
+    {/if}
   {/if}
-{/if}
+</div>

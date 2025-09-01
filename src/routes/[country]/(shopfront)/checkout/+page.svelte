@@ -116,7 +116,7 @@
       <div class="pointer-events-none h-0.5 w-32 bg-white select-none"></div>
     </div>
     <Form
-      class="flex w-full flex-1 flex-col items-center md:flex-row md:items-start md:justify-center md:gap-5 lg:gap-10"
+      class="flex w-full flex-1 items-center max-md:flex-col md:items-start md:justify-center md:gap-5 lg:gap-10"
       onsubmit={finalOnStageSubmit}
       bind:processing
     >

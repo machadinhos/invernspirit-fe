@@ -15,7 +15,7 @@
 
 <svelte:head><title>{shop.collections.headTitle}</title></svelte:head>
 
-<div class="paddings flex flex-col lg:h-full lg:flex-row lg:items-center">
+<div class="paddings flex max-lg:flex-col lg:h-full lg:items-center">
   <div class="flex flex-row-reverse justify-end lg:w-1/2 lg:flex-col lg:pl-40">
     <h1 class="ml-3 text-5xl">{data.collection.name}</h1>
     <div class="mt-5 w-fit">
