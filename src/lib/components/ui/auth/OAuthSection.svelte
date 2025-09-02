@@ -60,12 +60,12 @@
         const {
           user: signedInUser,
           cart: signedInCart,
-          newUser,
+          isNewUser,
         } = await bffClient.user.oauth.google.callback(page.params.country, url);
         user.value = signedInUser;
         cart.setCart(signedInCart);
 
-        gtag('event', newUser ? 'sign_up' : 'login', {
+        gtag('event', isNewUser ? 'sign_up' : 'login', {
           method: 'Google',
         });
 

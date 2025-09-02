@@ -21,7 +21,7 @@ export const prepareOauthGoogleGetRedirect: Endpoint<OauthGoogleGetRedirectRespo
 type OauthGoogleCallbackResponse = {
   user: UserDetails;
   cart: Cart;
-  newUser: boolean;
+  isNewUser: boolean;
 };
 
 export const prepareOauthGoogleCallback: Endpoint<OauthGoogleCallbackResponse, [URL]> = (context) => {
