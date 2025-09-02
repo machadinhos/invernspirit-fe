@@ -53,7 +53,7 @@ export const prepareSetPersonalDetails: Endpoint<BaseCheckoutResponse, [Personal
 };
 
 type AddressResponse = {
-  address?: ExtendedAddress;
+  address?: ExtendedAddress & { saveAddress?: boolean };
 } & BaseCheckoutResponse;
 
 export const prepareGetAddress: Endpoint<AddressResponse> = (context) => {

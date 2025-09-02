@@ -1,6 +1,6 @@
 <script lang="ts">
   import { CheckBox, TextInput, TextInputWithAutocomplete } from '$components';
-  import type { CheckoutStage, Country } from '$types';
+  import type { CheckoutStage, Country, ExtendedAddress } from '$types';
   import {
     FormField,
     mapFormFieldsToValues,
@@ -107,7 +107,11 @@
 
   onMount(async () => {
     const { address } = await bffClient.checkout.stages.address.get(page.params.country);
-    if (address && address.country === country.code) populateFormFields(formFields, address);
+    if (address && address.country === country.code) {
+      saveAddress = address.saveAddress ?? false;
+      delete address.saveAddress;
+      populateFormFields(formFields, address as Omit<ExtendedAddress, 'saveAddress'>);
+    }
 
     onStageSubmit = onFormSubmit;
   });
