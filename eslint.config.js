@@ -61,6 +61,7 @@ export default ts.config(
       'prefer-template': 'error',
       'no-implicit-coercion': 'error',
       'dot-notation': 'error',
+      'svelte/no-navigation-without-resolve': 'off',
       'svelte/no-useless-mustaches': 'error',
       'svelte/no-inspect': 'error',
       'svelte/no-at-debug-tags': 'error',

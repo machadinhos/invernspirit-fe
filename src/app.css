@@ -27,6 +27,12 @@ h5 {
   font-family: 'Cormorant SC', serif;
 }
 
+input,
+textarea {
+  appearance: none;
+  outline: none;
+}
+
 input[type='search']::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }

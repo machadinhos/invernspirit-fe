@@ -124,7 +124,7 @@
       <div class="space-y-5">
         <Button class="w-16" onclick={onEditClick} type="button">{profile.userDetails.edit}</Button>
         {#if user.isValidated}
-          <Button class="w-fit" onclick={onChangePasswordClick}>{profile.userDetails.changePassword}</Button>
+          <Button onclick={onChangePasswordClick}>{profile.userDetails.changePassword}</Button>
         {/if}
       </div>
     {:else}

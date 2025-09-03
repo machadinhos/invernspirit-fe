@@ -20,11 +20,7 @@
         {...field.additionalElementAttributes}
         id={field.id}
         name={field.name}
-        class={[
-          'peer h-10 w-full border-b-2 border-white bg-transparent focus:border-primary focus:outline-hidden',
-          trailingIcon && 'pr-6',
-          className,
-        ]}
+        class={['peer h-10 w-full border-b-2 border-white focus:border-primary', trailingIcon && 'pr-6', className]}
         autocomplete={field.autocomplete}
         onblur={field.onblur}
         oninput={field.oninput}
@@ -37,7 +33,7 @@
         id={field.id}
         name={field.name}
         class={[
-          'peer field-sizing-content max-h-72 min-h-20 w-full border-b-2 border-white bg-transparent focus:border-primary focus:outline-hidden',
+          'peer field-sizing-content max-h-72 min-h-20 w-full border-b-2 border-white focus:border-primary',
           className,
         ]}
         autocomplete="off"
