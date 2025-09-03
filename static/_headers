@@ -1,12 +1,12 @@
 /*
-  Content-Security-Policy: frame-ancestors 'none';
+  Content-Security-Policy: frame-ancestors 'none'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://www.googletagmanager.com;
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=(), clipboard-read=(), clipboard-write=(self), usb=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   x-content-type-options: nosniff
 
-# Remove headers on API requests
+# Don't apply headers on API requests
 /api/*
   ! Content-Security-Policy
   ! X-Frame-Options
