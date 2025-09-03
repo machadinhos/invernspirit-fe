@@ -51,7 +51,7 @@
       }, 500);
 
       cleanUpMessageListener = on(window, 'message', async (event) => {
-        if (event.origin !== window.location.origin) return;
+        if (event.origin !== window.location.origin || !event.data.href || event.source !== popup) return;
         clearInterval(checkPopupClosedInterval);
         popup.close();
         cleanUpMessageListener?.();
