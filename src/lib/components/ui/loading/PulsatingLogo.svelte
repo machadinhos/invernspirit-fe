@@ -2,7 +2,7 @@
 
 <style>
   .pulsating-image {
-    filter: drop-shadow(0 0 5px white);
+    filter: drop-shadow(0 0 5px #fff);
     animation: pulsate 1.5s infinite;
   }
 

@@ -119,14 +119,11 @@
       {@render detailLine(profile.userDetails.firstName, user.firstName, formFields.firstName)}
       {@render detailLine(profile.userDetails.lastName, user.lastName, formFields.lastName)}
     </table>
-    {#if user.address}{:else}{/if}
     {#if !editing}
-      <div class="space-y-5">
-        <Button class="w-16" onclick={onEditClick} type="button">{profile.userDetails.edit}</Button>
-        {#if user.isValidated}
-          <Button onclick={onChangePasswordClick}>{profile.userDetails.changePassword}</Button>
-        {/if}
-      </div>
+      <Button class="my-3 w-16" onclick={onEditClick} type="button">{profile.userDetails.edit}</Button>
+      {#if user.isValidated}
+        <Button class="w-fit" onclick={onChangePasswordClick}>{profile.userDetails.changePassword}</Button>
+      {/if}
     {:else}
       <div class="flex gap-5">
         <Button disabled={processing} onclick={onCancelChanges} type="button"

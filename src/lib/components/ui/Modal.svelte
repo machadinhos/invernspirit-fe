@@ -27,10 +27,9 @@
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #0000004d;
+    display: grid;
+    place-items: center;
     z-index: 45;
   }
 </style>

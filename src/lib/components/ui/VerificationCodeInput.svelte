@@ -103,7 +103,7 @@
   {#each Array.from({ length }, (_, i) => i) as index (index)}
     <input
       id="{id}-input-{index}"
-      class="{id}-input w-7 border-b-2 border-white text-center focus:border-b-primary focus:outline-hidden"
+      class="{id}-input w-7 border-b-2 border-white text-center focus:border-b-primary"
       aria-label="code digit {index + 1}"
       autocomplete="off"
       inputmode={type === 'numeric' ? 'numeric' : 'text'}

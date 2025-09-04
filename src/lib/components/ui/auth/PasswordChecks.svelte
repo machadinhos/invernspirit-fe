@@ -13,9 +13,7 @@
 
 {#snippet passwordCheck(text: string, error: boolean)}
   <div class="flex items-center gap-2">
-    <div class={error ? 'text-error' : 'text-success'}>
-      <Icon src={error ? XMarkIcon : CheckIcon} />
-    </div>
+    <Icon color={error ? 'var(--color-error)' : 'var(--color-success)'} src={error ? XMarkIcon : CheckIcon} />
     {text}
   </div>
 {/snippet}

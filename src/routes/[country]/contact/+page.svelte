@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, TextInput, UnderLine } from '$components';
+  import { Button, TextInput } from '$components';
   import { FormField, validateFormFields } from '$lib/utils/form-fields.svelte';
   import { validateEmail, validateRequiredInput } from '$lib/utils/input-validation';
   import { contactUs } from '$content';
@@ -57,11 +57,9 @@
 
 <div class="flex size-full justify-center">
   <div class="mt-10 flex h-fit w-[90%] max-w-[675px] flex-col items-center py-14 md:bg-background-dark md:shadow-2xl">
-    <UnderLine>
-      <h1 style="font-size: 2.5rem" class="text-center">
-        {contactUs.title}
-      </h1>
-    </UnderLine>
+    <h1 style="font-size: 2.5rem" class="lineunder">
+      {contactUs.title}
+    </h1>
     <div class="mt-5 w-full md:w-[75%]">
       <form onsubmit={submitMessage}>
         {#each Object.values(formFields) as field (field.id)}

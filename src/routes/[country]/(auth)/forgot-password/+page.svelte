@@ -23,8 +23,8 @@
 <svelte:head><title>{auth.forgotPassword.headTitle}</title></svelte:head>
 
 {#if pageState}
-  <div class="flex size-full items-center justify-center">
-    <div class="flex w-[90%] max-w-[700px] flex-col items-center py-6 md:bg-background-dark">
+  <div class="grid size-full place-items-center">
+    <div class="flex w-[90%] max-w-[700px] justify-center py-6 md:bg-background-dark">
       <div class="w-[85%]">
         {#if pageState === 'ask-email'}
           <AskEmail />

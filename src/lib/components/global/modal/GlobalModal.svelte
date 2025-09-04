@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade, scale } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
   import type { Attachment } from 'svelte/attachments';
   import { modal } from '$state';
   import ModalBody from './ModalBody.svelte';
@@ -15,32 +15,28 @@
 </script>
 
 {#if modal.value}
-  <div class="modal-wrapper fixed inset-0 z-50 h-screen w-screen backdrop-blur-sm" in:fade|global>
-    <dialog
-      class="modal-dialog flex w-fit items-center justify-center"
-      {@attach dialogAttachment}
-      {onclose}
-      in:scale|global
-    >
-      <div {@attach onClickOutside({ callback: onclose })}>
-        <ModalBody modal={modal.value} />
-      </div>
-    </dialog>
-  </div>
+  <dialog class="w-fit" {@attach dialogAttachment} {onclose} in:scale|global>
+    <div {@attach onClickOutside({ callback: onclose })}>
+      <ModalBody modal={modal.value} />
+    </div>
+  </dialog>
 {/if}
 
 <style>
-  .modal-wrapper {
-    background: rgba(0, 0, 0, 0.4);
+  dialog {
+    margin: auto;
+    max-width: none;
+
+    &::backdrop {
+      background: #0000004d;
+      backdrop-filter: blur(8px);
+      transition: opacity 0.3s ease-in-out;
+    }
   }
 
-  .modal-dialog {
-    max-width: none;
-    max-height: none;
-    margin: auto;
-    padding: 0;
-    border: none;
-    background: transparent;
-    position: fixed;
+  @starting-style {
+    dialog::backdrop {
+      opacity: 0;
+    }
   }
 </style>

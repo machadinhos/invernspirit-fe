@@ -6,59 +6,79 @@
     accordionTrigger: Snippet<[Item['trigger']]>;
     accordionContent: Snippet<[Item['content']]>;
     items: Item[];
-    allowMultipleOpen?: boolean;
   };
 
-  let { accordionTrigger, accordionContent, items, allowMultipleOpen = true }: Props = $props();
-
-  let opened: number[] = $state([]);
-
-  const generateTriggerClickCallback = (index: number) => {
-    return (): void => {
-      const isOpen = opened.includes(index);
-
-      if (isOpen) opened.splice(opened.indexOf(index), 1);
-      else if (allowMultipleOpen) opened.push(index);
-      else opened = [index];
-    };
-  };
+  let { accordionTrigger, accordionContent, items }: Props = $props();
+  const id = $props.id();
 </script>
 
-<div class="space-y-1">
+<div class="out-container space-y-1">
   {#each items as item, index (index)}
-    {@const isOpened = opened.includes(index)}
-    <div
-      class={[
-        'grid w-full [grid-template-rows:2.5em_0fr] bg-background transition-all duration-200',
-        isOpened && '[grid-template-rows:2.5em_1fr]',
-      ]}
-    >
-      <button
-        class="relative w-full py-1 pr-4 pl-2 text-left"
-        onclick={generateTriggerClickCallback(index)}
-        type="button"
-      >
-        <div
-          class={[
-            'absolute top-1/2 right-2 size-fit -translate-y-1/2 transition-[rotate] duration-200',
-            isOpened && 'rotate-180',
-          ]}
-        >
-          <Icon
-            class={[
-              'absolute top-1/2 right-2 size-fit -translate-y-1/2 transition-[rotate] duration-200',
-              isOpened && 'rotate-180',
-            ]}
-            src={ChevronDownIcon}
-          />
-        </div>
-        {@render accordionTrigger(item.trigger)}
-      </button>
-      <div class="w-full overflow-hidden">
-        <div class="px-2 pt-3.5 pb-2">
+    {@const elementId = `accordion-${id}-${index}`}
+    <div>
+      <input id={elementId} type="checkbox" />
+      <label class="flex cursor-pointer items-center justify-between gap-2" for={elementId}>
+        <div>{@render accordionTrigger(item.trigger)}</div>
+        <Icon src={ChevronDownIcon} />
+      </label>
+      <div>
+        <div>
           {@render accordionContent(item.content)}
         </div>
       </div>
     </div>
   {/each}
 </div>
+
+<style>
+  .out-container {
+    & > div {
+      padding-inline: 0.5rem;
+      background: var(--color-background);
+      & > input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border-width: 0;
+        &:focus-visible {
+          & + label {
+            outline: 2px solid white;
+          }
+        }
+        &:checked {
+          & + label > :global(svg) {
+            rotate: 180deg;
+          }
+          & ~ div {
+            grid-template-rows: 1fr;
+            & > div {
+              padding-top: 0.875rem;
+              padding-bottom: 0.5rem;
+            }
+          }
+        }
+      }
+      & > label {
+        padding-block: 0.25rem;
+      }
+      & > div {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: all 0.2s ease-in-out;
+        & > div {
+          overflow: hidden;
+          padding-left: 0.5rem;
+          transition: padding 0.2s ease-in-out;
+        }
+      }
+      & > label > :global(svg) {
+        transition: rotate 0.2s ease-in-out;
+      }
+    }
+  }
+</style>

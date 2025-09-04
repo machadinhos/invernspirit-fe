@@ -13,12 +13,18 @@
   let { checked = $bindable(), label, class: className, disabled = false, name }: Props = $props();
 </script>
 
-<label class={['inline-flex w-max items-center gap-2', disabled ? 'cursor-not-allowed' : 'cursor-pointer', className]}>
-  <input {name} class="absolute hidden" {disabled} type="checkbox" bind:checked />
-  <div class="flex size-5 items-center justify-center border-2 border-text-secondary">
+<label
+  class={[
+    'inline-flex w-max items-center gap-2 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-white',
+    disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+    className,
+  ]}
+>
+  <input {name} class="sr-only" {disabled} type="checkbox" bind:checked />
+  <div class="grid size-5 place-items-center border-2 border-text-secondary">
     <div class="size-full">
       {#if checked}
-        <svg class={['bg-primary', disabled && 'brightness-[60%]']} class:checked viewBox="0 0 24 24" transition:scale>
+        <svg class={['bg-primary', disabled && 'brightness-[60%]']} viewBox="0 0 24 24" transition:scale>
           <path
             d="M4 12l5 5L20 7"
             fill="none"

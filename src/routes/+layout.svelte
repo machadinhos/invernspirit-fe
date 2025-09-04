@@ -74,9 +74,9 @@ function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],
 <GlobalModal />
 <ToastGroup />
 
-<div class="pointer-events-none fixed inset-0 -z-10 select-none">
+<div class="pointer-events-none fixed inset-0 -z-10 h-screen w-screen select-none">
   <GrainyFilter>
-    <div class="bg-background"></div>
+    <div class="h-screen w-screen bg-background-dark brightness-40"></div>
   </GrainyFilter>
 </div>
 

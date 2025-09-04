@@ -23,14 +23,12 @@
 </script>
 
 <footer class="w-full">
-  <form class={['flex h-fit w-full', hideSearchBarOnMobile && 'hidden md:flex']} onsubmit={doSearch}>
+  <form class={['flex w-full', hideSearchBarOnMobile && 'hidden md:flex']} onsubmit={doSearch}>
     <div class="flex w-full items-center bg-background">
-      <div class="px-2">
-        <Icon src={MagnifierIcon} />
-      </div>
+      <Icon class="mx-2" src={MagnifierIcon} />
       <input
         name="searchString"
-        class="w-full bg-background focus:border-none focus:outline-hidden"
+        class="w-full bg-background"
         aria-label={common.footer.searchBarPlaceholder}
         autocomplete="off"
         placeholder={common.footer.searchBarPlaceholder}

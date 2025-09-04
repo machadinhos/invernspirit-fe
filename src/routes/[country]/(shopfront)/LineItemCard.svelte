@@ -91,21 +91,19 @@
     pendingRemoval && 'brightness-75',
   ]}
 >
-  <div class="relative flex w-full items-center justify-between">
-    <div class="flex gap-4">
-      <div class="size-[100px]">
+  <div class="relative flex w-full gap-4">
+    <a class="block size-[100px] shrink-0" href="/{page.params.country}/shop/products/{product.id}">
+      <img alt={product.images[0].alt} height="100" src={product.images[0].url} width="100" />
+    </a>
+    <div class="min-w-0">
+      <h3 class="truncate text-2xl md:text-3xl">
         <a href="/{page.params.country}/shop/products/{product.id}">
-          <img alt={product.images[0].alt} height="100" src={product.images[0].url} width="100" />
+          {product.name}
         </a>
-      </div>
-      <div>
-        <a href="/{page.params.country}/shop/products/{product.id}">
-          <h3 class="truncate text-2xl md:text-3xl">{product.name}</h3>
-        </a>
-        <h4 class="price text-xl md:text-2xl">
-          {formatPrice(country.locale, country.currency.code, product.grossPrice)}
-        </h4>
-      </div>
+      </h3>
+      <h4 class="price text-xl md:text-2xl">
+        {formatPrice(country.locale, country.currency.code, product.grossPrice)}
+      </h4>
     </div>
     {#if editable}
       <div class="absolute top-1/2 right-3 -translate-y-1/2">

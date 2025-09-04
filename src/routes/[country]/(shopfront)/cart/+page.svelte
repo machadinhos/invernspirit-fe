@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Anchor, UnderLine } from '$components';
   import { cart as cartState, config, loading, modal, toasts, user } from '$state';
+  import { Anchor } from '$components';
   import { AskForLoginModal } from '$components-modals';
   import { bffClient } from '$service';
   import { cart } from '$content';
@@ -93,11 +93,9 @@
 <svelte:head><title>{cart.headTitle}</title></svelte:head>
 
 <div class="flex size-full flex-col items-center">
-  <UnderLine class="mt-4 mb-10">
-    <h1 style="font-size: 2.5rem" class="text-center">
-      {cart.title}
-    </h1>
-  </UnderLine>
+  <h1 style="font-size: 2.5rem" class="lineunder mt-4 mb-10">
+    {cart.title}
+  </h1>
   <div class="flex size-full items-center max-md:flex-col md:items-start md:justify-center md:gap-5 lg:gap-10">
     <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
       {#if config.isInitialized && cartLoaded}

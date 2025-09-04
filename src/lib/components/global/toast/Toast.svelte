@@ -109,7 +109,7 @@
       <Icon src={XMarkIcon} />
     </button>
   {/if}
-  <div class="pr-6 pl-6">
+  <div class="px-6">
     <Element {...toast.extraParams} {toast} />
   </div>
   {#if toast.hasRemainingTimeLine && toast.duration !== null}
@@ -122,6 +122,6 @@
 <style>
   .toast {
     transition: transform 150ms ease-in-out;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px #0000007f;
   }
 </style>

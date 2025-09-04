@@ -117,7 +117,7 @@
         <p>{common.cookieConsent.customizationSection.analyticsCookies.description}</p>
       </div>
       <div class="flex flex-[1.5] items-center justify-center">
-        <div class="flex h-fit w-full gap-4">
+        <div class="flex w-full gap-4">
           <Button fullWidth onclick={onCustomizeSave}>{common.cookieConsent.customizationSection.save}</Button>
           <Button fullWidth onclick={onCustomizeBack}>{common.cookieConsent.customizationSection.back}</Button>
         </div>

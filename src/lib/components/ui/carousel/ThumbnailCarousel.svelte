@@ -83,7 +83,7 @@
 <style>
   .prev-button,
   .next-button {
-    color: rgba(255, 255, 255, 0.5);
+    color: #ffffff7f;
     position: absolute;
     top: 45%;
     z-index: 1;
@@ -96,7 +96,7 @@
   }
 
   .embla {
-    overflow: hidden;
+    overflow: clip;
   }
 
   .embla__container {

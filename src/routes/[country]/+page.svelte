@@ -45,7 +45,7 @@
   {/each}
 </div>
 
-<div class="flex size-full flex-col items-center justify-center px-5">
+<div class="grid size-full place-items-center px-5">
   <div>
     <div class="mb-4 select-none">
       <div>
@@ -69,10 +69,10 @@
 <style>
   @keyframes pulsate {
     from {
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+      filter: drop-shadow(0 0 10px #ffffff80);
     }
     to {
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0));
+      filter: drop-shadow(0 0 10px #ffffff00);
     }
   }
 

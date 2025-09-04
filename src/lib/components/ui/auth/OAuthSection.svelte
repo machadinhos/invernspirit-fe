@@ -91,9 +91,7 @@
     {onclick}
     type="button"
   >
-    <div class="flex h-[20px] w-[20px] items-center">
-      <Icon src={icon} />
-    </div>
+    <Icon size="20" src={icon} />
     <p>Continue with {name}</p>
   </button>
 {/snippet}

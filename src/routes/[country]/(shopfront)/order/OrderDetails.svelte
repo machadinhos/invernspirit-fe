@@ -55,7 +55,7 @@
       {orderContent.orderId}:
       <button class="flex items-center gap-1" onclick={onOrderIdClick} type="button">
         <span>{order.id}</span>
-        <Icon class="text-primary" src={CopyIcon} />
+        <Icon color="var(--color-primary)" src={CopyIcon} />
       </button>
     </div>
     <p>{orderContent.dateOfPurchase}: {formatDate(country, order.createdAt)}</p>
@@ -121,9 +121,8 @@
       </p>
     </OrderInfoCard>
     <div>
-      <div class="mb-2 flex w-full flex-col items-center">
-        <h3 style="font-size: 2rem" class="text-center">{checkout.reviewPage.products}</h3>
-        <div class="pointer-events-none h-0.5 w-24 bg-white select-none"></div>
+      <div class="mb-2 flex w-full justify-center">
+        <h3 style="font-size: 2rem" class="lineunder">{checkout.reviewPage.products}</h3>
       </div>
       <div class="flex flex-col items-center gap-5 xl:overflow-y-auto">
         {#each order.products as product (product.id)}

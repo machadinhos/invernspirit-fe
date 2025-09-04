@@ -15,7 +15,7 @@
 }
 
 body {
-  color: white;
+  color: #fff;
   font-family: 'Playfair', serif;
 }
 
@@ -38,8 +38,8 @@ input[type='search']::-webkit-search-cancel-button {
 }
 
 ::selection {
-  background-color: var(--color-primary);
-  color: white;
+  background: var(--color-primary);
+  color: #fff;
 }
 
 *:disabled {
@@ -50,12 +50,26 @@ input[type='search']::-webkit-search-cancel-button {
   @apply px-8 py-7 md:py-10;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  button:hover {
-    cursor: pointer;
+.lineunder {
+  position: relative;
+
+  &::after {
+    content: '';
+    pointer-events: none;
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 75%;
+    height: 2px;
+    transform: translateX(-50%);
+    border-radius: 2px;
   }
-  button:disabled:hover {
-    cursor: not-allowed;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button {
+    cursor: pointer;
   }
 }
 

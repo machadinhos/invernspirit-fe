@@ -20,7 +20,7 @@
         {...field.additionalElementAttributes}
         id={field.id}
         name={field.name}
-        class={['peer h-10 w-full border-b-2 border-white focus:border-primary', trailingIcon && 'pr-6', className]}
+        class={['peer h-10 w-full border-b-2 border-white focus:border-primary', trailingIcon && 'pr-7', className]}
         autocomplete={field.autocomplete}
         onblur={field.onblur}
         oninput={field.oninput}
@@ -44,7 +44,7 @@
       ></textarea>
     {/if}
     {#if trailingIcon}
-      <div class="absolute top-1/2 right-1 -translate-y-1/2 text-[#a6a6a6]">
+      <div class="absolute top-1/2 right-0.5 -translate-y-1/2 text-[#a6a6a6]">
         {@render trailingIcon()}
       </div>
     {/if}

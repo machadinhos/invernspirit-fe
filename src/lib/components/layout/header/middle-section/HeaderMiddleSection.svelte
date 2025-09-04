@@ -17,8 +17,8 @@
 
 {#snippet headerLogo()}
   <ShrinkOnClickWrapper>
-    <div class="flex size-16 items-center justify-center">
-      <a class="group flex size-full items-center justify-center" href="/{page.params.country}/">
+    <div class="grid size-16 place-items-center">
+      <a class="group grid size-full place-items-center" href="/{page.params.country}/">
         <img
           class="size-12 object-contain transition-[scale] duration-300 group-hover:scale-130"
           alt="logo"
@@ -40,7 +40,7 @@
             <Icon class={['transition-transform duration-300', isOpen && 'rotate-180']} src={ChevronDownIcon} />
           </button>
         {/snippet}
-        <div class="flex flex-col items-center justify-center gap-4 py-4 text-2xl">
+        <div class="grid place-items-center gap-4 py-4 text-2xl">
           <DropdownMenuItem>
             <a class="hover:text-primary" href="/{page.params.country}/shop/collections" onclick={closeDropdown}
               >{common.header.pages.shop.byCollection}</a
@@ -78,25 +78,25 @@
   li:not(.logo) {
     display: inline;
     position: relative;
-  }
 
-  li:not(.logo)::after {
-    pointer-events: none;
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -0.25rem;
-    width: 100%;
-    height: 2px;
-    background: white;
-    transform: translateX(-50%) scaleX(0);
-    transform-origin: center;
-    transition: transform 300ms ease-in-out;
-  }
+    &::after {
+      pointer-events: none;
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -0.25rem;
+      width: 100%;
+      height: 2px;
+      background: #fff;
+      transform: translateX(-50%) scaleX(0);
+      transform-origin: center;
+      transition: transform 300ms ease-in-out;
+    }
 
-  @media (hover: hover) and (pointer: fine) {
-    li:not(.logo):hover::after {
-      transform: translateX(-50%) scaleX(1);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover::after {
+        transform: translateX(-50%) scaleX(1);
+      }
     }
   }
 </style>

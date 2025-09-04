@@ -41,7 +41,7 @@
 
 {#snippet quantityButton(type: 'increment' | 'decrement')}
   <Button
-    class="size-7 px-0 py-0"
+    class="size-7"
     disabled={type === 'increment' ? !canIncrementSelectedQuantity : !canDecrementSelectedQuantity}
     onclick={type === 'increment' ? incrementSelectedQuantity : decrementSelectedQuantity}
     >{type === 'increment' ? '+' : '-'}</Button
@@ -50,27 +50,29 @@
 
 <div class="flex">
   {@render quantityButton('decrement')}
-  <div class="flex h-full w-7 items-center justify-center">
-    <input
-      bind:this={inputElementRef}
-      name="quantity"
-      class="w-7 text-center focus:outline-hidden"
-      aria-label="quantity"
-      disabled={disabled || (!canDecrementSelectedQuantity && !canIncrementSelectedQuantity)}
-      max={stock}
-      min={allowZero ? 0 : 1}
-      {onblur}
-      type="number"
-      bind:value={quantityInputValue}
-    />
-  </div>
+  <input
+    bind:this={inputElementRef}
+    name="quantity"
+    class="w-7 text-center"
+    aria-label="quantity"
+    disabled={disabled || (!canDecrementSelectedQuantity && !canIncrementSelectedQuantity)}
+    inputmode="numeric"
+    max={stock}
+    min={allowZero ? 0 : 1}
+    {onblur}
+    type="number"
+    bind:value={quantityInputValue}
+  />
   {@render quantityButton('increment')}
 </div>
 
 <style>
+  input {
+    appearance: textfield;
+  }
+
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
-    margin: 0;
   }
 </style>

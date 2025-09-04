@@ -93,7 +93,7 @@
     {@render triggerElement()}
   </button>
   {#if isOpen}
-    <ul id={`${id}-listbox`} class="absolute top-full flex cursor-pointer flex-col" role="listbox" tabindex="-1">
+    <ul id={`${id}-listbox`} class="absolute top-full cursor-pointer" role="listbox" tabindex="-1">
       {#each options as option, index (index)}
         <li
           id={`${id}-option-${index}`}

@@ -111,12 +111,8 @@
       onpointerup={onpointercancelOrPointerup}
     >
       <div class="w-full md:hidden">
-        <button
-          class={['grid h-6 w-full place-items-center [&>svg]:transition-[rotate] [&>svg]:duration-300']}
-          onclick={toggleIsExpanded}
-          type="button"
-        >
-          <Icon class={[!isExpanded && 'rotate-180']} src={ChevronDownIcon} />
+        <button class={['grid h-6 w-full place-items-center']} onclick={toggleIsExpanded} type="button">
+          <Icon class={['transition-[rotate] duration-300', !isExpanded && 'rotate-180']} src={ChevronDownIcon} />
         </button>
       </div>
       <div class="overflow-hidden">

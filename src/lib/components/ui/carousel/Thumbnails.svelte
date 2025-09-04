@@ -48,7 +48,7 @@
   }
 
   .embla__viewport {
-    overflow: hidden;
+    overflow: clip;
   }
 
   .embla__container {
@@ -69,7 +69,7 @@
     transform: translate3d(0, 0, 0);
     flex: 0 0 var(--slide-size);
     min-height: 0;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1;
     touch-action: manipulation;
   }
 </style>

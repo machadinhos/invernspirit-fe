@@ -59,8 +59,8 @@
         >
       </DropdownMenuItem>
       <DropdownMenuItem class="mt-2 w-full">
-        <div class="flex w-full justify-end">
-          <Button class="flex gap-1.5" onclick={handleSignOut}><Icon src={LogoutIcon} />{auth.signOut}</Button>
+        <div class="flex justify-end">
+          <Button onclick={handleSignOut}><Icon class="mr-1.5" src={LogoutIcon} />{auth.signOut}</Button>
         </div>
       </DropdownMenuItem>
     </div>

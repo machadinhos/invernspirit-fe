@@ -87,7 +87,7 @@
 
 <div class="flex size-full flex-col items-center">
   {#if stages && selectedStageName && enabledStages}
-    <div class="mt-4 mb-4 flex flex-col items-center">
+    <div class="my-4 flex flex-col items-center">
       <div class="ml-2 flex gap-3">
         <button
           onclick={prevStage(selectedStageName, enabledStages) !== selectedStageName ? goToPrevStage : goToCart}
@@ -109,10 +109,9 @@
           {/snippet}
         </BreadCrumbs>
       </div>
-      <h1 style="font-size: 2.5rem" class="text-center">
+      <h1 style="font-size: 2.5rem" class="lineunder">
         {stagesTitles[selectedStageName]}
       </h1>
-      <div class="pointer-events-none h-0.5 w-32 bg-white select-none"></div>
     </div>
     <Form
       class="flex w-full flex-1 items-center max-md:flex-col md:items-start md:justify-center md:gap-5 lg:gap-10"

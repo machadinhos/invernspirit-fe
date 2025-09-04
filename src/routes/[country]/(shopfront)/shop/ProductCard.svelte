@@ -55,13 +55,11 @@
   });
 </script>
 
-<article class="h-fit w-64 bg-background shadow-2xl transition-[scale] duration-300 hover:scale-110">
-  <div class="relative h-64">
-    <ProductStatusBanner class="absolute top-2 left-2" {bucketStock} {inCartQuantity} />
-    <a href="/{page.params.country}/shop/products/{product.id}">
-      <img alt={product.images[0].alt} height="256" src={product.images[0].url} width="256" />
-    </a>
-  </div>
+<article class="relative w-64 bg-background shadow-2xl transition-[scale] duration-300 hover:scale-110">
+  <ProductStatusBanner class="absolute top-2 left-2" {bucketStock} {inCartQuantity} />
+  <a href="/{page.params.country}/shop/products/{product.id}">
+    <img class="aspect-square w-full" alt={product.images[0].alt} src={product.images[0].url} />
+  </a>
   <div class="px-4 pt-1 pb-3">
     <a href="/{page.params.country}/shop/products/{product.id}">
       <h2 class="truncate text-center text-3xl">{product.name}</h2>

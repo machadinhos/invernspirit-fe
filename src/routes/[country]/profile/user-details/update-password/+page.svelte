@@ -52,6 +52,10 @@
 
     goto(`/${page.params.country}/profile/user-details`);
   };
+
+  const onCancel = (): void => {
+    goto(`/${page.params.country}/profile/user-details`);
+  };
 </script>
 
 <Form class="w-full" {onsubmit} bind:processing>
@@ -63,7 +67,10 @@
     </TextInput>
   {/each}
 
-  <Button class="mt-5" disabled={processing} fullWidth type="submit"
-    >{profile.userDetails.updatePassword.submitButton}</Button
-  >
+  <div class="mt-5 flex gap-5">
+    <Button class="flex-1" disabled={processing} onclick={onCancel}>{profile.userDetails.cancelChanges}</Button>
+    <Button class="flex-1" disabled={processing} fullWidth type="submit"
+      >{profile.userDetails.updatePassword.submitButton}</Button
+    >
+  </div>
 </Form>
