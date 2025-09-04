@@ -4,7 +4,7 @@
   import { page } from '$app/state';
 </script>
 
-<div class="flex h-full flex-col items-center justify-center">
+<div class="grid h-full place-items-center">
   <h1>{page.status}: {page.error?.message ?? common.errorPage.messageAlternative}</h1>
 
   {#if page.status === 404}

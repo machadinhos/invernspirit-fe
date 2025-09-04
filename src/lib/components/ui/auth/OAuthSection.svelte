@@ -104,13 +104,13 @@
   </button>
 {/snippet}
 
-<div class="flex w-full flex-col justify-center gap-4">
-  <div class="mt-8 flex items-center gap-2">
+<div class="w-full">
+  <div class="mt-8 mb-4 flex items-center gap-2">
     <div class="h-0.5 w-full bg-white"></div>
     {auth.orOAuth}
     <div class="h-0.5 w-full bg-white"></div>
   </div>
-  <div class="flex w-full flex-col items-center gap-3">
+  <div class="w-full space-y-3">
     {@render oAuthButton(GoogleIcon, auth.googleAriaLabel, auth.googleName, onContinueWithGoogleClick)}
   </div>
 </div>

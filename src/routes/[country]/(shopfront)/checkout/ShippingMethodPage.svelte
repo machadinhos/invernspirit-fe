@@ -58,7 +58,7 @@
 </script>
 
 {#if shippingMethods}
-  <div class="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] justify-center justify-items-center gap-4">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] justify-items-center gap-4">
     {#each shippingMethods as shippingMethod (shippingMethod.id)}
       <label class="w-60 cursor-pointer bg-background p-4">
         <input
@@ -72,7 +72,7 @@
         <div class="mb-2 flex w-full justify-center">
           <div
             class={[
-              "flex size-4 items-center justify-center rounded-full bg-background-dark after:size-2 after:rounded-full after:bg-primary after:transition-opacity after:content-['']",
+              "grid size-4 place-items-center rounded-full bg-background-dark after:size-2 after:rounded-full after:bg-primary after:transition-opacity after:content-['']",
               shippingMethod.id === selectedShippingMethodId ? 'after:opacity-100' : 'after:opacity-0',
             ]}
           ></div>

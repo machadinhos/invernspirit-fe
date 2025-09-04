@@ -17,18 +17,18 @@
 <style>
   .underline-class {
     position: relative;
-  }
 
-  .underline-class::after {
-    content: '';
-    pointer-events: none;
-    background: white;
-    position: absolute;
-    left: 50%;
-    bottom: -0.125rem;
-    width: var(--width-percent);
-    height: 2px;
-    transform: translateX(-50%);
-    border-radius: 1px;
+    &::after {
+      content: '';
+      pointer-events: none;
+      background: #fff;
+      position: absolute;
+      left: 50%;
+      bottom: -0.125rem;
+      width: var(--width-percent);
+      height: 2px;
+      transform: translateX(-50%);
+      border-radius: 1px;
+    }
   }
 </style>

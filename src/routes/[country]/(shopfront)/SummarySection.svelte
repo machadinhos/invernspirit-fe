@@ -111,10 +111,10 @@
       {onpointermove}
       onpointerup={onpointercancelOrPointerup}
     >
-      <div class="h-fit w-full md:hidden">
+      <div class="w-full md:hidden">
         <button
           class={[
-            'flex h-6 w-full items-center justify-center [&>svg]:transition-[rotate] [&>svg]:duration-300',
+            'grid h-6 w-full place-items-center [&>svg]:transition-[rotate] [&>svg]:duration-300',
             isExpanded && '[&>svg]:rotate-180',
           ]}
           onclick={toggleIsExpanded}

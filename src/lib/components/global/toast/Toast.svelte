@@ -108,7 +108,7 @@
       type="button"><Icon src={FaSolidXmark} /></button
     >
   {/if}
-  <div class="pr-6 pl-6">
+  <div class="px-6">
     <Element {...toast.extraParams} {toast} />
   </div>
   {#if toast.hasRemainingTimeLine && toast.duration !== null}

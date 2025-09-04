@@ -15,32 +15,11 @@
 </script>
 
 {#if modal.value}
-  <div class="modal-wrapper fixed inset-0 z-50 h-screen w-screen backdrop-blur-sm" in:fade|global>
-    <dialog
-      class="modal-dialog flex w-fit items-center justify-center"
-      {@attach dialogAttachment}
-      {onclose}
-      in:scale|global
-    >
+  <div class="fixed z-50 h-screen w-screen bg-black/40 backdrop-blur-sm" in:fade|global>
+    <dialog class="fixed m-auto w-fit" {@attach dialogAttachment} {onclose} in:scale|global>
       <div {@attach onClickOutside({ callback: onclose })}>
         <ModalBody modal={modal.value} />
       </div>
     </dialog>
   </div>
 {/if}
-
-<style>
-  .modal-wrapper {
-    background: rgba(0, 0, 0, 0.4);
-  }
-
-  .modal-dialog {
-    max-width: none;
-    max-height: none;
-    margin: auto;
-    padding: 0;
-    border: none;
-    background: transparent;
-    position: fixed;
-  }
-</style>

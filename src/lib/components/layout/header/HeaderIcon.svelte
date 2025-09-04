@@ -39,7 +39,7 @@
 
 {#snippet innerElements()}
   <div class="relative">
-    <span class="flex items-center justify-center">
+    <span>
       <Icon color="white" {size} {src} />
     </span>
     {#if badge}
@@ -54,7 +54,7 @@
   {#if type === 'button'}
     <button
       bind:this={ref}
-      class="outer-element relative flex size-9 cursor-pointer items-center justify-center"
+      class="outer-element relative grid size-9 place-items-center"
       aria-label={ariaLabel}
       {onclick}
       type="button"
@@ -62,16 +62,11 @@
       {@render innerElements()}
     </button>
   {:else if type === 'anchor'}
-    <a
-      bind:this={ref}
-      class="outer-element relative flex size-9 cursor-pointer items-center justify-center"
-      aria-label={ariaLabel}
-      {href}
-    >
+    <a bind:this={ref} class="outer-element relative grid size-9 place-items-center" aria-label={ariaLabel} {href}>
       {@render innerElements()}
     </a>
   {:else}
-    <div bind:this={ref} class="outer-element relative flex size-9 cursor-pointer items-center justify-center">
+    <div bind:this={ref} class="outer-element relative grid size-9 place-items-center">
       {@render innerElements()}
     </div>
   {/if}
