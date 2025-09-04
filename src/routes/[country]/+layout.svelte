@@ -22,9 +22,9 @@
     mainComponent.scrollTo(0, 0);
   });
 
-  onMount(() => {
+  onMount(async () => {
     config.init(page.url.searchParams);
-    showConsent = !document.cookie.includes('cookie_consent=');
+    showConsent = !(await cookieStore.get('cookie_consent'))?.value;
   });
 </script>
 

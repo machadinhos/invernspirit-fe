@@ -17,20 +17,26 @@
 
 <svelte:head>
   <script async src="https://www.googletagmanager.com/gtag/js?id={PUBLIC_GOOGLE_ANALYTICS_ID}"></script>
+  <!-- original code
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  cookieStore.get('cookie_consent').then((c) => {
+    const cookieValue = c?.value;
+    const hasConsentedToAnalytics = cookieValue && (cookieValue === 'all' || cookieValue.includes('analytics'));
+    const gtagConsent = hasConsentedToAnalytics ? 'granted' : 'denied';
+    gtag('consent', 'default', {
+      ad_storage: gtagConsent,
+      analytics_storage: gtagConsent,
+    });
+  });
+  gtag('js', new Date());-->
+  <!-- prettier-ignore-->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    {
-      const cookieConsent = document.cookie.includes('cookie_consent=true') ? 'granted' : 'denied';
-      gtag('consent', 'default', {
-        ad_storage: cookieConsent,
-        analytics_storage: cookieConsent,
-      });
-    }
-    gtag('js', new Date());
+function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],cookieStore.get("cookie_consent").then(a=>{let e=a?.value,t=e&&("all"===e||e.includes("analytics")),n=t?"granted":"denied";gtag("consent","default",{ad_storage:n,analytics_storage:n})}),gtag("js",new Date);
   </script>
+  <!-- prettier-ignore-end-->
 
   {#if !page.data.noCrawl}
     <meta name="robots" content="index,follow" />

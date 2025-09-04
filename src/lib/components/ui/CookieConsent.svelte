@@ -22,8 +22,13 @@
     });
   };
 
-  const setCookieConsentCookie = (value: string, key = 'cookie_consent'): void => {
-    document.cookie = `${key}=${value}; path=/; max-age=31536000; SameSite=Lax; Secure`;
+  const setCookieConsentCookie = (value: string): void => {
+    cookieStore.set({
+      name: 'cookie_consent',
+      value,
+      expires: Date.now() + 24 * 60 * 60 * 1000 * 365,
+      sameSite: 'strict',
+    });
   };
 
   const onAccept = (): void => {
@@ -53,7 +58,7 @@
       ]
         .filter(Boolean)
         .join(',');
-      setCookieConsentCookie(cookieConsentCustomValue, 'cookie_consent_custom');
+      setCookieConsentCookie(cookieConsentCustomValue);
     }
     if (agreeToAnalyticsCookies) setGtagConsent(true);
     showConsent = false;
