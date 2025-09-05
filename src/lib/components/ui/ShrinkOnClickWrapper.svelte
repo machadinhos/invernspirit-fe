@@ -9,19 +9,20 @@
   if ('scaleXY' in scaleConfig) scaleConfig = { scaleX: scaleConfig.scaleXY, scaleY: scaleConfig.scaleXY };
 </script>
 
-<div
-  style={`--scale-x-value: ${scaleConfig.scaleX / 100}; --scale-y-value: ${scaleConfig.scaleY / 100}`}
-  class="shrinking-element contents"
->
+<div style={`--scale-x-value: ${scaleConfig.scaleX / 100}; --scale-y-value: ${scaleConfig.scaleY / 100}`}>
   {@render children()}
 </div>
 
 <style>
-  .shrinking-element > :global(*) {
-    transition: transform 150ms ease-in-out;
+  div {
+    display: contents;
   }
 
-  .shrinking-element > :global(*):not(:disabled):active {
-    transform: scaleX(var(--scale-x-value)) scaleY(var(--scale-y-value));
+  div > :global(*) {
+    transition: transform 150ms ease-in-out;
+
+    &:not(:disabled):active {
+      transform: scaleX(var(--scale-x-value)) scaleY(var(--scale-y-value));
+    }
   }
 </style>

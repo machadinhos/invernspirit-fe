@@ -17,7 +17,7 @@
   let {
     type = 'button',
     class: className,
-    onclick = (): void => undefined,
+    onclick,
     children,
     disabled = false,
     shrinkOnClick = true,
@@ -25,26 +25,14 @@
     ref = $bindable(),
     fullWidth,
   }: Props = $props();
-
-  const finalOnclick = (event: Event): void => {
-    if (disabled) return;
-    onclick(event);
-  };
 </script>
 
 {#snippet button()}
   <button
     bind:this={ref}
-    class={[
-      'flex items-center justify-center px-2 py-2',
-      fullWidth ? 'w-full' : 'w-fit',
-      reverseColors
-        ? 'bg-primary text-secondary-dark enabled:hover:bg-secondary-dark enabled:hover:text-white enabled:active:bg-secondary-dark enabled:active:text-white disabled:brightness-50'
-        : 'bg-secondary-dark enabled:hover:bg-primary enabled:hover:text-secondary-dark enabled:active:bg-primary enabled:active:text-secondary-dark disabled:brightness-150',
-      className,
-    ]}
+    class={[fullWidth && 'full-width', reverseColors && 'reverse-colors', className]}
     {disabled}
-    onclick={finalOnclick}
+    {onclick}
     {type}
   >
     {@render children()}
@@ -58,3 +46,38 @@
     {@render button()}
   </ShrinkOnClickWrapper>
 {/if}
+
+<style>
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background-color: var(--color-secondary-dark);
+    &:enabled:hover,
+    &:enabled:active {
+      background-color: var(--color-primary);
+      color: var(--color-secondary-dark);
+    }
+    &:disabled {
+      filter: brightness(1.5);
+    }
+  }
+
+  .reverse-colors {
+    background-color: var(--color-primary);
+    color: var(--color-secondary-dark);
+    &:enabled:hover,
+    &:enabled:active {
+      background-color: var(--color-secondary-dark);
+      color: white;
+    }
+    &:disabled {
+      filter: brightness(0.5);
+    }
+  }
+
+  .full-width {
+    width: 100%;
+  }
+</style>
