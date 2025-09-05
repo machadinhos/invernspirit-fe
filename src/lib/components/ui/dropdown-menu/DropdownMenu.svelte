@@ -20,7 +20,7 @@
   let {
     class: className,
     isOpen = $bindable(),
-    onClose = (): void => undefined,
+    onClose,
     triggerElement,
     closeOnOutsideClick = true,
     children,
@@ -48,7 +48,7 @@
   };
 
   $effect(() => {
-    if (!isOpen) onClose();
+    if (!isOpen) onClose?.();
   });
 
   $effect(() => {
