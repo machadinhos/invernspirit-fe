@@ -1,7 +1,6 @@
 <script lang="ts">
   import { config, user } from '$state';
-  import { FaAddressCard, FaSolidReceipt } from 'svelte-icons-pack/fa';
-  import { Icon, type IconType } from 'svelte-icons-pack';
+  import { Icon, type IconSrcType, PersonalInformationIcon, ReceiptIcon } from '$components-svg-icons';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
@@ -24,7 +23,7 @@
 
 <svelte:head><title>{profile.headTitle}</title></svelte:head>
 
-{#snippet listItem(subPage: string, text: string, icon: IconType)}
+{#snippet listItem(subPage: string, text: string, icon: IconSrcType)}
   <li class={subPage === selected ? 'bg-background' : 'opacity-50'}>
     <a class="flex w-full items-center gap-2 px-3 py-1" href="/{page.params.country}/profile/{subPage}">
       <Icon src={icon} />
@@ -37,8 +36,8 @@
   <h1 class="mb-9 text-center text-5xl">{profile.title}</h1>
   <div class="flex w-[90%] gap-5 max-md:flex-col md:max-w-[900px]">
     <ul class="space-y-2 md:w-44">
-      {@render listItem('user-details', profile.links.userDetails, FaAddressCard)}
-      {@render listItem('orders', profile.links.orders, FaSolidReceipt)}
+      {@render listItem('user-details', profile.links.userDetails, PersonalInformationIcon)}
+      {@render listItem('orders', profile.links.orders, ReceiptIcon)}
     </ul>
     <div class="w-full">
       {@render children()}

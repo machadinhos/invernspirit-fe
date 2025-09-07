@@ -1,6 +1,5 @@
 <script generics="Item extends { trigger: unknown; content: unknown }" lang="ts">
-  import { FaSolidChevronDown } from 'svelte-icons-pack/fa';
-  import { Icon } from 'svelte-icons-pack';
+  import { ChevronDownIcon, Icon } from '$components-svg-icons';
   import type { Snippet } from 'svelte';
 
   type Props = {
@@ -45,7 +44,13 @@
             isOpened && 'rotate-180',
           ]}
         >
-          <Icon src={FaSolidChevronDown} />
+          <Icon
+            class={[
+              'absolute top-1/2 right-2 size-fit -translate-y-1/2 transition-[rotate] duration-200',
+              isOpened && 'rotate-180',
+            ]}
+            src={ChevronDownIcon}
+          />
         </div>
         {@render accordionTrigger(item.trigger)}
       </button>

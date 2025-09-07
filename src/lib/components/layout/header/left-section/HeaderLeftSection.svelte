@@ -1,12 +1,12 @@
 <script lang="ts">
   import { Drawer, DrawerItem } from '$components';
-  import { BiMenu } from 'svelte-icons-pack/bi';
   import { capitalize } from '$lib/utils/general';
   import { common } from '$content';
   import type { Country } from '$types';
   import CountrySelector from '$lib/components/layout/header/CountrySelector.svelte';
   import HeaderIcon from '$lib/components/layout/header/HeaderIcon.svelte';
   import MediaButtonsSection from './MediaButtonsSection.svelte';
+  import { MenuIcon } from '$components-svg-icons';
   import Newsletter from './Newsletter.svelte';
   import { page } from '$app/state';
 
@@ -53,7 +53,7 @@
   </div>
   <div class="xl:hidden">
     <div class="flex items-center gap-1">
-      <HeaderIcon aria-label="menu" onclick={toggleDrawer} size={25} src={BiMenu} type="button" />
+      <HeaderIcon aria-label="menu" onclick={toggleDrawer} size={25} src={MenuIcon} type="button" />
       <CountrySelector {countries} />
     </div>
     <Drawer bind:isOpen>

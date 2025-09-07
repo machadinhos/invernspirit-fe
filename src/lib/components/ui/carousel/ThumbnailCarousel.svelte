@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { BiSolidChevronLeftCircle, BiSolidChevronRightCircle } from 'svelte-icons-pack/bi';
+  import { ArrowLeftCircleIcon, ArrowRightCircleIcon, Icon } from '$components-svg-icons';
   import type { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
   import emblaCarouselSvelte from 'embla-carousel-svelte';
-  import { Icon } from 'svelte-icons-pack';
   import type { Image } from '$types';
   import Thumbnails from './Thumbnails.svelte';
 
@@ -62,7 +61,7 @@
 
   <div class="relative size-[85vw] lg:h-[35vw] lg:w-[35vw]">
     <button bind:this={prevButton} class="prev-button" aria-label="prev slide" type="button">
-      <Icon size="25" src={BiSolidChevronLeftCircle} />
+      <Icon size="25" src={ArrowLeftCircleIcon} />
     </button>
 
     <div class="embla" onemblaInit={onInit} use:emblaCarouselSvelte={{ plugins: [], options }}>
@@ -76,7 +75,7 @@
     </div>
 
     <button bind:this={nextButton} class="next-button" aria-label="next slide" type="button">
-      <Icon size="25" src={BiSolidChevronRightCircle} />
+      <Icon size="25" src={ArrowRightCircleIcon} />
     </button>
   </div>
 </div>

@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { BsArrowReturnLeft } from 'svelte-icons-pack/bs';
-  import { Icon } from 'svelte-icons-pack';
+  import { ArrowReturnLeftIcon, Icon } from '$components-svg-icons';
   import { page } from '$app/state';
   import type { PageData } from './$types';
   import ProductGrid from '../../ProductGrid.svelte';
@@ -20,7 +19,7 @@
     <h1 class="ml-3 text-5xl">{data.collection.name}</h1>
     <div class="mt-5 w-fit">
       <a aria-label="back" href="/{page.params.country}/shop/collections">
-        <Icon size="30" src={BsArrowReturnLeft} />
+        <Icon size="30" src={ArrowReturnLeftIcon} />
       </a>
     </div>
   </div>

@@ -1,11 +1,10 @@
 <script lang="ts">
   import { checkout, order as orderContent } from '$content';
+  import { CopyIcon, Icon } from '$components-svg-icons';
   import type { Country, Order, OrderStatus } from '$types';
   import { CopiedToClipboardToast } from '$components-toasts';
-  import { FaCopy } from 'svelte-icons-pack/fa';
   import { formatDate } from '$lib/utils/date-formatting';
   import { formatPrice } from '$lib/utils/currency-formatting';
-  import { Icon } from 'svelte-icons-pack';
   import LineItemCard from '../LineItemCard.svelte';
   import OrderInfoCard from './OrderInfoCard.svelte';
   import PriceSummary from './PriceSummary.svelte';
@@ -54,9 +53,9 @@
   <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
     <div class="flex gap-1">
       {orderContent.orderId}:
-      <button class="flex items-center gap-1 text-primary" onclick={onOrderIdClick} type="button">
-        <span class="text-white">{order.id}</span>
-        <Icon src={FaCopy} />
+      <button class="flex items-center gap-1" onclick={onOrderIdClick} type="button">
+        <span>{order.id}</span>
+        <Icon class="text-primary" src={CopyIcon} />
       </button>
     </div>
     <p>{orderContent.dateOfPurchase}: {formatDate(country, order.createdAt)}</p>

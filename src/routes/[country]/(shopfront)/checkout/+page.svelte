@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ArrowLeftIcon, Icon } from '$components-svg-icons';
   import type { CheckoutStage, StageName } from '$types';
   import { config, loading } from '$state';
   import { expand as expandSummary, default as SummarySection } from '../SummarySection.svelte';
@@ -7,10 +8,8 @@
   import { bffClient } from '$service';
   import { BreadCrumbs } from '$components';
   import { checkout } from '$content';
-  import { FaSolidArrowLeft } from 'svelte-icons-pack/fa';
   import { Form } from '$components-utils';
   import { goto } from '$app/navigation';
-  import { Icon } from 'svelte-icons-pack';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import type { PageData } from './$types';
@@ -94,7 +93,7 @@
           onclick={prevStage(selectedStageName, enabledStages) !== selectedStageName ? goToPrevStage : goToCart}
           type="button"
         >
-          <Icon size="20" src={FaSolidArrowLeft} />
+          <Icon size="20" src={ArrowLeftIcon} />
         </button>
         <BreadCrumbs aria-label="Checkout Stages" breadCrumbs={stages}>
           {#snippet separator()}<span class="select-none">/</span>{/snippet}

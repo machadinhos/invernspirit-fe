@@ -8,12 +8,11 @@
 
 <script lang="ts">
   import { cart as cartState, config } from '$state';
+  import { ChevronDownIcon, Icon } from '$components-svg-icons';
   import { Button } from '$components';
   import { cart } from '$content';
   import type { Country } from '$types';
-  import { FaSolidChevronUp } from 'svelte-icons-pack/fa';
   import { formatPrice } from '$lib/utils/currency-formatting';
-  import { Icon } from 'svelte-icons-pack';
 
   type Props = {
     country: Country;
@@ -111,15 +110,14 @@
       {onpointermove}
       onpointerup={onpointercancelOrPointerup}
     >
-      <div class="h-fit w-full md:hidden">
+      <div class="w-full md:hidden">
         <button
-          class={[
-            'flex h-6 w-full items-center justify-center [&>svg]:transition-[rotate] [&>svg]:duration-300',
-            isExpanded && '[&>svg]:rotate-180',
-          ]}
+          class={['grid h-6 w-full place-items-center [&>svg]:transition-[rotate] [&>svg]:duration-300']}
           onclick={toggleIsExpanded}
-          type="button"><Icon src={FaSolidChevronUp} /></button
+          type="button"
         >
+          <Icon class={[!isExpanded && 'rotate-180']} src={ChevronDownIcon} />
+        </button>
       </div>
       <div class="overflow-hidden">
         {@render priceLine(cart.subtotal, subTotalPrice, 'text-2xl')}

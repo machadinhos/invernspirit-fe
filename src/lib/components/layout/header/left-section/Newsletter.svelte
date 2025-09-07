@@ -1,11 +1,9 @@
 <script lang="ts">
   import { Button, DropdownMenu, DropdownMenuItem, TextInput } from '$components';
   import { FormField, validateFormFields } from '$lib/utils/form-fields.svelte';
+  import { Icon, MailIcon, NewspaperIcon } from '$components-svg-icons';
   import { common } from '$content';
-  import { FaNewspaper } from 'svelte-icons-pack/fa';
   import HeaderIcon from '../HeaderIcon.svelte';
-  import { Icon } from 'svelte-icons-pack';
-  import { TiMail } from 'svelte-icons-pack/ti';
   import { validateEmail } from '$lib/utils/input-validation';
 
   let isOpen = $state(false);
@@ -46,7 +44,7 @@
       <HeaderIcon
         aria-label={common.header.leftSection.ariaLabels.newsletter}
         onclick={handleIconClick}
-        src={FaNewspaper}
+        src={NewspaperIcon}
         type="button"
       />
     {/snippet}
@@ -59,7 +57,7 @@
           <TextInput field={formFields.email}>
             {#snippet label()}
               <div class="flex items-center gap-0.5">
-                <Icon size="20" src={TiMail} />
+                <Icon size="20" src={MailIcon} />
                 {common.header.leftSection.emailForm.label}
               </div>
             {/snippet}

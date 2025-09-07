@@ -1,8 +1,7 @@
 <script lang="ts">
+  import { ChevronDownIcon, Icon } from '$components-svg-icons';
   import type { Country } from '$types';
   import { CustomSelect } from '$components';
-  import { FaSolidChevronDown } from 'svelte-icons-pack/fa';
-  import { Icon } from 'svelte-icons-pack';
   import { page } from '$app/state';
   import { untrack } from 'svelte';
 
@@ -33,7 +32,7 @@
 
 <CustomSelect options={countriesCodes} bind:focused bind:selected={selectedCountry} bind:isOpen>
   {#snippet triggerElement()}
-    <div class="flex w-14 items-center justify-center gap-1">
+    <div class="flex w-15 items-center justify-center">
       <div class="flex items-center gap-1">
         {countriesCodes[selectedCountry]}
         <img
@@ -43,15 +42,13 @@
           width="13"
         />
       </div>
-      <div class={['transition-transform duration-300', isOpen && 'rotate-180']}>
-        <Icon size={10} src={FaSolidChevronDown} />
-      </div>
+      <Icon class={['transition-transform duration-300', isOpen && 'rotate-180']} size={15} src={ChevronDownIcon} />
     </div>
   {/snippet}
   {#snippet optionSnippet(text: string, index: number)}
     <div
       class={[
-        'flex w-14 items-center justify-center gap-1 bg-background hover:bg-primary',
+        'flex w-15 items-center justify-center gap-1 bg-background hover:bg-primary',
         index === focused && 'bg-primary',
       ]}
     >

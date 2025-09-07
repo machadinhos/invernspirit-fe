@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { FaSolidArrowLeft, FaSolidXmark } from 'svelte-icons-pack/fa';
+  import { ArrowLeftIcon, Icon, XMarkIcon } from '$components-svg-icons';
   import { Button } from '$components';
-  import { Icon } from 'svelte-icons-pack';
   import type { ModalInstance } from '$state';
   import SignIn from '$lib/components/ui/auth/SignIn.svelte';
   import SignUp from '$lib/components/ui/auth/SignUp.svelte';
@@ -76,10 +75,10 @@
     onclick={gotoChoicesState}
     type="button"
   >
-    <Icon size="20" src={FaSolidArrowLeft} />
+    <Icon size="20" src={ArrowLeftIcon} />
   </button>
   <button class="absolute top-4 right-4" aria-label="close" onclick={modal.close} type="button">
-    <Icon size="20" src={FaSolidXmark} />
+    <Icon size="20" src={XMarkIcon} />
   </button>
   {#if state === 'choosing'}
     <div class="w-full space-y-4 pt-8">

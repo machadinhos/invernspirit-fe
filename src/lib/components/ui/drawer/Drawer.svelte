@@ -1,8 +1,7 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
+  import { Icon, XMarkIcon } from '$components-svg-icons';
   import type { ClassValue } from 'svelte/elements';
-  import { FaSolidXmark } from 'svelte-icons-pack/fa';
-  import { Icon } from 'svelte-icons-pack';
   import { on } from 'svelte/events';
   import { quintOut } from 'svelte/easing';
 
@@ -50,7 +49,7 @@
   >
     <div class="h-full overflow-y-auto p-4 pr-8">
       <button class="float-right mt-7" onclick={closeDrawer} type="button">
-        <Icon color="white" size="25" src={FaSolidXmark} />
+        <Icon size="25" src={XMarkIcon} />
       </button>
       {@render children()}
     </div>

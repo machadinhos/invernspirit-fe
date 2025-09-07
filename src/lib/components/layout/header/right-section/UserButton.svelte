@@ -2,11 +2,10 @@
   import { Anchor, Button, DropdownMenu, DropdownMenuItem } from '$components';
   import { auth, common } from '$content';
   import { cart, user } from '$state';
-  import { FaSolidArrowRightFromBracket, FaSolidUser } from 'svelte-icons-pack/fa';
+  import { Icon, LogoutIcon, UserIcon } from '$components-svg-icons';
   import { bffClient } from '$service';
   import { goto } from '$app/navigation';
   import HeaderIcon from '$lib/components/layout/header/HeaderIcon.svelte';
-  import { Icon } from 'svelte-icons-pack';
   import { page } from '$app/state';
 
   let isOpen = $state(false);
@@ -35,14 +34,14 @@
         <HeaderIcon
           aria-label={common.header.rightSection.ariaLabels.user}
           href="/{page.params.country}/sign-in"
-          src={FaSolidUser}
+          src={UserIcon}
           type="anchor"
         />
       {:else}
         <HeaderIcon
           aria-label={common.header.rightSection.ariaLabels.user}
           onclick={handleUserButtonClick}
-          src={FaSolidUser}
+          src={UserIcon}
           type="button"
         />
       {/if}
@@ -61,9 +60,7 @@
       </DropdownMenuItem>
       <DropdownMenuItem class="mt-2 w-full">
         <div class="flex w-full justify-end">
-          <Button class="flex gap-1.5" onclick={handleSignOut}
-            ><Icon src={FaSolidArrowRightFromBracket} />{auth.signOut}</Button
-          >
+          <Button class="flex gap-1.5" onclick={handleSignOut}><Icon src={LogoutIcon} />{auth.signOut}</Button>
         </div>
       </DropdownMenuItem>
     </div>

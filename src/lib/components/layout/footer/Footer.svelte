@@ -1,11 +1,10 @@
 <script lang="ts">
+  import { Icon, MagnifierIcon } from '$components-svg-icons';
   import { Button } from '$components';
   import { common } from '$content';
   import { containsXSSPatterns } from '$lib/utils/input-validation';
   import { goto } from '$app/navigation';
-  import { Icon } from 'svelte-icons-pack';
   import { page } from '$app/state';
-  import { SlMagnifier } from 'svelte-icons-pack/sl';
 
   type Props = {
     hideSearchBarOnMobile: boolean;
@@ -27,7 +26,7 @@
   <form class={['flex h-fit w-full', hideSearchBarOnMobile && 'hidden md:flex']} onsubmit={doSearch}>
     <div class="flex w-full items-center bg-background">
       <div class="px-2">
-        <Icon color="white" size="20" src={SlMagnifier} />
+        <Icon src={MagnifierIcon} />
       </div>
       <input
         name="searchString"

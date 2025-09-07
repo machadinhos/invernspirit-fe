@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { BiSolidCart } from 'svelte-icons-pack/bi';
   import { cart } from '$state';
+  import { CartIcon } from '$components-svg-icons';
   import { common } from '$content';
   import type { Country } from '$types';
   import CountrySelector from '$lib/components/layout/header/CountrySelector.svelte';
@@ -24,7 +24,8 @@
     aria-label={common.header.rightSection.ariaLabels.cart}
     badge={cart.size > 0 ? `${cart.size}` : ''}
     href="/{page.params.country}/cart"
-    src={BiSolidCart}
+    size={20}
+    src={CartIcon}
     type="anchor"
   />
 </div>

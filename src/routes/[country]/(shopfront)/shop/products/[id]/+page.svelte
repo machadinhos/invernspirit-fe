@@ -1,16 +1,15 @@
 <script lang="ts">
   import { Anchor, Button, ThumbnailCarousel } from '$components';
   import { cart, config, toasts } from '$state';
+  import { Icon, ShareIcon } from '$components-svg-icons';
   import { CopiedToClipboardToast } from '$components-toasts';
   import { formatPrice } from '$lib/utils/currency-formatting';
   import { getStockFromBucket } from '$service';
-  import { Icon } from 'svelte-icons-pack';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import type { PageData } from './$types';
   import ProductQuantitySelector from '../../../ProductQuantitySelector.svelte';
   import ProductStatusBanner from '../../ProductStatusBanner.svelte';
-  import { RiSystemShareLine } from 'svelte-icons-pack/ri';
   import { shop } from '$content';
 
   type Props = {
@@ -96,8 +95,8 @@
       <p class="price text-4xl lg:text-6xl">
         {formatPrice(data.country.locale, data.country.currency.code, data.product.grossPrice)}
       </p>
-      <button class="p-0.5" onclick={onShareClick} type="button">
-        <Icon size="25" src={RiSystemShareLine} />
+      <button onclick={onShareClick} type="button">
+        <Icon size="25" src={ShareIcon} />
       </button>
     </div>
     <div class="my-5 h-px w-full bg-white"></div>

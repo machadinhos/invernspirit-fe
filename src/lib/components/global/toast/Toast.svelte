@@ -2,8 +2,7 @@
   import { type Component, onMount } from 'svelte';
   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
   import { fade, fly } from 'svelte/transition';
-  import { FaSolidXmark } from 'svelte-icons-pack/fa';
-  import { Icon } from 'svelte-icons-pack';
+  import { Icon, XMarkIcon } from '$components-svg-icons';
   import { type Toast } from '$state';
 
   type Props = {
@@ -105,8 +104,10 @@
       class="absolute top-3 right-3 text-primary"
       aria-label="Close notification"
       onclick={toast.destroy}
-      type="button"><Icon src={FaSolidXmark} /></button
+      type="button"
     >
+      <Icon src={XMarkIcon} />
+    </button>
   {/if}
   <div class="pr-6 pl-6">
     <Element {...toast.extraParams} {toast} />

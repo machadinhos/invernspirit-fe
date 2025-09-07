@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { FaEye, FaEyeSlash } from 'svelte-icons-pack/fa';
+  import { EyeIcon, EyeSlashIcon, Icon } from '$components-svg-icons';
   import BaseInput from './BaseTextInput.svelte';
   import type { ClassValue } from 'svelte/elements';
   import { common } from '$content';
-  import { Icon } from 'svelte-icons-pack';
   import type { Snippet } from 'svelte';
 
   type Props = {
@@ -25,7 +24,7 @@
 <BaseInput {...props} type={shown ? 'text' : 'password'}>
   {#snippet trailingIcon()}
     <button aria-label={common.hidePasswordButtonAriaLabel} onclick={toggleShown} type="button">
-      <Icon src={shown ? FaEye : FaEyeSlash} />
+      <Icon src={shown ? EyeIcon : EyeSlashIcon} />
     </button>
   {/snippet}
 </BaseInput>

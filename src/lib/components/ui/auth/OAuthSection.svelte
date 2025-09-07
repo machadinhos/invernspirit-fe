@@ -1,9 +1,8 @@
 <script lang="ts">
   import { cart, toasts, user } from '$state';
+  import { GoogleLogoIcon, Icon, type IconSrcType } from '$components-svg-icons';
   import { auth } from '$content';
   import { bffClient } from '$service';
-  import type { Component } from 'svelte';
-  import { GoogleIcon } from '$components-svg-icons';
   import { on } from 'svelte/events';
   import { OpeningPopupErrorToast } from '$components-toasts';
   import { page } from '$app/state';
@@ -81,12 +80,7 @@
   };
 </script>
 
-{#snippet oAuthButton(
-  Icon: Component<Record<never, never>, Record<never, never>>,
-  label: string,
-  name: string,
-  onclick: () => void,
-)}
+{#snippet oAuthButton(icon: IconSrcType, label: string, name: string, onclick: () => void)}
   <button
     class={[
       'oauth-button flex h-[35px] w-full items-center justify-center gap-2 rounded-2xl border transition-[scale] hover:scale-110',
@@ -98,20 +92,20 @@
     type="button"
   >
     <div class="flex h-[20px] w-[20px] items-center">
-      <Icon />
+      <Icon src={icon} />
     </div>
     <p>Continue with {name}</p>
   </button>
 {/snippet}
 
-<div class="flex w-full flex-col justify-center gap-4">
-  <div class="mt-8 flex items-center gap-2">
+<div class="w-full">
+  <div class="mt-8 mb-4 flex items-center gap-2">
     <div class="h-0.5 w-full bg-white"></div>
     {auth.orOAuth}
     <div class="h-0.5 w-full bg-white"></div>
   </div>
-  <div class="flex w-full flex-col items-center gap-3">
-    {@render oAuthButton(GoogleIcon, auth.googleAriaLabel, auth.googleName, onContinueWithGoogleClick)}
+  <div class="w-full space-y-3">
+    {@render oAuthButton(GoogleLogoIcon, auth.googleAriaLabel, auth.googleName, onContinueWithGoogleClick)}
   </div>
 </div>
 

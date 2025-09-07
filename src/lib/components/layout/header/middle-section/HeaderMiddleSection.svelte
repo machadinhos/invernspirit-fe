@@ -1,8 +1,7 @@
 <script lang="ts">
+  import { ChevronDownIcon, Icon } from '$components-svg-icons';
   import { DropdownMenu, DropdownMenuItem, ShrinkOnClickWrapper } from '$components';
   import { common } from '$content';
-  import { FaSolidChevronDown } from 'svelte-icons-pack/fa';
-  import { Icon } from 'svelte-icons-pack';
   import { page } from '$app/state';
 
   let isOpen = $state(false);
@@ -38,9 +37,7 @@
         {#snippet triggerElement()}
           <button class="flex items-center gap-1.5" onclick={toggleDropdown} type="button">
             {common.header.pages.shop.title}
-            <div class={['transition-transform duration-300', isOpen && 'rotate-180']}>
-              <Icon size={10} src={FaSolidChevronDown} />
-            </div>
+            <Icon class={['transition-transform duration-300', isOpen && 'rotate-180']} src={ChevronDownIcon} />
           </button>
         {/snippet}
         <div class="flex flex-col items-center justify-center gap-4 py-4 text-2xl">

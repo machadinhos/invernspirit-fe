@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { BiTrash } from 'svelte-icons-pack/bi';
+  import { Icon, TrashIcon } from '$components-svg-icons';
   import { cart } from '$content';
   import { cart as cartState } from '$state';
   import { formatPrice } from '$lib/utils/currency-formatting';
-  import { Icon } from 'svelte-icons-pack';
   import type { LineItem } from '$types';
   import { page } from '$app/state';
   import ProductQuantitySelector from './ProductQuantitySelector.svelte';
@@ -120,7 +119,7 @@
         type="button"
       >
         <span class="text-xs">{cart.remove}</span>
-        <Icon size="10" src={BiTrash} />
+        <Icon size="10" src={TrashIcon} />
       </button>
     {:else}
       <h4 class="absolute top-1/2 right-3 -translate-y-1/2 text-2xl">x {product.quantity}</h4>

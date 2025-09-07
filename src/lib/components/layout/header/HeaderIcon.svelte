@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { HTMLButtonAttributes, MouseEventHandler } from 'svelte/elements';
-  import { Icon, type IconType } from 'svelte-icons-pack';
+  import { Icon, type IconSrcType } from '$components-svg-icons';
   import { ShrinkOnClickWrapper } from '$components';
 
   type ElementType =
@@ -17,7 +17,7 @@
       };
 
   type Props = ElementType & {
-    src: IconType;
+    src: IconSrcType;
     ref?: HTMLButtonElement | HTMLAnchorElement | HTMLDivElement;
     badge?: string;
     'aria-label': HTMLButtonAttributes['aria-label'] | null;
@@ -30,7 +30,7 @@
     ref = $bindable(),
     badge,
     'aria-label': ariaLabel,
-    size = 20,
+    size = 24,
     ...restProps
   }: Props = $props();
   const onclick = 'onclick' in restProps ? restProps.onclick : undefined;
@@ -39,9 +39,7 @@
 
 {#snippet innerElements()}
   <div class="relative">
-    <span class="flex items-center justify-center">
-      <Icon color="white" {size} {src} />
-    </span>
+    <Icon {size} {src} />
     {#if badge}
       <span class="absolute -top-4 -right-2 text-lg font-bold">
         {badge}
@@ -54,7 +52,7 @@
   {#if type === 'button'}
     <button
       bind:this={ref}
-      class="outer-element relative flex size-9 cursor-pointer items-center justify-center"
+      class="outer-element relative grid size-9 place-items-center"
       aria-label={ariaLabel}
       {onclick}
       type="button"
@@ -62,16 +60,11 @@
       {@render innerElements()}
     </button>
   {:else if type === 'anchor'}
-    <a
-      bind:this={ref}
-      class="outer-element relative flex size-9 cursor-pointer items-center justify-center"
-      aria-label={ariaLabel}
-      {href}
-    >
+    <a bind:this={ref} class="outer-element relative grid size-9 place-items-center" aria-label={ariaLabel} {href}>
       {@render innerElements()}
     </a>
   {:else}
-    <div bind:this={ref} class="outer-element relative flex size-9 cursor-pointer items-center justify-center">
+    <div bind:this={ref} class="outer-element relative grid size-9 place-items-center">
       {@render innerElements()}
     </div>
   {/if}
