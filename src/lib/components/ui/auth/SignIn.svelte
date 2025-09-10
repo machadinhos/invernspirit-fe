@@ -3,6 +3,7 @@
   import { CaptchaElement, Form } from '$components-utils';
   import { cart, user } from '$state';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
+  import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from '$lib/utils/consts';
   import { validateEmail, validatePassword } from '$lib/utils/input-validation';
   import { auth } from '$content';
   import AuthSwitchMessage from './AuthSwitchMessage.svelte';
@@ -44,6 +45,8 @@
       invalidText: auth.signIn.formFields.password.invalidText,
       validate: (value): boolean => validatePassword(value).isValid,
       required: true,
+      minlength: PASSWORD_MIN_LENGTH,
+      maxlength: PASSWORD_MAX_LENGTH,
     }),
   };
 

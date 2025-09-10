@@ -22,6 +22,10 @@
         name={field.name}
         class={['peer h-10 w-full border-b-2 border-white focus:border-primary', trailingIcon && 'pr-7', className]}
         autocomplete={field.autocomplete}
+        max={field.max}
+        maxlength={field.maxlength}
+        min={field.min}
+        minlength={field.minlength}
         onblur={field.onblur}
         oninput={field.oninput}
         required={field.required}
@@ -29,7 +33,9 @@
         bind:value={field.value}
       />
     {:else}
+      <!-- eslint-disable @typescript-eslint/no-explicit-any -->
       <textarea
+        {...field.additionalElementAttributes as any}
         id={field.id}
         name={field.name}
         class={[
@@ -37,11 +43,14 @@
           className,
         ]}
         autocomplete="off"
+        maxlength={field.maxlength}
+        minlength={field.minlength}
         onblur={field.onblur}
         oninput={field.oninput}
         required={field.required}
         bind:value={field.value}
       ></textarea>
+      <!-- eslint-enable @typescript-eslint/no-explicit-any -->
     {/if}
     {#if trailingIcon}
       <div class="absolute top-1/2 right-0.5 -translate-y-1/2 text-[#a6a6a6]">

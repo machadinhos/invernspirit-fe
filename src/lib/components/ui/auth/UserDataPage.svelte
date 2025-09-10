@@ -2,6 +2,7 @@
   import { Button, CheckBox, TextInput } from '$components';
   import { CaptchaElement, Form } from '$components-utils';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
+  import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from '$lib/utils/consts';
   import { validateEmail, validatePassword, validateRequiredInput } from '$lib/utils/input-validation';
   import { auth } from '$content';
   import AuthSwitchMessage from './AuthSwitchMessage.svelte';
@@ -64,6 +65,8 @@
       invalidText: auth.signUp.formFields.password.invalidText,
       validate: (value): boolean => validatePassword(value).isValid,
       required: true,
+      minlength: PASSWORD_MIN_LENGTH,
+      maxlength: PASSWORD_MAX_LENGTH,
     }),
     confirmPassword: new FormField({
       id: 'sign-up-confirm-password',
@@ -75,6 +78,8 @@
       validate: (value): boolean => value === formFields.password.value && validatePassword(value).isValid,
       required: true,
       includeInMapping: false,
+      minlength: PASSWORD_MIN_LENGTH,
+      maxlength: PASSWORD_MAX_LENGTH,
     }),
   };
 

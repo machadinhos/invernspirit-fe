@@ -107,6 +107,10 @@
       aria-label="code digit {index + 1}"
       autocomplete="off"
       inputmode={type === 'numeric' ? 'numeric' : 'text'}
+      max="9"
+      maxlength="1"
+      min="0"
+      minlength="1"
       {onfocus}
       {oninput}
       {onkeydown}

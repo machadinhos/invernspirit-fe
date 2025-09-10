@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { scale } from 'svelte/transition';
   import type { Attachment } from 'svelte/attachments';
   import { modal } from '$state';
   import ModalBody from './ModalBody.svelte';
   import { onClickOutside } from '$components-attachments';
+  import { scale } from 'svelte/transition';
 
   const dialogAttachment: Attachment<HTMLDialogElement> = (node: HTMLDialogElement) => {
     node.showModal();

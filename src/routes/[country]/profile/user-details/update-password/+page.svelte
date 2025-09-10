@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button, TextInput } from '$components';
   import { FormField, mapFormFieldsToValues, validateFormFields } from '$lib/utils/form-fields.svelte';
+  import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from '$lib/utils/consts';
   import { bffClient } from '$service';
   import { Form } from '$components-utils';
   import { goto } from '$app/navigation';
@@ -20,6 +21,8 @@
       invalidText: profile.userDetails.updatePassword.formFields.currentPassword.invalidText,
       validate: (value): boolean => validatePassword(value).isValid,
       required: true,
+      minlength: PASSWORD_MIN_LENGTH,
+      maxlength: PASSWORD_MAX_LENGTH,
     }),
     newPassword: new FormField({
       id: 'update-password-new-password',
@@ -30,6 +33,8 @@
       invalidText: profile.userDetails.updatePassword.formFields.newPassword.invalidText,
       validate: (value): boolean => validatePassword(value).isValid,
       required: true,
+      minlength: PASSWORD_MIN_LENGTH,
+      maxlength: PASSWORD_MAX_LENGTH,
     }),
     confirmPassword: new FormField({
       id: 'update-password-confirm-password',
@@ -41,6 +46,8 @@
       validate: (value): boolean => validatePassword(value).isValid,
       required: true,
       includeInMapping: false,
+      minlength: PASSWORD_MIN_LENGTH,
+      maxlength: PASSWORD_MAX_LENGTH,
     }),
   };
 

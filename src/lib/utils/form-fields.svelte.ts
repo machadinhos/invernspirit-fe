@@ -1,9 +1,11 @@
 import type { FullAutoFill, HTMLInputAttributes, HTMLInputTypeAttribute } from 'svelte/elements';
 
-type BaseFormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction> = {
+type AcceptedTypes = Extract<HTMLInputTypeAttribute, 'text' | 'email' | 'password' | 'tel' | 'number'> | 'textarea';
+
+type BaseFormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction, Type> = {
   id: string;
   autocomplete: FullAutoFill;
-  type: HTMLInputTypeAttribute | 'textarea';
+  type: Type;
   name: string;
   label: string;
   invalidText: string;
@@ -17,20 +19,27 @@ type BaseFormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunctio
 
   onblur?: (event: FocusEvent) => void;
   oninput?: (event: Event) => void;
-};
+} & (Type extends 'number' ? { min?: number; max?: number } : { minlength?: number; maxlength?: number });
 
-type AdditionalElementAttributes<Value, MappingFunction, IncludeInMapping, FilterFunction> = Omit<
+type AdditionalElementAttributes<Value, MappingFunction, IncludeInMapping, FilterFunction, Type> = Omit<
   HTMLInputAttributes,
-  keyof BaseFormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction>
+  keyof BaseFormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction, Type>
 >;
 
-export type FormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction> = BaseFormFieldConfig<
+export type FormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction, Type> = BaseFormFieldConfig<
   Value,
   MappingFunction,
   IncludeInMapping,
-  FilterFunction
+  FilterFunction,
+  Type
 > & {
-  additionalElementAttributes?: AdditionalElementAttributes<Value, MappingFunction, IncludeInMapping, FilterFunction>;
+  additionalElementAttributes?: AdditionalElementAttributes<
+    Value,
+    MappingFunction,
+    IncludeInMapping,
+    FilterFunction,
+    Type
+  >;
 };
 
 export class FormField<
@@ -38,19 +47,32 @@ export class FormField<
   MappingFunction extends (value: Value) => unknown = (value: Value) => Value,
   IncludeInMapping extends boolean = true,
   FilterFunction extends ((value: Value) => boolean) | null = null,
-> implements Omit<Required<FormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction>>, 'initialValue'>
-{
+  Type extends AcceptedTypes = AcceptedTypes,
+> {
   value = $state() as Value;
   isValid = $state(true);
 
   declare readonly id: string;
   declare readonly autocomplete: FullAutoFill;
-  declare readonly type: HTMLInputTypeAttribute | 'textarea';
+  declare readonly type: Extract<HTMLInputTypeAttribute, 'text' | 'email' | 'password' | 'tel' | 'number'> | 'textarea';
   declare readonly name: string;
   declare readonly label: string;
   declare readonly invalidText: string;
   declare readonly validate: (value: string) => boolean;
   declare readonly required: boolean;
+  declare readonly minlength?: number;
+  declare readonly maxlength?: number;
+  declare readonly min?: number;
+  declare readonly max?: number;
+
+  additionalElementAttributes: AdditionalElementAttributes<
+    Value,
+    MappingFunction,
+    IncludeInMapping,
+    FilterFunction,
+    Type
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  > = {} as any;
 
   readonly includeInMapping: IncludeInMapping = true as IncludeInMapping;
   readonly mappingFunction: MappingFunction = ((value) => value) as MappingFunction;
@@ -59,13 +81,10 @@ export class FormField<
   onblur: (event: FocusEvent) => void = generateFormFieldOnblurCallback(this);
   oninput: (event: Event) => void = generateFormFieldOninputCallback(this);
 
-  additionalElementAttributes: AdditionalElementAttributes<Value, MappingFunction, IncludeInMapping, FilterFunction> =
-    {};
-
   constructor({
     initialValue = '' as Value,
     ...config
-  }: FormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction>) {
+  }: FormFieldConfig<Value, MappingFunction, IncludeInMapping, FilterFunction, Type>) {
     this.value = initialValue;
     Object.assign(this, config);
   }
