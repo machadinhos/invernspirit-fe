@@ -8,14 +8,12 @@ type OauthGoogleGetRedirectResponse = {
   url: string;
 };
 
-export const prepareOauthGoogleGetRedirect: Endpoint<OauthGoogleGetRedirectResponse> = (context) => {
-  return (countryCode) => {
-    return Client.create<OauthGoogleGetRedirectResponse>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/google/redirect`)
-      .withMethod('GET')
-      .call();
-  };
+export const oauthGoogleGetRedirect: Endpoint<OauthGoogleGetRedirectResponse> = (context, countryCode) => {
+  return Client.create<OauthGoogleGetRedirectResponse>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/google/redirect`)
+    .withMethod('GET')
+    .call();
 };
 
 type OauthGoogleCallbackResponse = {
@@ -24,12 +22,14 @@ type OauthGoogleCallbackResponse = {
   isNewUser: boolean;
 };
 
-export const prepareOauthGoogleCallback: Endpoint<OauthGoogleCallbackResponse, [URL]> = (context) => {
-  return (countryCode, redirectUrl) => {
-    return Client.create<OauthGoogleCallbackResponse>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/google/callback${redirectUrl.search}`)
-      .withMethod('GET')
-      .call();
-  };
+export const oauthGoogleCallback: Endpoint<OauthGoogleCallbackResponse, [URL]> = (
+  context,
+  countryCode,
+  redirectUrl,
+) => {
+  return Client.create<OauthGoogleCallbackResponse>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/google/callback${redirectUrl.search}`)
+    .withMethod('GET')
+    .call();
 };

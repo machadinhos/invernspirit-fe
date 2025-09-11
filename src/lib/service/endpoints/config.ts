@@ -8,13 +8,11 @@ type ConfigHeaders = {
   'after-checkout': string;
 };
 
-export const prepareConfig: Endpoint<Config, [ConfigHeaders | undefined]> = (context) => {
-  return (countryCode, headers) => {
-    return Client.create<Config>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}`)
-      .withMethod('GET')
-      .withHeaders(headers)
-      .call();
-  };
+export const config: Endpoint<Config, [ConfigHeaders | undefined]> = (context, countryCode, headers) => {
+  return Client.create<Config>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}`)
+    .withMethod('GET')
+    .withHeaders(headers)
+    .call();
 };

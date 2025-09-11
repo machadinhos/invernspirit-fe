@@ -1,35 +1,36 @@
 import {
-  prepareDeleteLoggedInUser,
-  prepareForgotPasswordResetPassword,
-  prepareForgotPasswordSubmitEmail,
-  prepareForgotPasswordValidateCode,
-  prepareGetLoggedInUser,
-  prepareLogin,
-  prepareLogout,
-  prepareResendEmail,
-  prepareSignUp,
-  prepareUpdateLoggedInUserEmailSubmitEmail,
-  prepareUpdateLoggedInUserEmailValidateCode,
-  prepareUpdateLoggedInUserPassword,
-  prepareUpdateLoggedInUserPersonalInformation,
-  prepareVerifyEmail,
+  deleteLoggedInUser,
+  forgotPasswordResetPassword,
+  forgotPasswordSubmitEmail,
+  forgotPasswordValidateCode,
+  getLoggedInUser,
+  login,
+  logout,
+  resendEmail,
+  signUp,
+  updateLoggedInUserEmailSubmitEmail,
+  updateLoggedInUserEmailValidateCode,
+  updateLoggedInUserPassword,
+  updateLoggedInUserPersonalInformation,
+  verifyEmail,
 } from './endpoints/user';
 import {
-  prepareGetAddress,
-  prepareGetPayment,
-  prepareGetPersonalDetails,
-  prepareGetReview,
-  prepareGetShippingMethods,
-  prepareGetStages,
-  prepareSetAddress,
-  prepareSetPersonalDetails,
-  prepareSetShippingMethod,
+  getAddress,
+  getPayment,
+  getPersonalDetails,
+  getReview,
+  getShippingMethods,
+  getStages,
+  setAddress,
+  setPersonalDetails,
+  setShippingMethod,
 } from './endpoints/checkout';
-import { prepareGetAllOrders, prepareGetOrderById } from './endpoints/orders';
-import { prepareGetCart, prepareRemoveCartItem, prepareUpdateCartItemQuantity } from './endpoints/cart';
-import { prepareOauthGoogleCallback, prepareOauthGoogleGetRedirect } from '$lib/service/endpoints/oauth';
-import { prepareConfig } from '$lib/service/endpoints/config';
-import { prepareGetProductsBySearch } from '$lib/service/endpoints/products';
+import { getAllOrders, getOrderById } from './endpoints/orders';
+import { getCart, removeCartItem, updateCartItemQuantity } from './endpoints/cart';
+import { oauthGoogleCallback, oauthGoogleGetRedirect } from '$lib/service/endpoints/oauth';
+import { config } from '$lib/service/endpoints/config';
+import { createClientProxy } from '$lib/service/utils';
+import { getProductsBySearch } from '$lib/service/endpoints/products';
 import { PUBLIC_BFF_HOST } from '$env/static/public';
 import type { RequestHostContext } from './client';
 
@@ -37,69 +38,71 @@ const context: RequestHostContext = {
   host: PUBLIC_BFF_HOST,
 };
 
-export const bffClient = {
+const bffClientRoutes = {
   checkout: {
     stages: {
-      get: prepareGetStages(context),
+      get: getStages,
       personalDetails: {
-        get: prepareGetPersonalDetails(context),
-        set: prepareSetPersonalDetails(context),
+        get: getPersonalDetails,
+        set: setPersonalDetails,
       },
       address: {
-        get: prepareGetAddress(context),
-        set: prepareSetAddress(context),
+        get: getAddress,
+        set: setAddress,
       },
       shipping: {
-        get: prepareGetShippingMethods(context),
-        set: prepareSetShippingMethod(context),
+        get: getShippingMethods,
+        set: setShippingMethod,
       },
       payment: {
-        get: prepareGetPayment(context),
+        get: getPayment,
       },
       review: {
-        get: prepareGetReview(context),
+        get: getReview,
       },
     },
   },
-  config: { get: prepareConfig(context) },
+  config: { get: config },
   cart: {
-    get: prepareGetCart(context),
-    updateItemQuantity: prepareUpdateCartItemQuantity(context),
-    removeItem: prepareRemoveCartItem(context),
+    get: getCart,
+    updateItemQuantity: updateCartItemQuantity,
+    removeItem: removeCartItem,
   },
   order: {
-    getById: prepareGetOrderById(context),
-    getAll: prepareGetAllOrders(context),
+    getById: getOrderById,
+    getAll: getAllOrders,
   },
-  products: { getBySearch: prepareGetProductsBySearch(context) },
+  products: { getBySearch: getProductsBySearch },
   user: {
     oauth: {
       google: {
-        getRedirectUrl: prepareOauthGoogleGetRedirect(context),
-        callback: prepareOauthGoogleCallback(context),
+        getRedirectUrl: oauthGoogleGetRedirect,
+        callback: oauthGoogleCallback,
       },
     },
-    get: prepareGetLoggedInUser(context),
+    get: getLoggedInUser,
     update: {
-      personalInformation: prepareUpdateLoggedInUserPersonalInformation(context),
-      password: prepareUpdateLoggedInUserPassword(context),
+      personalInformation: updateLoggedInUserPersonalInformation,
+      password: updateLoggedInUserPassword,
       email: {
-        submitEmail: prepareUpdateLoggedInUserEmailSubmitEmail(context),
-        validateCode: prepareUpdateLoggedInUserEmailValidateCode(context),
+        submitEmail: updateLoggedInUserEmailSubmitEmail,
+        validateCode: updateLoggedInUserEmailValidateCode,
       },
     },
-    delete: prepareDeleteLoggedInUser(context),
+    delete: deleteLoggedInUser,
     signUp: {
-      create: prepareSignUp(context),
-      verifyEmail: prepareVerifyEmail(context),
-      resendEmail: prepareResendEmail(context),
+      create: signUp,
+      verifyEmail: verifyEmail,
+      resendEmail: resendEmail,
     },
-    login: prepareLogin(context),
-    logout: prepareLogout(context),
+    login: login,
+    logout: logout,
     forgotPassword: {
-      submitEmail: prepareForgotPasswordSubmitEmail(context),
-      validCode: prepareForgotPasswordValidateCode(context),
-      resetPassword: prepareForgotPasswordResetPassword(context),
+      submitEmail: forgotPasswordSubmitEmail,
+      validCode: forgotPasswordValidateCode,
+      resetPassword: forgotPasswordResetPassword,
     },
   },
 };
+
+export const bffClient = createClientProxy(bffClientRoutes, context);

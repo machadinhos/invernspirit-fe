@@ -1,7 +1,8 @@
 import { BE_HOST, BE_ID_KEY, BE_ID_VALUE, BE_SECRET_KEY, BE_SECRET_VALUE } from '$env/static/private';
-import { prepareGetAllCollections, prepareGetCollectionById } from '$lib/service/endpoints/collections';
-import { prepareGetAllProducts, prepareGetProductById } from '$lib/service/endpoints/products';
-import { prepareGetCountries } from '$lib/service/endpoints/countries';
+import { getAllCollections, getCollectionById } from '$lib/service/endpoints/collections';
+import { getAllProducts, getProductById } from '$lib/service/endpoints/products';
+import { createClientProxy } from '$lib/service/utils';
+import { getCountries } from '$lib/service/endpoints/countries';
 import { PUBLIC_FE_HOST } from '$env/static/public';
 import type { RequestHostContext } from '$lib/service/client/client';
 
@@ -16,14 +17,16 @@ const context: RequestHostContext = {
   host: BE_HOST,
 };
 
-export const beClient = {
+const beClientRoutes = {
   collections: {
-    getAll: prepareGetAllCollections(context),
-    getById: prepareGetCollectionById(context),
+    getAll: getAllCollections,
+    getById: getCollectionById,
   },
   products: {
-    getAll: prepareGetAllProducts(context),
-    getById: prepareGetProductById(context),
+    getAll: getAllProducts,
+    getById: getProductById,
   },
-  countries: { getAll: prepareGetCountries(context) },
+  countries: { getAll: getCountries },
 };
+
+export const beClient = createClientProxy(beClientRoutes, context);

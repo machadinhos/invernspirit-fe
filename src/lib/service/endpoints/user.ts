@@ -4,59 +4,51 @@ import type { Endpoint } from './endpoint';
 
 const PATH = 'user';
 
-export const prepareGetLoggedInUser: Endpoint<UserDetails> = (context) => {
-  return (countryCode) => {
-    return Client.create<UserDetails>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}`)
-      .withMethod('GET')
-      .call();
-  };
+export const getLoggedInUser: Endpoint<UserDetails> = (context, countryCode) => {
+  return Client.create<UserDetails>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}`)
+    .withMethod('GET')
+    .call();
 };
 
-export const prepareDeleteLoggedInUser: Endpoint<never> = (context) => {
-  return (countryCode) => {
-    return Client.create<never>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}`)
-      .withMethod('DELETE')
-      .call();
-  };
+export const deleteLoggedInUser: Endpoint<never> = (context, countryCode) => {
+  return Client.create<never>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}`)
+    .withMethod('DELETE')
+    .call();
 };
 
-export const prepareUpdateLoggedInUserPersonalInformation: Endpoint<UserDetails, [Partial<UserPersonalInformation>]> = (
+export const updateLoggedInUserPersonalInformation: Endpoint<UserDetails, [Partial<UserPersonalInformation>]> = (
   context,
+  countryCode,
+  updatedUser,
 ) => {
-  return (countryCode, updatedUser) => {
-    return Client.create<UserDetails, Partial<UserPersonalInformation>>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/update/personal-information`)
-      .withMethod('POST')
-      .withBody(updatedUser)
-      .call();
-  };
+  return Client.create<UserDetails, Partial<UserPersonalInformation>>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/update/personal-information`)
+    .withMethod('POST')
+    .withBody(updatedUser)
+    .call();
 };
 
-export const prepareUpdateLoggedInUserEmailSubmitEmail: Endpoint<never, [string]> = (context) => {
-  return (countryCode, newEmail) => {
-    return Client.create<never, { email: string }>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/update/email/submit`)
-      .withMethod('POST')
-      .withBody({ email: newEmail })
-      .call();
-  };
+export const updateLoggedInUserEmailSubmitEmail: Endpoint<never, [string]> = (context, countryCode, newEmail) => {
+  return Client.create<never, { email: string }>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/update/email/submit`)
+    .withMethod('POST')
+    .withBody({ email: newEmail })
+    .call();
 };
 
-export const prepareUpdateLoggedInUserEmailValidateCode: Endpoint<never, [string]> = (context) => {
-  return (countryCode, code) => {
-    return Client.create<never, { code: string }>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/update/email/validate-code`)
-      .withMethod('POST')
-      .withBody({ code })
-      .call();
-  };
+export const updateLoggedInUserEmailValidateCode: Endpoint<never, [string]> = (context, countryCode, code) => {
+  return Client.create<never, { code: string }>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/update/email/validate-code`)
+    .withMethod('POST')
+    .withBody({ code })
+    .call();
 };
 
 type UpdatePasswordPayload = {
@@ -64,15 +56,13 @@ type UpdatePasswordPayload = {
   newPassword: string;
 };
 
-export const prepareUpdateLoggedInUserPassword: Endpoint<never, [UpdatePasswordPayload]> = (context) => {
-  return (countryCode, payload) => {
-    return Client.create<never, UpdatePasswordPayload>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/update/password`)
-      .withMethod('POST')
-      .withBody(payload)
-      .call();
-  };
+export const updateLoggedInUserPassword: Endpoint<never, [UpdatePasswordPayload]> = (context, countryCode, payload) => {
+  return Client.create<never, UpdatePasswordPayload>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/update/password`)
+    .withMethod('POST')
+    .withBody(payload)
+    .call();
 };
 
 type LogInAndSignUpUserResponse = {
@@ -91,28 +81,24 @@ type CaptchaToken = {
 
 type LogInPayload = BaseAuthUserPayload & CaptchaToken;
 
-export const prepareLogin: Endpoint<LogInAndSignUpUserResponse, [LogInPayload]> = (context) => {
-  return (countryCode, user) => {
-    return Client.create<LogInAndSignUpUserResponse, LogInPayload>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/login`)
-      .withMethod('POST')
-      .withBody(user)
-      .call();
-  };
+export const login: Endpoint<LogInAndSignUpUserResponse, [LogInPayload]> = (context, countryCode, user) => {
+  return Client.create<LogInAndSignUpUserResponse, LogInPayload>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/login`)
+    .withMethod('POST')
+    .withBody(user)
+    .call();
 };
 
 type SignUpPayload = BaseAuthUserPayload & User & CaptchaToken;
 
-export const prepareSignUp: Endpoint<never, [SignUpPayload]> = (context) => {
-  return (countryCode, user) => {
-    return Client.create<never, SignUpPayload>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/signup`)
-      .withMethod('POST')
-      .withBody(user)
-      .call();
-  };
+export const signUp: Endpoint<never, [SignUpPayload]> = (context, countryCode, user) => {
+  return Client.create<never, SignUpPayload>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/signup`)
+    .withMethod('POST')
+    .withBody(user)
+    .call();
 };
 
 type VerifyEmailPayload = {
@@ -120,41 +106,39 @@ type VerifyEmailPayload = {
   code: string;
 };
 
-export const prepareVerifyEmail: Endpoint<LogInAndSignUpUserResponse, [VerifyEmailPayload]> = (context) => {
-  return (countryCode, payload) => {
-    return Client.create<LogInAndSignUpUserResponse, VerifyEmailPayload>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/signup/verify-email`)
-      .withMethod('POST')
-      .withBody(payload)
-      .call();
-  };
+export const verifyEmail: Endpoint<LogInAndSignUpUserResponse, [VerifyEmailPayload]> = (
+  context,
+  countryCode,
+  payload,
+) => {
+  return Client.create<LogInAndSignUpUserResponse, VerifyEmailPayload>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/signup/verify-email`)
+    .withMethod('POST')
+    .withBody(payload)
+    .call();
 };
 
-export const prepareResendEmail: Endpoint<never, [string]> = (context) => {
-  return (countryCode, email) => {
-    return Client.create<never, UserBaseInfo>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/signup/resend-email`)
-      .withMethod('POST')
-      .withBody({ email })
-      .call();
-  };
+export const resendEmail: Endpoint<never, [string]> = (context, countryCode, email) => {
+  return Client.create<never, UserBaseInfo>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/signup/resend-email`)
+    .withMethod('POST')
+    .withBody({ email })
+    .call();
 };
 
 type LogoutResponse = {
   cart: Cart;
 };
 
-export const prepareLogout: Endpoint<LogoutResponse> = (context) => {
-  return (countryCode) => {
-    return Client.create<LogoutResponse, Record<never, never>>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/logout`)
-      .withMethod('POST')
-      .withBody({})
-      .call();
-  };
+export const logout: Endpoint<LogoutResponse> = (context, countryCode) => {
+  return Client.create<LogoutResponse, Record<never, never>>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/logout`)
+    .withMethod('POST')
+    .withBody({})
+    .call();
 };
 
 type ForgotPasswordSubmitEmailPayload = {
@@ -162,35 +146,39 @@ type ForgotPasswordSubmitEmailPayload = {
   captchaToken: string;
 };
 
-export const prepareForgotPasswordSubmitEmail: Endpoint<never, [ForgotPasswordSubmitEmailPayload]> = (context) => {
-  return (countryCode, payload) => {
-    return Client.create<never, ForgotPasswordSubmitEmailPayload>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/forgot-password/submit-email`)
-      .withMethod('POST')
-      .withBody(payload)
-      .call();
-  };
+export const forgotPasswordSubmitEmail: Endpoint<never, [ForgotPasswordSubmitEmailPayload]> = (
+  context,
+  countryCode,
+  payload,
+) => {
+  return Client.create<never, ForgotPasswordSubmitEmailPayload>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/forgot-password/submit-email`)
+    .withMethod('POST')
+    .withBody(payload)
+    .call();
 };
 
-export const prepareForgotPasswordValidateCode: Endpoint<never, [string, string]> = (context) => {
-  return (countryCode, email, code) => {
-    return Client.create<never, { email: string; code: string }>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/forgot-password/validate-code`)
-      .withMethod('POST')
-      .withBody({ email, code })
-      .call();
-  };
+export const forgotPasswordValidateCode: Endpoint<never, [string, string]> = (context, countryCode, email, code) => {
+  return Client.create<never, { email: string; code: string }>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/forgot-password/validate-code`)
+    .withMethod('POST')
+    .withBody({ email, code })
+    .call();
 };
 
-export const prepareForgotPasswordResetPassword: Endpoint<never, [string, string, string]> = (context) => {
-  return (countryCode, email, code, newPassword) => {
-    return Client.create<never, { email: string; code: string; password: string }>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/forgot-password/reset`)
-      .withMethod('POST')
-      .withBody({ email, code, password: newPassword })
-      .call();
-  };
+export const forgotPasswordResetPassword: Endpoint<never, [string, string, string]> = (
+  context,
+  countryCode,
+  email,
+  code,
+  newPassword,
+) => {
+  return Client.create<never, { email: string; code: string; password: string }>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/forgot-password/reset`)
+    .withMethod('POST')
+    .withBody({ email, code, password: newPassword })
+    .call();
 };

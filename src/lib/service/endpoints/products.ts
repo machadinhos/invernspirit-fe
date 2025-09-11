@@ -4,33 +4,27 @@ import type { Product } from '$types';
 
 const PATH = 'products';
 
-export const prepareGetAllProducts: Endpoint<Product[]> = (context) => {
-  return (countryCode) => {
-    return Client.create<Product[]>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}`)
-      .withMethod('GET')
-      .call();
-  };
+export const getAllProducts: Endpoint<Product[]> = (context, countryCode) => {
+  return Client.create<Product[]>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}`)
+    .withMethod('GET')
+    .call();
 };
 
-export const prepareGetProductById: Endpoint<Product, [string]> = (context) => {
-  return (countryCode, id: string) => {
-    return Client.create<Product>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}/${id}`)
-      .withMethod('GET')
-      .call();
-  };
+export const getProductById: Endpoint<Product, [string]> = (context, countryCode, id: string) => {
+  return Client.create<Product>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}/${id}`)
+    .withMethod('GET')
+    .call();
 };
 
-export const prepareGetProductsBySearch: Endpoint<Product[], [string]> = (context) => {
-  return (countryCode, search: string) => {
-    return Client.create<Product[]>()
-      .withHostContext(context)
-      .withEndpoint(`/${countryCode}/${PATH}`)
-      .withMethod('GET')
-      .withSearchParams({ search })
-      .call();
-  };
+export const getProductsBySearch: Endpoint<Product[], [string]> = (context, countryCode, search) => {
+  return Client.create<Product[]>()
+    .withHostContext(context)
+    .withEndpoint(`/${countryCode}/${PATH}`)
+    .withMethod('GET')
+    .withSearchParams({ search })
+    .call();
 };
