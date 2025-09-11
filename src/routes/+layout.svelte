@@ -46,7 +46,7 @@ function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],
 
   <meta content={home.headTitle} property="og:site_name" />
   {#if page.data.openGraph}
-    <meta content={page.data.openGraph.type} property="og:type" />
+    <meta content={page.data.openGraph.type ?? 'website'} property="og:type" />
     {#if page.data.openGraph.type === 'product.item'}
       <meta content={page.data.openGraph['product:item_group_id']} property="product:item_group_id" />
       <meta content={page.data.openGraph['product:retailer_item_id']} property="product:retailer_item_id" />
@@ -56,9 +56,15 @@ function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],
     {:else if page.data.openGraph.type === 'product.group'}
       <meta content={page.data.openGraph['product:item_group_id']} property="product:item_group_id" />
     {/if}
-    <meta content={page.data.openGraph.title} property="og:title" />
-    <meta content={truncateWithEllipsis(page.data.openGraph.description, 155)} property="og:description" />
-    <meta content={page.data.openGraph.image} property="og:image" />
+    <meta content={page.data.openGraph.title ?? home.headTitle} property="og:title" />
+    <meta
+      content={truncateWithEllipsis(page.data.openGraph.description ?? home.metaDescription, 155)}
+      property="og:description"
+    />
+    <meta
+      content={page.data.openGraph.image ?? `${PUBLIC_FE_HOST}/images/logo-with-background.webp`}
+      property="og:image"
+    />
   {:else}
     <meta content="website" property="og:type" />
     <meta content={home.headTitle} property="og:title" />

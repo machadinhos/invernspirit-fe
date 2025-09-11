@@ -31,7 +31,7 @@ declare global {
     /* eslint-disable-next-line @typescript-eslint/consistent-type-definitions */
     interface PageData {
       noCrawl?: boolean;
-      openGraph?: OpenGraph;
+      openGraph?: Partial<OpenGraph>;
       hideSearchBarOnMobile?: boolean;
     }
     // interface PageState {}
