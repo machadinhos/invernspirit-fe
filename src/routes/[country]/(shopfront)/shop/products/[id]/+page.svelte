@@ -95,7 +95,7 @@
       <p class="price text-4xl lg:text-6xl">
         {formatPrice(data.country.locale, data.country.currency.code, data.product.grossPrice)}
       </p>
-      <button onclick={onShareClick} type="button">
+      <button aria-label="share" onclick={onShareClick} type="button">
         <Icon size="25" src={ShareIcon} />
       </button>
     </div>
