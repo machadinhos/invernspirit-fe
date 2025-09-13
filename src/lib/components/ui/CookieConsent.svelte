@@ -80,12 +80,10 @@
           <Anchor href="/cookie-policy">{common.cookieConsent.link}</Anchor>{common.cookieConsent.text3}
         </p>
       </div>
-      <div class="flex items-center">
-        <div class="flex gap-4 text-nowrap">
-          <Button onclick={onAccept}>{common.cookieConsent.accept}</Button>
-          <Button onclick={onCustomize}>{common.cookieConsent.customize}</Button>
-          <Button onclick={onOnlyNecessary}>{common.cookieConsent.onlyNecessary}</Button>
-        </div>
+      <div class="flex items-center gap-4 text-nowrap">
+        <Button onclick={onAccept}>{common.cookieConsent.accept}</Button>
+        <Button onclick={onCustomize}>{common.cookieConsent.customize}</Button>
+        <Button onclick={onOnlyNecessary}>{common.cookieConsent.onlyNecessary}</Button>
       </div>
     </div>
   {:else if customizing}

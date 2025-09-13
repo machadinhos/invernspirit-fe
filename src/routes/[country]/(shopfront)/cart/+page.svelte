@@ -96,7 +96,9 @@
   <h1 style="font-size: 2.5rem" class="lineunder mt-4 mb-10">
     {cart.title}
   </h1>
-  <div class="flex size-full items-center max-md:flex-col md:items-start md:justify-center md:gap-5 lg:gap-10">
+  <div
+    class="flex size-full min-h-fit items-center max-md:flex-col md:items-start md:justify-center md:gap-5 lg:gap-10"
+  >
     <div class="flex w-[90%] max-w-[675px] flex-1 flex-col gap-4 md:mb-5 md:w-2/3">
       {#if config.isInitialized && cartLoaded}
         {#each cartState.value as product (product.id)}
